@@ -59,6 +59,15 @@ public class LoginController {
         } else {
             infoBox("Authentication failed", null, "Failed");
         }
+
+        // FXMLLoader fxmlLoader = new
+        // FXMLLoader(getClass().getResource("dashboard-view.fxml"));
+        // Parent root = fxmlLoader.load();
+        // Stage stage = new Stage();
+        // stage.setTitle("POS | Dashboard");
+        // stage.setScene(new Scene(root));
+        // stage.show();
+        // ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
     }
 
     public static void infoBox(String infoMessage, String headerText, String title) {

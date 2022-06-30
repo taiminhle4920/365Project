@@ -20,11 +20,11 @@
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.finalproject.finalproject.DashboardController">
   <tabs>
-    <Tab closable="false" text="Add Students">
+    <Tab closable="false" text="Add Student">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="600.0">
                <children>
-                  <GridPane layoutX="30.0" layoutY="20.0" prefWidth="350.0">
+                  <GridPane layoutX="30.0" layoutY="20.0" prefWidth="351.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
                       <ColumnConstraints hgrow="SOMETIMES" />
@@ -37,6 +37,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <Label prefHeight="27.0" prefWidth="124.0" text="New Student" textAlignment="CENTER" GridPane.columnIndex="1">
@@ -66,6 +67,7 @@
                         <TextField fx:id="emailNS" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <DatePicker fx:id="dobNS" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <ChoiceBox fx:id="majorNS" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label fx:id="warningNS" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="290.0" prefHeight="260.0" prefWidth="800.0">
@@ -78,11 +80,10 @@
                         <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Major" />
                     </columns>
                   </TableView>
-                  <Label fx:id="warningNS" layoutX="130.0" layoutY="250.0" textFill="RED" />
                </children></AnchorPane>
       </content>
     </Tab>
-      <Tab closable="false" text="Add Professors">
+      <Tab closable="false" text="Add Professor">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
@@ -98,6 +99,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <Label prefHeight="27.0" prefWidth="256.0" text="New Professor" textAlignment="CENTER" GridPane.columnIndex="1">
@@ -111,21 +113,22 @@
                         <Label text="Day of Birth" GridPane.rowIndex="4" />
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <children>
-                              <Button mnemonicParsing="false" text="Clear" />
-                              <Button mnemonicParsing="false" text="Submit" />
+                              <Button mnemonicParsing="false" onAction="#onClearNP" text="Clear" />
+                              <Button mnemonicParsing="false" onAction="#onSubmitNP" text="Submit" />
                            </children>
                            <padding>
                               <Insets top="5.0" />
                            </padding>
                         </HBox>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <TextField fx:id="firstNameNP" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
                         </TextField>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="lastNameNP" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="emailNP" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <DatePicker fx:id="dobNP" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label fx:id="warningNP" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="290.0" prefHeight="260.0" prefWidth="800.0">
@@ -140,7 +143,7 @@
                </children></AnchorPane>
          </content>
       </Tab>
-      <Tab closable="false" text="Add Courses">
+      <Tab closable="false" text="Add Course">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="491.0" prefWidth="1108.0">
                <children>
@@ -157,9 +160,10 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label text="Course Lable" GridPane.rowIndex="1" />
+                        <Label text="Course Title" GridPane.rowIndex="1" />
                         <Label text="Course Name" GridPane.rowIndex="2" />
                         <Label prefHeight="27.0" prefWidth="171.0" text="New Course" GridPane.columnIndex="1">
                            <font>
@@ -168,21 +172,22 @@
                         </Label>
                         <Label text="Instructor ID" GridPane.rowIndex="3" />
                         <Label text="Quarter" GridPane.rowIndex="4" />
-                        <TextField prefHeight="26.0" prefWidth="158.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="courseLabelNC" prefHeight="26.0" prefWidth="158.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="courseNameNC" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="instructorIdNC" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                            <children>
-                              <Button mnemonicParsing="false" text="Clear" />
-                              <Button mnemonicParsing="false" text="Submit" />
+                              <Button mnemonicParsing="false" onAction="#onClearNC" text="Clear" />
+                              <Button mnemonicParsing="false" onAction="#onSubmitNC" text="Submit" />
                            </children>
                            <padding>
                               <Insets top="5.0" />
                            </padding>
                         </HBox>
                         <Label text="School year" GridPane.rowIndex="5" />
-                        <ChoiceBox prefHeight="26.0" prefWidth="316.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <ChoiceBox prefHeight="26.0" prefWidth="319.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <ChoiceBox fx:id="quarterNC" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <ChoiceBox fx:id="schoolyearNC" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label fx:id="warningNC" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="290.0" prefHeight="260.0" prefWidth="800.0">
@@ -213,28 +218,30 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label text="Course Id" GridPane.rowIndex="1" />
+                        <Label text="Course ID" GridPane.rowIndex="1" />
                         <Label prefHeight="27.0" prefWidth="171.0" text="Registration" GridPane.columnIndex="1">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Label>
-                        <Label text="Student Id" GridPane.rowIndex="2" />
-                        <TextField prefHeight="26.0" prefWidth="158.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Student ID" GridPane.rowIndex="2" />
+                        <TextField fx:id="courseIDR" prefHeight="26.0" prefWidth="158.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="studentIDR" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <children>
-                              <Button mnemonicParsing="false" text="Clear" />
-                              <Button mnemonicParsing="false" text="Submit" />
+                              <Button mnemonicParsing="false" onAction="#onClearR" text="Clear" />
+                              <Button mnemonicParsing="false" onAction="#onSubmitR" text="Submit" />
                            </children>
                            <padding>
                               <Insets top="5.0" />
                            </padding>
                         </HBox>
                         <Label text="Grade" GridPane.rowIndex="3" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="warningR" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <ChoiceBox fx:id="gradeR" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="290.0" prefHeight="260.0" prefWidth="800.0">
@@ -261,9 +268,10 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label prefHeight="27.0" prefWidth="232.0" text="Search By Student ID" GridPane.columnIndex="1">
+                        <Label prefHeight="27.0" prefWidth="232.0" text="Find Student" GridPane.columnIndex="1">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -273,12 +281,13 @@
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
                               <Button mnemonicParsing="false" text="Clear" />
-                              <Button mnemonicParsing="false" text="Submit" />
+                              <Button mnemonicParsing="false" text="Search" />
                            </children>
                            <padding>
                               <Insets top="5.0" />
                            </padding>
                         </HBox>
+                        <Label fx:id="warningNP3" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="160.0" prefHeight="60.0" prefWidth="800.0">
@@ -317,9 +326,10 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label prefHeight="27.0" prefWidth="232.0" text="Search Professor" GridPane.columnIndex="1">
+                        <Label prefHeight="27.0" prefWidth="232.0" text="Find Professor" GridPane.columnIndex="1">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -329,12 +339,13 @@
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
                               <Button mnemonicParsing="false" text="Clear" />
-                              <Button mnemonicParsing="false" text="Submit" />
+                              <Button mnemonicParsing="false" text="Search" />
                            </children>
                            <padding>
                               <Insets top="5.0" />
                            </padding>
                         </HBox>
+                        <Label fx:id="warningNP4" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="160.0" prefHeight="60.0" prefWidth="800.0">
@@ -359,7 +370,7 @@
             </AnchorPane>
          </content>
       </Tab>
-      <Tab closable="false" text="Search Student List">
+      <Tab closable="false" text="Search Student in a Class">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
@@ -372,9 +383,10 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label prefHeight="27.0" prefWidth="232.0" text="Search Student List" GridPane.columnIndex="1">
+                        <Label text="Find All Students in a Course" GridPane.columnIndex="1">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -384,12 +396,13 @@
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
                               <Button mnemonicParsing="false" text="Clear" />
-                              <Button mnemonicParsing="false" text="Submit" />
+                              <Button mnemonicParsing="false" text="Search" />
                            </children>
                            <padding>
                               <Insets top="5.0" />
                            </padding>
                         </HBox>
+                        <Label fx:id="warningNP5" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0">
@@ -418,9 +431,10 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label prefHeight="27.0" prefWidth="232.0" text="Search Course" GridPane.columnIndex="1">
+                        <Label prefHeight="27.0" prefWidth="232.0" text="Find Course" GridPane.columnIndex="1">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -428,16 +442,17 @@
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
                               <Button mnemonicParsing="false" text="Clear" />
-                              <Button mnemonicParsing="false" text="Submit" />
+                              <Button mnemonicParsing="false" text="Search" />
                            </children>
                            <padding>
                               <Insets top="5.0" />
                            </padding>
                         </HBox>
-                        <Label text="Quarter" GridPane.rowIndex="1" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <ComboBox prefHeight="26.0" prefWidth="318.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="School Year" GridPane.rowIndex="2" />
+                        <Label text="Quarter" GridPane.rowIndex="2" />
+                        <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="School Year" GridPane.rowIndex="1" />
+                        <Label fx:id="warningNP6" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <ChoiceBox fx:id="quarterNC1" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0">
@@ -467,6 +482,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
                         <Label text="Student ID" GridPane.rowIndex="1" />
@@ -479,12 +495,13 @@
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
                               <Button mnemonicParsing="false" text="Clear" />
-                              <Button mnemonicParsing="false" text="Submit" />
+                              <Button mnemonicParsing="false" text="Delete" />
                            </children>
                            <padding>
                               <Insets top="5.0" />
                            </padding>
                         </HBox>
+                        <Label fx:id="warningNP7" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0">
@@ -514,6 +531,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
                         <Label text="Professor ID" GridPane.rowIndex="1" />
@@ -526,12 +544,13 @@
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
                               <Button mnemonicParsing="false" text="Clear" />
-                              <Button mnemonicParsing="false" text="Submit" />
+                              <Button mnemonicParsing="false" text="Delete" />
                            </children>
                            <padding>
                               <Insets top="5.0" />
                            </padding>
                         </HBox>
+                        <Label fx:id="warningNP8" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0">
@@ -560,6 +579,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
                         <Label text="Course Lable" GridPane.rowIndex="1" />
@@ -572,12 +592,13 @@
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
                               <Button mnemonicParsing="false" text="Clear" />
-                              <Button mnemonicParsing="false" text="Submit" />
+                              <Button mnemonicParsing="false" text="Delete" />
                            </children>
                            <padding>
                               <Insets top="5.0" />
                            </padding>
                         </HBox>
+                        <Label fx:id="warningNP9" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0">
@@ -608,7 +629,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
                         <Label text="......." GridPane.rowIndex="1" />
@@ -618,7 +639,7 @@
                            </font>
                         </Label>
                         <TextField prefHeight="26.0" prefWidth="158.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
                               <Button mnemonicParsing="false" text="Clear" />
                               <Button mnemonicParsing="false" text="Submit" />
@@ -627,6 +648,7 @@
                               <Insets top="5.0" />
                            </padding>
                         </HBox>
+                        <Label fx:id="warningNP10" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0">
@@ -657,7 +679,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
                         <Label text="......." GridPane.rowIndex="1" />
@@ -667,7 +689,7 @@
                            </font>
                         </Label>
                         <TextField prefHeight="26.0" prefWidth="158.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
                               <Button mnemonicParsing="false" text="Clear" />
                               <Button mnemonicParsing="false" text="Submit" />
@@ -676,6 +698,7 @@
                               <Insets top="5.0" />
                            </padding>
                         </HBox>
+                        <Label fx:id="warningNP11" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                   <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0">
