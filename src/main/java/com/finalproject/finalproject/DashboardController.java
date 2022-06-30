@@ -3,19 +3,18 @@ package com.finalproject.finalproject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import org.controlsfx.control.action.Action;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
 
-    private static final String strNone = "!@#$%!@#$%";
-    private static final Object objNone = "!@#$%!@#$%";
+    public static final String strNone = "!@#$%!@#$%";
+    public static final Object objNone = "!@#$%!@#$%";
+
 
     // New Student /////////////////////////////////////////////////////////////
     @FXML
@@ -33,7 +32,7 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void onSubmitNS(ActionEvent actionEvent) {
-        if (this.validate(this.firstNameNS.getText(), this.lastNameNS.getText(), this.emailNS.getText(), strNone,
+        if (validate(this.firstNameNS.getText(), this.lastNameNS.getText(), this.emailNS.getText(), strNone,
                 strNone, strNone, strNone, this.dobNS.getValue(), this.majorNS.getValue(), objNone, this.warningNS)) {
             String message = "Student " + this.firstNameNS.getText() + " " + this.lastNameNS.getText() + " is added.";
             this.warningNS.setTextFill(Color.color(0, 1, 0));
@@ -43,6 +42,7 @@ public class DashboardController implements Initializable {
         }
 
     }
+
 
     // New Professor ///////////////////////////////////////////////////////////
     @FXML
@@ -121,6 +121,141 @@ public class DashboardController implements Initializable {
         }
 
     }
+
+    // Search Student
+    @FXML
+    private TextField studentIdSearch;
+    @FXML
+    private Label errorSeachStudent;
+    @FXML
+    private TableView<?> tableStudent;
+    @FXML
+    private TableColumn<?,?> colIDSearchStudent;
+    @FXML
+    private TableColumn<?,?> colFNSearchStudent;
+    @FXML
+    private TableColumn<?,?> colLNSearchStudent;
+    @FXML
+    private TableColumn<?,?> colEmailSearchStudent;
+    @FXML
+    private TableColumn<?,?> colDOBSearchStudent;
+    @FXML
+    private TableView<?> tableCourseStudent;
+    @FXML
+    private TableColumn<?,?> colCourseIDSearchStudent;
+    @FXML
+    private TableColumn<?,?> colCourseLabelSearchStudent;
+    @FXML
+    private TableColumn<?,?> colCourseNameSearchStudent;
+    @FXML
+    private TableColumn<?,?> colInstructorIDSearchStudent;
+    @FXML
+    private TableColumn<?,?> colQuarterSearchStudent;
+    @FXML
+    private TableColumn<?,?> colYearSearchStudent;
+
+    @FXML
+    private void onSearchStudent(ActionEvent actionEvent){
+        if(this.validate(strNone,strNone,strNone,strNone,strNone,this.studentIdSearch.getText(),strNone,objNone, objNone, objNone, this.errorSeachStudent)){
+            String query = "select * from Student where sid = '" +  this.studentIdSearch.getText() +"';";
+        }
+    }
+
+    // Search Professor
+
+    @FXML
+    private TextField instructorIDSearch;
+    @FXML
+    private Label errorSeachInstructor;
+    @FXML
+    private TableView<?> tableInstructor;
+    @FXML
+    private TableColumn<?,?> colIDSearchInstructor;
+    @FXML
+    private TableColumn<?,?> colFNSearchInstructor;
+    @FXML
+    private TableColumn<?,?> colLNSearchInstructor;
+    @FXML
+    private TableColumn<?,?> colEmailSearchInstructor;
+    @FXML
+    private TableColumn<?,?> colDOBSearchInstructor;
+    @FXML
+    private TableView<?> tableCourseInstructor;
+    @FXML
+    private TableColumn<?,?> colCourseIDSearchInstructor;
+    @FXML
+    private TableColumn<?,?> colCourseLabelSearchInstructor;
+    @FXML
+    private TableColumn<?,?> colCourseNameSearchInstructor;
+    @FXML
+    private TableColumn<?,?> colInstructorIDSearchInstructor;
+    @FXML
+    private TableColumn<?,?> colQuarterSearchInstructor;
+    @FXML
+    private TableColumn<?,?> colYearSearchInstructor;
+
+    @FXML
+    private void onSearchInstructor(ActionEvent actionEvent){
+        if(this.validate(strNone,strNone,strNone,strNone,strNone,this.instructorIDSearch.getText(),strNone,objNone, objNone, objNone, this.errorSeachStudent)){
+            String query = "select * from Student where sid = '" +  this.instructorIDSearch.getText() +"';";
+        }
+    }
+
+    // Search Student in class
+    @FXML
+    private TextField courseIDSearch;
+    @FXML
+    private Label errorSeachCourse;
+    @FXML
+    private TableView<?> tableCourse;
+    @FXML
+    private TableColumn<?,?> colStudentIDSearchCourse;
+    @FXML
+    private TableColumn<?,?> colFNSearchCourse;
+    @FXML
+    private TableColumn<?,?> colLNSearchCourse;
+    @FXML
+    private TableColumn<?,?> colGradeSearchCourse;
+    @FXML
+    private void onSearchStudentInClass(ActionEvent actionEvent){
+        if(this.validate(strNone,strNone,strNone,strNone,strNone,this.courseIDSearch.getText(),strNone,objNone, objNone, objNone, this.errorSeachStudent)) {
+            String query = "select A.id, A.firstName, A.lastName, B.Grade from Student A, Enrolled B where B.cid =" + this.courseIDSearch.getText() +" and A.sid = B.sid";
+        }
+    }
+
+    // Search Course List
+    @FXML
+    private ChoiceBox <String> yearListCourseSearch;
+    @FXML
+    private ChoiceBox<String> quarterListCourseSearch;
+    @FXML
+    private Label errorFindCourse;
+    @FXML
+    private TableView<?> tableCourseFindCourse;
+    @FXML
+    private TableColumn<?,?> colCourseIDFindCourse;
+    @FXML
+    private TableColumn<?,?> colCourseLabelFindCourse;
+    @FXML
+    private TableColumn<?,?> colCourseNameFindCourse;
+    @FXML
+    private TableColumn<?,?> colInstructorIDFindCourse;
+    @FXML
+    private TableColumn<?,?> colQuarterFindCourse;
+    @FXML
+    private TableColumn<?,?> colYearFindCourse;
+
+    private void onSearchCourseList(ActionEvent actionEvent){
+        if(validate(strNone,strNone,strNone,strNone,strNone,strNone,strNone,objNone,yearListCourseSearch.getValue(), quarterListCourseSearch.getValue(), this.errorFindCourse)){
+            String query = "select cid, courseLabel, courseName, iId from CourseList where year =" + yearListCourseSearch.getValue() + " , quarter=" + quarterListCourseSearch.getValue() +";";
+        }
+    }
+
+    // Remove Student
+
+    // Remove Professor
+
+    // Remove Course
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
