@@ -5,365 +5,526 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
-import org.controlsfx.control.action.Action;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
 
-    public static final String strNone = "!@#$%!@#$%";
-    public static final Object objNone = "!@#$%!@#$%";
-
-
-    // New Student /////////////////////////////////////////////////////////////
+    // Add Student /////////////////////////////////////////////////////////////
     @FXML
-    private Label warningNS;
+    private Label errorAddStudent;
     @FXML
-    private TextField firstNameNS;
+    private TextField firstNameAS;
     @FXML
-    private TextField lastNameNS;
+    private TextField lastNameAS;
     @FXML
-    private TextField emailNS;
+    private TextField emailAS;
     @FXML
-    private DatePicker dobNS;
+    private DatePicker dobAS;
     @FXML
-    private ChoiceBox<String> majorNS;
+    private ChoiceBox<String> majorAS;
 
     @FXML
-    private void onSubmitNS(ActionEvent actionEvent) {
-        if (validate(this.firstNameNS.getText(), this.lastNameNS.getText(), this.emailNS.getText(), strNone,
-                strNone, strNone, strNone, this.dobNS.getValue(), this.majorNS.getValue(), objNone, this.warningNS)) {
-            String message = "Student " + this.firstNameNS.getText() + " " + this.lastNameNS.getText() + " is added.";
-            this.warningNS.setTextFill(Color.color(0, 1, 0));
-            this.warningNS.setText(message);
+    private void onSubmitAddStudent(ActionEvent actionEvent) {
+        this.errorAddStudent.setTextFill(Color.color(1, 0, 0));
+        if (nameValidator(this.firstNameAS.getText(), this.errorAddStudent,
+                "First name must be 3 or more characters long.")
+                &&
+                nameValidator(this.lastNameAS.getText(), this.errorAddStudent,
+                        "Last name must be 3 or more characters long.")
+                &&
+                emailValidator(this.emailAS.getText(), this.errorAddStudent, "Email is invalid.") &&
+                datePickerValidator(this.dobAS.getValue(), this.errorAddStudent, "Day of birth field is required.") &&
+                choiceBoxPicker(this.majorAS.getValue(), this.errorAddStudent, "Major field is required.")) {
+            this.clear();
+            this.errorAddStudent.setTextFill(Color.color(0, 1, 0));
+            this.errorAddStudent.setText("A new student is added.");
 
-            // connect to sql here
+            // connect to sql here.
+
         }
 
     }
 
-
-    // New Professor ///////////////////////////////////////////////////////////
+    // Add Professor ///////////////////////////////////////////////////////////
     @FXML
-    private Label warningNP;
+    private Label errorAddProfessor;
     @FXML
-    private TextField firstNameNP;
+    private TextField firstNameAP;
     @FXML
-    private TextField lastNameNP;
+    private TextField lastNameAP;
     @FXML
-    private TextField emailNP;
+    private TextField emailAP;
     @FXML
-    private DatePicker dobNP;
-
-    @FXML
-    private void onSubmitNP(ActionEvent actionEvent) {
-        if (this.validate(this.firstNameNP.getText(), this.lastNameNP.getText(),
-                this.emailNP.getText(), strNone,
-                strNone, strNone, strNone, this.dobNP.getValue(), objNone, objNone, this.warningNP)) {
-            String message = "Professor " + this.firstNameNP.getText() + " " +
-                    this.lastNameNP.getText() + " is added.";
-            this.warningNP.setTextFill(Color.color(0, 1, 0));
-            this.warningNP.setText(message);
-
-            // connect to sql here
-        }
-    }
-
-    // New Course /////////////////////////////////////////////////////////////
-    @FXML
-    private TextField courseLabelNC;
-    @FXML
-    private TextField courseNameNC;
-    @FXML
-    private TextField instructorIdNC;
-    @FXML
-    private ChoiceBox<String> quarterNC;
-    @FXML
-    private ChoiceBox<String> schoolyearNC;
-    @FXML
-    private Label warningNC;
+    private DatePicker dobAP;
 
     @FXML
-    private void onSubmitNC(ActionEvent actionEvent) {
-        if (this.validate(strNone, strNone, strNone, this.courseLabelNC.getText(), this.courseNameNC.getText(),
-                this.instructorIdNC.getText(), strNone, objNone, this.quarterNC.getValue(),
-                this.schoolyearNC.getValue(),
-                this.warningNC)) {
-            String message = "Course " + this.courseLabelNC.getText() + " is added.";
-            this.warningNC.setTextFill(Color.color(0, 1, 0));
-            this.warningNC.setText(message);
+    private void onSubmitAddProfessor(ActionEvent actionEvent) {
+        this.errorAddProfessor.setTextFill(Color.color(1, 0, 0));
+        if (nameValidator(this.firstNameAP.getText(), this.errorAddProfessor,
+                "First name must be 3 or more characters long.")
+                &&
+                nameValidator(this.lastNameAP.getText(), this.errorAddProfessor,
+                        "Last name must be 3 or more characters long.")
+                &&
+                emailValidator(this.emailAP.getText(), this.errorAddProfessor, "Email is invalid.") &&
+                datePickerValidator(this.dobAP.getValue(), this.errorAddProfessor, "Day of birth field is required.")) {
+            this.clear();
+            this.errorAddProfessor.setTextFill(Color.color(0, 1, 0));
+            this.errorAddProfessor.setText("A new professor is added.");
 
-            // connect to sql here
+            // connect to sql here.
+
         }
 
     }
 
-    // New Registration ////////////////////////////////////////////////////////
+    // Add Course /////////////////////////////////////////////////////////////
     @FXML
-    private Label warningR;
+    private Label errorAddCourse;
     @FXML
-    private TextField courseIDR;
+    private TextField courseLabelAC;
     @FXML
-    private TextField studentIDR;
+    private TextField courseNameAC;
     @FXML
-    private ChoiceBox<String> gradeR;
+    private TextField instructorIdAC;
+    @FXML
+    private ChoiceBox<String> quarterAC;
+    @FXML
+    private ChoiceBox<String> schoolyearAC;
 
     @FXML
-    private void onSubmitR(ActionEvent actionEvent) {
-        if (this.validate(strNone, strNone, strNone, strNone, strNone, this.courseIDR.getText(),
-                this.studentIDR.getText(), objNone, this.gradeR.getValue(), objNone, this.warningR)) {
-            String message = "Student " + this.studentIDR.getText() + " is registered.";
-            this.warningR.setTextFill(Color.color(0, 1, 0));
-            this.warningR.setText(message);
+    private void onSubmitAddCourse(ActionEvent actionEvent) {
+        this.errorAddCourse.setTextFill(Color.color(1, 0, 0));
+        if (nameValidator(this.courseLabelAC.getText(), this.errorAddCourse,
+                "Course title must be 3 or more characters long.") &&
+                nameValidator(this.courseNameAC.getText(), this.errorAddCourse,
+                        "Course name must be 3 or more characters long.")
+                &&
+                idValidator(this.instructorIdAC.getText(), this.errorAddCourse,
+                        "Instructor ID must contain numbers only.")
+                &&
+                choiceBoxPicker(this.quarterAC.getValue(), this.errorAddCourse, "Quarter field is required.") &&
+                choiceBoxPicker(this.schoolyearAC.getValue(), this.errorAddCourse, "School year field is required.")) {
+            this.clear();
+            this.errorAddCourse.setTextFill(Color.color(0, 1, 0));
+            this.errorAddCourse.setText("A new course is added.");
 
-            // connect to sql here
+            // connect to sql here.
+
+        }
+
+    }
+
+    // Add Grade ////////////////////////////////////////////////////////
+    @FXML
+    private Label errorAddGrade;
+    @FXML
+    private TextField courseIDAG;
+    @FXML
+    private TextField studentIDAG;
+    @FXML
+    private ChoiceBox<String> gradeAG;
+
+    @FXML
+    private void onSubmitAddGrade(ActionEvent actionEvent) {
+        this.errorAddGrade.setTextFill(Color.color(1, 0, 0));
+        if (idValidator(this.courseIDAG.getText(), this.errorAddGrade, "Course ID must contain numbers only.") &&
+                idValidator(this.studentIDAG.getText(), this.errorAddGrade, "Student ID must contain numbers only.") &&
+                choiceBoxPicker(this.gradeAG.getValue(), this.errorAddGrade, "School year field is required.")) {
+            this.clear();
+            this.errorAddGrade.setTextFill(Color.color(0, 1, 0));
+            this.errorAddGrade.setText("A student's grade is added.");
+
+            // connect to sql here.
+
         }
 
     }
 
     // Search Student
     @FXML
-    private TextField studentIdSearch;
+    private Label errorSearchStudent;
     @FXML
-    private Label errorSeachStudent;
+    private TextField studentIdSS;
     @FXML
     private TableView<?> tableStudent;
     @FXML
-    private TableColumn<?,?> colIDSearchStudent;
+    private TableColumn<?, ?> colIDSearchStudent;
     @FXML
-    private TableColumn<?,?> colFNSearchStudent;
+    private TableColumn<?, ?> colFNSearchStudent;
     @FXML
-    private TableColumn<?,?> colLNSearchStudent;
+    private TableColumn<?, ?> colLNSearchStudent;
     @FXML
-    private TableColumn<?,?> colEmailSearchStudent;
+    private TableColumn<?, ?> colEmailSearchStudent;
     @FXML
-    private TableColumn<?,?> colDOBSearchStudent;
+    private TableColumn<?, ?> colDOBSearchStudent;
     @FXML
     private TableView<?> tableCourseStudent;
     @FXML
-    private TableColumn<?,?> colCourseIDSearchStudent;
+    private TableColumn<?, ?> colCourseIDSearchStudent;
     @FXML
-    private TableColumn<?,?> colCourseLabelSearchStudent;
+    private TableColumn<?, ?> colCourseLabelSearchStudent;
     @FXML
-    private TableColumn<?,?> colCourseNameSearchStudent;
+    private TableColumn<?, ?> colCourseNameSearchStudent;
     @FXML
-    private TableColumn<?,?> colInstructorIDSearchStudent;
+    private TableColumn<?, ?> colInstructorIDSearchStudent;
     @FXML
-    private TableColumn<?,?> colQuarterSearchStudent;
+    private TableColumn<?, ?> colQuarterSearchStudent;
     @FXML
-    private TableColumn<?,?> colYearSearchStudent;
+    private TableColumn<?, ?> colYearSearchStudent;
 
     @FXML
-    private void onSearchStudent(ActionEvent actionEvent){
-        if(this.validate(strNone,strNone,strNone,strNone,strNone,this.studentIdSearch.getText(),strNone,objNone, objNone, objNone, this.errorSeachStudent)){
-            String query = "select * from Student where sid = '" +  this.studentIdSearch.getText() +"';";
+    private void onSubmitSearchStudent(ActionEvent actionEvent) {
+        this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
+        if (idValidator(this.studentIdSS.getText(), this.errorSearchStudent, "Student ID must contain numbers only.")) {
+            this.clear();
+            this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
+            this.errorSearchStudent.setText("Searching for student");
+
+            // connect to sql here.
+
         }
+
     }
 
     // Search Professor
-
     @FXML
-    private TextField instructorIDSearch;
+    private Label errorSearchProfessor;
     @FXML
-    private Label errorSeachInstructor;
+    private TextField professorIdSP;
     @FXML
     private TableView<?> tableInstructor;
     @FXML
-    private TableColumn<?,?> colIDSearchInstructor;
+    private TableColumn<?, ?> colIDSearchInstructor;
     @FXML
-    private TableColumn<?,?> colFNSearchInstructor;
+    private TableColumn<?, ?> colFNSearchInstructor;
     @FXML
-    private TableColumn<?,?> colLNSearchInstructor;
+    private TableColumn<?, ?> colLNSearchInstructor;
     @FXML
-    private TableColumn<?,?> colEmailSearchInstructor;
+    private TableColumn<?, ?> colEmailSearchInstructor;
     @FXML
-    private TableColumn<?,?> colDOBSearchInstructor;
+    private TableColumn<?, ?> colDOBSearchInstructor;
     @FXML
     private TableView<?> tableCourseInstructor;
     @FXML
-    private TableColumn<?,?> colCourseIDSearchInstructor;
+    private TableColumn<?, ?> colCourseIDSearchInstructor;
     @FXML
-    private TableColumn<?,?> colCourseLabelSearchInstructor;
+    private TableColumn<?, ?> colCourseLabelSearchInstructor;
     @FXML
-    private TableColumn<?,?> colCourseNameSearchInstructor;
+    private TableColumn<?, ?> colCourseNameSearchInstructor;
     @FXML
-    private TableColumn<?,?> colInstructorIDSearchInstructor;
+    private TableColumn<?, ?> colInstructorIDSearchInstructor;
     @FXML
-    private TableColumn<?,?> colQuarterSearchInstructor;
+    private TableColumn<?, ?> colQuarterSearchInstructor;
     @FXML
-    private TableColumn<?,?> colYearSearchInstructor;
+    private TableColumn<?, ?> colYearSearchInstructor;
 
     @FXML
-    private void onSearchInstructor(ActionEvent actionEvent){
-        if(this.validate(strNone,strNone,strNone,strNone,strNone,this.instructorIDSearch.getText(),strNone,objNone, objNone, objNone, this.errorSeachStudent)){
-            String query = "select * from Student where sid = '" +  this.instructorIDSearch.getText() +"';";
+    private void onSubmitSearchProfessor(ActionEvent actionEvent) {
+        this.errorSearchProfessor.setTextFill(Color.color(1, 0, 0));
+        if (idValidator(this.professorIdSP.getText(), this.errorSearchProfessor,
+                "Professor ID must contain numbers only.")) {
+            this.clear();
+            this.errorSearchProfessor.setTextFill(Color.color(0, 1, 0));
+            this.errorSearchProfessor.setText("Searching for professor");
+
+            // connect to sql here.
+
         }
+
     }
 
     // Search Student in class
     @FXML
-    private TextField courseIDSearch;
+    private TextField courseIDSSC;
     @FXML
-    private Label errorSeachCourse;
+    private Label errorSearchStudentsInClass;
     @FXML
     private TableView<?> tableCourse;
     @FXML
-    private TableColumn<?,?> colStudentIDSearchCourse;
+    private TableColumn<?, ?> colStudentIDSearchCourse;
     @FXML
-    private TableColumn<?,?> colFNSearchCourse;
+    private TableColumn<?, ?> colFNSearchCourse;
     @FXML
-    private TableColumn<?,?> colLNSearchCourse;
+    private TableColumn<?, ?> colLNSearchCourse;
     @FXML
-    private TableColumn<?,?> colGradeSearchCourse;
+    private TableColumn<?, ?> colGradeSearchCourse;
+
     @FXML
-    private void onSearchStudentInClass(ActionEvent actionEvent){
-        if(this.validate(strNone,strNone,strNone,strNone,strNone,this.courseIDSearch.getText(),strNone,objNone, objNone, objNone, this.errorSeachStudent)) {
-            String query = "select A.id, A.firstName, A.lastName, B.Grade from Student A, Enrolled B where B.cid =" + this.courseIDSearch.getText() +" and A.sid = B.sid";
+    private void onSubmitSearchStudentsInClass(ActionEvent actionEvent) {
+        this.errorSearchStudentsInClass.setTextFill(Color.color(1, 0, 0));
+        if (idValidator(this.courseIDSSC.getText(), this.errorSearchStudentsInClass,
+                "Course ID must contain numbers only.")) {
+            this.clear();
+            this.errorSearchStudentsInClass.setTextFill(Color.color(0, 1, 0));
+            this.errorSearchStudentsInClass.setText("Searching for students.");
+
+            // connect to sql here.
+
         }
+
     }
 
     // Search Course List
     @FXML
-    private ChoiceBox <String> yearListCourseSearch;
+    private Label errorSearchCourseList;
     @FXML
-    private ChoiceBox<String> quarterListCourseSearch;
+    private ChoiceBox<String> schoolYearSCL;
     @FXML
-    private Label errorFindCourse;
+    private ChoiceBox<String> quarterSCL;
     @FXML
     private TableView<?> tableCourseFindCourse;
     @FXML
-    private TableColumn<?,?> colCourseIDFindCourse;
+    private TableColumn<?, ?> colCourseIDFindCourse;
     @FXML
-    private TableColumn<?,?> colCourseLabelFindCourse;
+    private TableColumn<?, ?> colCourseLabelFindCourse;
     @FXML
-    private TableColumn<?,?> colCourseNameFindCourse;
+    private TableColumn<?, ?> colCourseNameFindCourse;
     @FXML
-    private TableColumn<?,?> colInstructorIDFindCourse;
+    private TableColumn<?, ?> colInstructorIDFindCourse;
     @FXML
-    private TableColumn<?,?> colQuarterFindCourse;
+    private TableColumn<?, ?> colQuarterFindCourse;
     @FXML
-    private TableColumn<?,?> colYearFindCourse;
+    private TableColumn<?, ?> colYearFindCourse;
 
-    private void onSearchCourseList(ActionEvent actionEvent){
-        if(validate(strNone,strNone,strNone,strNone,strNone,strNone,strNone,objNone,yearListCourseSearch.getValue(), quarterListCourseSearch.getValue(), this.errorFindCourse)){
-            String query = "select cid, courseLabel, courseName, iId from CourseList where year =" + yearListCourseSearch.getValue() + " , quarter=" + quarterListCourseSearch.getValue() +";";
+    @FXML
+    private void onSubmitSearchCourseList(ActionEvent actionEvent) {
+        this.errorSearchCourseList.setTextFill(Color.color(1, 0, 0));
+        if (choiceBoxPicker(this.quarterSCL.getValue(), this.errorSearchCourseList, "Quarter field is required.") &&
+                choiceBoxPicker(this.schoolYearSCL.getValue(), this.errorSearchCourseList,
+                        "School year field is required.")) {
+            this.clear();
+            this.errorSearchCourseList.setTextFill(Color.color(0, 1, 0));
+            this.errorSearchCourseList.setText("Searching for courses.");
+
+            // connect to sql here.
+
         }
+
     }
 
-    // Remove Student
+    // Remove student
+    @FXML
+    private Label errorRemoveStudent;
+    @FXML
+    private TextField studentIdRS;
 
-    // Remove Professor
+    @FXML
+    private void onSubmitRemoveStudent(ActionEvent actionEvent) {
+        this.errorRemoveStudent.setTextFill(Color.color(1, 0, 0));
+        if (idValidator(this.studentIdRS.getText(), this.errorRemoveStudent, "Student ID must contain numbers only.")) {
+            this.clear();
+            this.errorRemoveStudent.setTextFill(Color.color(0, 1, 0));
+            this.errorRemoveStudent.setText("A student is removed.");
 
-    // Remove Course
+            // connect to sql here.
+
+        }
+
+    }
+
+    // Remove professor
+    @FXML
+    private Label errorRemoveProfessor;
+    @FXML
+    private TextField professorIdRP;
+
+    @FXML
+    private void onSubmitRemoveProfessor(ActionEvent actionEvent) {
+        this.errorRemoveProfessor.setTextFill(Color.color(1, 0, 0));
+        if (idValidator(this.professorIdRP.getText(), this.errorRemoveProfessor,
+                "Professor ID must contain numbers only.")) {
+            this.clear();
+            this.errorRemoveProfessor.setTextFill(Color.color(0, 1, 0));
+            this.errorRemoveProfessor.setText("A professor is removed.");
+
+            // connect to sql here.
+
+        }
+
+    }
+
+    // Remove course
+    @FXML
+    private Label errorRemoveCourse;
+    @FXML
+    private TextField courseIdRC;
+
+    @FXML
+    public void onSubmitRemoveCourse(ActionEvent actionEvent) {
+        this.errorRemoveCourse.setTextFill(Color.color(1, 0, 0));
+        if (idValidator(this.courseIdRC.getText(), this.errorRemoveCourse, "Course ID must contain numbers only.")) {
+            this.clear();
+            this.errorRemoveCourse.setTextFill(Color.color(0, 1, 0));
+            this.errorRemoveCourse.setText("A course is removed.");
+
+            // connect to sql here.
+
+        }
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.majorNS.getItems().addAll(
+        this.majorAS.getItems().addAll(
                 "Computer Science",
                 "Software Engineer",
                 "Hardware Engineer");
 
-        this.quarterNC.getItems().addAll("Fall", "Winter", "Spring", "Summer");
+        this.quarterAC.getItems().addAll("Fall", "Winter", "Spring", "Summer");
+        this.quarterSCL.getItems().addAll("Fall", "Winter", "Spring", "Summer");
 
         for (int i = 2025; i > 2000; i--) {
-            this.schoolyearNC.getItems().add(String.valueOf(i));
+            this.schoolyearAC.getItems().add(String.valueOf(i));
+            this.schoolYearSCL.getItems().add(String.valueOf(i));
         }
 
-        this.gradeR.getItems().addAll("Letter Grade", "Pass/No Pass");
+        this.gradeAG.getItems().addAll("A", "B", "C", "D", "E", "F");
     }
 
     // clear event buttons
     @FXML
-    public void onClearNS(ActionEvent actionEvent) {
+    public void onClearAddStudent(ActionEvent actionEvent) {
         this.clear();
     }
 
     @FXML
-    private void onClearNP(ActionEvent actionEvent) {
+    private void onClearAddProfessor(ActionEvent actionEvent) {
         this.clear();
     }
 
     @FXML
-    private void onClearNC(ActionEvent actionEvent) {
+    private void onClearAddCourse(ActionEvent actionEvent) {
         this.clear();
     }
 
     @FXML
-    private void onClearR(ActionEvent actionEvent) {
+    private void onClearAddGrade(ActionEvent actionEvent) {
+        this.clear();
+    }
+
+    @FXML
+    private void onClearSearchStudent(ActionEvent actionEvent) {
+        this.clear();
+    }
+
+    @FXML
+    private void onClearSearchProfessor(ActionEvent actionEvent) {
+        this.clear();
+    }
+
+    @FXML
+    private void onClearSearchStudentsInClass(ActionEvent actionEvent) {
+        this.clear();
+    }
+
+    @FXML
+    private void onClearSearchCourseList(ActionEvent actionEvent) {
+        this.clear();
+    }
+
+    @FXML
+    private void onClearRemoveStudent(ActionEvent actionEvent) {
+        this.clear();
+    }
+
+    @FXML
+    private void onClearRemoveCourse(ActionEvent actionEvent) {
+        this.clear();
+    }
+
+    @FXML
+    private void onClearRemoveProfessor(ActionEvent actionEvent) {
         this.clear();
     }
 
     private void clear() {
-        this.warningNS.setText("");
-        this.firstNameNS.setText("");
-        this.lastNameNS.setText("");
-        this.emailNS.setText("");
-        this.dobNS.setValue(null);
-        this.majorNS.setValue(null);
+        this.errorAddStudent.setText("");
+        this.firstNameAS.setText("");
+        this.lastNameAS.setText("");
+        this.emailAS.setText("");
+        this.dobAS.setValue(null);
+        this.majorAS.setValue(null);
 
-        this.warningNP.setText("");
-        this.firstNameNP.setText("");
-        this.lastNameNP.setText("");
-        this.emailNP.setText("");
-        this.dobNP.setValue(null);
+        this.errorAddProfessor.setText("");
+        this.firstNameAP.setText("");
+        this.lastNameAP.setText("");
+        this.emailAP.setText("");
+        this.dobAP.setValue(null);
 
-        this.warningNC.setText("");
-        this.courseLabelNC.setText("");
-        this.courseNameNC.setText("");
-        this.instructorIdNC.setText("");
-        this.quarterNC.setValue(null);
-        this.schoolyearNC.setValue(null);
+        this.errorAddCourse.setText("");
+        this.courseLabelAC.setText("");
+        this.courseNameAC.setText("");
+        this.instructorIdAC.setText("");
+        this.quarterAC.setValue(null);
+        this.schoolyearAC.setValue(null);
 
-        this.warningR.setText("");
-        this.courseIDR.setText("");
-        this.studentIDR.setText("");
-        this.gradeR.setValue(null);
+        this.errorAddGrade.setText("");
+        this.courseIDAG.setText("");
+        this.studentIDAG.setText("");
+        this.gradeAG.setValue(null);
+
+        this.errorSearchStudent.setText("");
+        this.studentIdSS.setText("");
+
+        this.errorSearchProfessor.setText("");
+        this.professorIdSP.setText("");
+
+        this.errorSearchStudentsInClass.setText("");
+        this.courseIDSSC.setText("");
+
+        this.errorSearchCourseList.setText("");
+        this.quarterSCL.setValue(null);
+        this.schoolYearSCL.setValue(null);
+
+        this.errorRemoveStudent.setText("");
+        this.studentIdRS.setText("");
+
+        this.errorRemoveCourse.setText("");
+        this.courseIdRC.setText("");
+
+        this.errorRemoveProfessor.setText("");
+        this.professorIdRP.setText("");
     }
 
-    private boolean validate(
-            String firstName,
-            String lastName,
-            String email,
-            String courseLabel,
-            String courseName,
-            String id,
-            String id2,
-            Object datePicker,
-            Object choiceBox,
-            Object choiceBox2,
-            Label warning) {
-        warning.setTextFill(Color.color(1, 0, 0));
-        if (firstName != strNone && !firstName.matches("^[a-zA-Z]{3,20}$")) {
-            warning.setText("First Name must contain only alphabets.\nFirst Name must be 3-20 characters long.");
+    public static boolean choiceBoxPicker(String choiceBox, Label warning, String message) {
+        if (choiceBox == null) {
+            warning.setText(message);
             return false;
-        } else if (lastName != strNone && !lastName.matches("^[a-zA-Z]{3,20}$")) {
-            warning.setText("Last Name must contain only alphabets.\nLast Name must be 3-20 characters long.");
+        } else
+            return true;
+    }
+
+    public static boolean datePickerValidator(LocalDate date, Label warning, String message) {
+        if (date == null) {
+            warning.setText(message);
             return false;
-        } else if (email != strNone && !email.matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")) {
-            warning.setText("Email is not valid");
+        } else
+            return true;
+    }
+
+    public static boolean emailValidator(String email, Label warning, String message) {
+        if (!email.matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")) {
+            warning.setText(message);
             return false;
-        } else if (courseLabel != strNone && !courseLabel.matches("^[a-zA-Z0-9 ]{6,20}$")) {
-            warning.setText(
-                    "Course Title must be 6-20 characters long.\nCourse Title contains only numbers and alphabets.");
+        } else
+            return true;
+    }
+
+    public static boolean idValidator(String id, Label warning, String message) {
+        if (!id.matches("^[0-9]{1,}$")) {
+            warning.setText(message);
             return false;
-        } else if (courseName != strNone && !courseName.matches("^[a-zA-Z0-9!@#$%&*()'+,-./:;<=>?^_`{|} ]{6,}$")) {
-            warning.setText("Course Name must be 6 or more characters long.");
-            return false;
-        } else if (id != strNone && !id.matches("^[0-9]{1,100}$")) {
-            warning.setText("ID must contain only numbers.");
-            return false;
-        } else if (id2 != strNone && !id2.matches("^[0-9]{1,100}$")) {
-            warning.setText("Both IDs must contain only numbers.");
-            return false;
-        } else if (datePicker != objNone && datePicker == null) {
-            warning.setText("Day of birth can't be empty.");
-            return false;
-        } else if (choiceBox != objNone && choiceBox == null) {
-            warning.setText("Choice box can't not be empty.");
-            return false;
-        } else if (choiceBox2 != objNone && choiceBox2 == null) {
-            warning.setText("Choice box can't not be empty");
+        } else
+            return true;
+    }
+
+    public static boolean nameValidator(String name, Label warning, String message) {
+        if (!(name.length() >= 3)) {
+            warning.setText(message);
             return false;
         } else
             return true;
