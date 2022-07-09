@@ -18,7 +18,7 @@ import javafx.scene.control.TableColumn;
 public class DashboardController implements Initializable {
 
     JBDCInsert jbdc = new JBDCInsert();
-    // JBDCRemove jbdcRemove = new JBDCRemove();
+     JBDCRemove jbdcRemove = new JBDCRemove();
 
     // Add Student /////////////////////////////////////////////////////////////
     @FXML
@@ -380,12 +380,14 @@ public class DashboardController implements Initializable {
     private void onSubmitRemoveStudent(ActionEvent actionEvent) {
         this.errorRemoveStudent.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.studentIdRS.getText(), this.errorRemoveStudent, "Student ID must contain numbers only.")) {
+            if(jbdcRemove.removeByStudentID(this.studentIdRS.getText()) == null){
+                this.errorRemoveStudent.setTextFill(Color.color(0, 1, 0));
+                this.errorRemoveStudent.setText("Successfully remove student!");
+            }else{
+                this.errorRemoveStudent.setTextFill(Color.color(0, 1, 0));
+                this.errorRemoveStudent.setText("Can't remove student, check your value!    ");
+            }
             this.clear();
-            this.errorRemoveStudent.setTextFill(Color.color(0, 1, 0));
-            this.errorRemoveStudent.setText("A student is removed.");
-
-            // connect to sql here.
-
         }
 
     }
@@ -401,12 +403,14 @@ public class DashboardController implements Initializable {
         this.errorRemoveProfessor.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.professorIdRP.getText(), this.errorRemoveProfessor,
                 "Professor ID must contain numbers only.")) {
+            if( jbdcRemove.removeByProfessorID(this.professorIdRP.getText()) == null){
+                this.errorRemoveProfessor.setTextFill(Color.color(0, 1, 0));
+                this.errorRemoveProfessor.setText("Successfully remove professor!");
+            }else{
+                this.errorRemoveProfessor.setTextFill(Color.color(1, 0, 0));
+                this.errorRemoveProfessor.setText("can't remove professor, check your value!");
+            }
             this.clear();
-            this.errorRemoveProfessor.setTextFill(Color.color(0, 1, 0));
-            this.errorRemoveProfessor.setText("A professor is removed.");
-
-            // connect to sql here.
-
         }
 
     }
@@ -421,14 +425,15 @@ public class DashboardController implements Initializable {
     public void onSubmitRemoveCourse(ActionEvent actionEvent) {
         this.errorRemoveCourse.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.courseIdRC.getText(), this.errorRemoveCourse, "Course ID must contain numbers only.")) {
+            if(jbdcRemove.removeByCourseID(this.courseIdRC.getText()) == null) {
+                this.errorRemoveCourse.setTextFill(Color.color(0, 1, 0));
+                this.errorRemoveCourse.setText("Successfully delete course!");
+            } else {
+                this.errorRemoveCourse.setTextFill(Color.color(1, 0, 0));
+                this.errorRemoveCourse.setText("Can't remove course, check your value!");
+            }
             this.clear();
-            this.errorRemoveCourse.setTextFill(Color.color(0, 1, 0));
-            this.errorRemoveCourse.setText("A course is removed.");
-
-            // connect to sql here.
-
         }
-
     }
 
     @Override
