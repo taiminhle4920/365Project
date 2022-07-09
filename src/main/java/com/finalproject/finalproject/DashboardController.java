@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
 
+    JBDC jbdc = new JBDC();
+
     // Add Student /////////////////////////////////////////////////////////////
     @FXML
     private Label errorAddStudent;
@@ -38,12 +40,21 @@ public class DashboardController implements Initializable {
                 emailValidator(this.emailAS.getText(), this.errorAddStudent, "Email is invalid.") &&
                 datePickerValidator(this.dobAS.getValue(), this.errorAddStudent, "Day of birth field is required.") &&
                 choiceBoxPicker(this.majorAS.getValue(), this.errorAddStudent, "Major field is required.")) {
-            this.clear();
-            this.errorAddStudent.setTextFill(Color.color(0, 1, 0));
-            this.errorAddStudent.setText("A new student is added.");
 
             // connect to sql here.
-
+            if (jbdc.insertStudent(this.firstNameAS.getText(),
+                    this.lastNameAS.getText(),
+                    this.emailAS.getText(),
+                    this.dobAS.getValue().toString(),
+                    this.majorAS.getValue())) {
+                this.errorAddStudent.setTextFill(Color.color(0, 1, 0));
+                this.errorAddStudent.setText("A new student is added.");
+            } else {
+                this.errorAddStudent.setTextFill(Color.color(1, 0, 0));
+                this.errorAddStudent.setText("Unknow error.");
+            }
+                
+            this.clear();
         }
 
     }
@@ -388,105 +399,105 @@ public class DashboardController implements Initializable {
     // clear event buttons
     @FXML
     public void onClearAddStudent(ActionEvent actionEvent) {
+        this.errorAddStudent.setText("");
         this.clear();
     }
 
     @FXML
     private void onClearAddProfessor(ActionEvent actionEvent) {
+        this.errorAddProfessor.setText("");
         this.clear();
     }
 
     @FXML
     private void onClearAddCourse(ActionEvent actionEvent) {
+        this.errorAddCourse.setText("");
         this.clear();
     }
 
     @FXML
     private void onClearAddGrade(ActionEvent actionEvent) {
+        this.errorAddGrade.setText("");
         this.clear();
     }
 
     @FXML
     private void onClearSearchStudent(ActionEvent actionEvent) {
+        this.errorSearchStudent.setText("");
         this.clear();
     }
 
     @FXML
     private void onClearSearchProfessor(ActionEvent actionEvent) {
+        this.errorSearchProfessor.setText("");
         this.clear();
     }
 
     @FXML
     private void onClearSearchStudentsInClass(ActionEvent actionEvent) {
+        this.errorSearchStudentsInClass.setText("");
         this.clear();
     }
 
     @FXML
     private void onClearSearchCourseList(ActionEvent actionEvent) {
+        this.errorSearchCourseList.setText("");
         this.clear();
     }
 
     @FXML
     private void onClearRemoveStudent(ActionEvent actionEvent) {
+        this.errorRemoveStudent.setText("");
         this.clear();
     }
 
     @FXML
     private void onClearRemoveCourse(ActionEvent actionEvent) {
+        this.errorRemoveCourse.setText("");
         this.clear();
     }
 
     @FXML
     private void onClearRemoveProfessor(ActionEvent actionEvent) {
+        this.errorRemoveProfessor.setText("");
         this.clear();
     }
 
     private void clear() {
-        this.errorAddStudent.setText("");
         this.firstNameAS.setText("");
         this.lastNameAS.setText("");
         this.emailAS.setText("");
         this.dobAS.setValue(null);
         this.majorAS.setValue(null);
 
-        this.errorAddProfessor.setText("");
         this.firstNameAP.setText("");
         this.lastNameAP.setText("");
         this.emailAP.setText("");
         this.dobAP.setValue(null);
 
-        this.errorAddCourse.setText("");
         this.courseLabelAC.setText("");
         this.courseNameAC.setText("");
         this.instructorIdAC.setText("");
         this.quarterAC.setValue(null);
         this.schoolyearAC.setValue(null);
 
-        this.errorAddGrade.setText("");
         this.courseIDAG.setText("");
         this.studentIDAG.setText("");
         this.gradeAG.setValue(null);
 
-        this.errorSearchStudent.setText("");
         this.studentIdSS.setText("");
 
-        this.errorSearchProfessor.setText("");
         this.professorIdSP.setText("");
 
-        this.errorSearchStudentsInClass.setText("");
         this.courseIDSSC.setText("");
 
-        this.errorSearchCourseList.setText("");
         this.quarterSCL.setValue(null);
         this.schoolYearSCL.setValue(null);
 
-        this.errorRemoveStudent.setText("");
         this.studentIdRS.setText("");
 
-        this.errorRemoveCourse.setText("");
         this.courseIdRC.setText("");
 
-        this.errorRemoveProfessor.setText("");
         this.professorIdRP.setText("");
     }
 
