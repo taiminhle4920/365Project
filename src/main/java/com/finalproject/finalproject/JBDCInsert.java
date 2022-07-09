@@ -2,14 +2,14 @@ package com.finalproject.finalproject;
 
 import java.sql.*;
 
-public class JBDC {
+public class JBDCInsert {
 
     Connection connect;
     PreparedStatement insert;
     private static String CONNECTION = "jdbc:mysql://ambari-node5.csc.calpoly.edu:3306/phutai?user=phutai&password=phutai";
     private static String DRIVER = "com.mysql.jdbc.Driver";
 
-    public JBDC() {
+    public JBDCInsert() {
     }
 
     public boolean makeConnection() {
@@ -18,12 +18,12 @@ public class JBDC {
             this.connect = DriverManager.getConnection(CONNECTION);
             return true;
         } catch (Exception e) {
-            this.printSQLException((SQLException) e);
+            printSQLException((SQLException) e);
             return false;
         }
     }
 
-    public void printSQLException(SQLException ex) {
+    public static void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
             if (ex instanceof SQLException) {
                 e.printStackTrace(System.err);
@@ -56,7 +56,7 @@ public class JBDC {
             this.insert.executeUpdate();
             return null;
         } catch (SQLException e) {
-            this.printSQLException(e);
+            printSQLException(e);
             return e.getMessage();
         }
     }
@@ -77,7 +77,7 @@ public class JBDC {
             this.insert.executeUpdate();
             return null;
         } catch (SQLException e) {
-            this.printSQLException(e);
+            printSQLException(e);
             return e.getMessage();
         }
     }
@@ -100,7 +100,7 @@ public class JBDC {
             this.insert.executeUpdate();
             return null;
         } catch (SQLException e) {
-            this.printSQLException(e);
+            printSQLException(e);
             return e.getMessage();
         }
     }
@@ -120,7 +120,7 @@ public class JBDC {
             this.insert.executeUpdate();
             return null;
         } catch (SQLException e) {
-            this.printSQLException(e);
+            printSQLException(e);
             return e.getMessage();
         }
     }

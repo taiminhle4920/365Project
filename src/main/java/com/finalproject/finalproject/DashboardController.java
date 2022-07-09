@@ -10,9 +10,16 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import com.finalproject.finalproject.Tables.Student;
+
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 public class DashboardController implements Initializable {
 
-    JBDC jbdc = new JBDC();
+    JBDCInsert jbdc = new JBDCInsert();
+    JBDCRemove jbdcRemove = new JBDCRemove();
 
     // Add Student /////////////////////////////////////////////////////////////
     @FXML
@@ -167,7 +174,8 @@ public class DashboardController implements Initializable {
                 choiceBoxPicker(this.gradeAG.getValue(), this.errorAddGrade, "School year field is required.")) {
 
             // connect to sql here.
-            String message = jbdc.insertGrade(this.courseIDAG.getText(), this.studentIDAG.getText(), this.gradeAG.getValue());
+            String message = jbdc.insertGrade(this.courseIDAG.getText(), this.studentIDAG.getText(),
+                    this.gradeAG.getValue());
             if (message == null) {
                 this.errorAddGrade.setTextFill(Color.color(0, 1, 0));
                 this.errorAddGrade.setText("A new grade is added.");
@@ -349,6 +357,27 @@ public class DashboardController implements Initializable {
     private TextField studentIdRS;
 
     @FXML
+    private TableView<Student> removeStudentTable = new TableView<Student>();
+
+    @FXML
+    private TableColumn<Student, String> column1RemoveStudent = new TableColumn<>("ID");
+
+    @FXML
+    private TableColumn<Student, String> column2RemoveStudent = new TableColumn<>("First Name");
+
+    @FXML
+    private TableColumn<Student, String> column3RemoveStudent = new TableColumn<>("Last Name");
+
+    @FXML
+    private TableColumn<Student, String> column4RemoveStudent = new TableColumn<>("Email");
+
+    @FXML
+    private TableColumn<Student, String> column5RemoveStudent = new TableColumn<>("Day of Birth");
+
+    @FXML
+    private TableColumn<Student, String> column6RemoveStudent = new TableColumn<>("Major");
+
+    @FXML
     private void onSubmitRemoveStudent(ActionEvent actionEvent) {
         this.errorRemoveStudent.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.studentIdRS.getText(), this.errorRemoveStudent, "Student ID must contain numbers only.")) {
@@ -419,6 +448,11 @@ public class DashboardController implements Initializable {
         }
 
         this.gradeAG.getItems().addAll("A", "B", "C", "D", "E", "F");
+
+        // JBDCRemove.createColumnRemoveStudent(this.removeStudentTable, this.column1RemoveStudent,
+        //         this.column2RemoveStudent, this.column3RemoveStudent, this.column4RemoveStudent,
+        //         this.column5RemoveStudent, this.column6RemoveStudent);
+
     }
 
     // clear event buttons
