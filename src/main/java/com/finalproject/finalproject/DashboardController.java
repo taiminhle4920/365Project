@@ -42,18 +42,19 @@ public class DashboardController implements Initializable {
                 choiceBoxPicker(this.majorAS.getValue(), this.errorAddStudent, "Major field is required.")) {
 
             // connect to sql here.
-            if (jbdc.insertStudent(this.firstNameAS.getText(),
+            String message = jbdc.insertStudent(this.firstNameAS.getText(),
                     this.lastNameAS.getText(),
                     this.emailAS.getText(),
                     this.dobAS.getValue().toString(),
-                    this.majorAS.getValue())) {
+                    this.majorAS.getValue());
+            if (message == null) {
                 this.errorAddStudent.setTextFill(Color.color(0, 1, 0));
                 this.errorAddStudent.setText("A new student is added.");
             } else {
                 this.errorAddStudent.setTextFill(Color.color(1, 0, 0));
-                this.errorAddStudent.setText("Unknow error.");
+                this.errorAddStudent.setText(message);
             }
-                
+
             this.clear();
         }
 
@@ -82,12 +83,21 @@ public class DashboardController implements Initializable {
                 &&
                 emailValidator(this.emailAP.getText(), this.errorAddProfessor, "Email is invalid.") &&
                 datePickerValidator(this.dobAP.getValue(), this.errorAddProfessor, "Day of birth field is required.")) {
-            this.clear();
-            this.errorAddProfessor.setTextFill(Color.color(0, 1, 0));
-            this.errorAddProfessor.setText("A new professor is added.");
 
             // connect to sql here.
+            String message = jbdc.insertProfessor(this.firstNameAP.getText(),
+                    this.lastNameAP.getText(),
+                    this.emailAP.getText(),
+                    this.dobAP.getValue().toString());
+            if (message == null) {
+                this.errorAddProfessor.setTextFill(Color.color(0, 1, 0));
+                this.errorAddProfessor.setText("A new professor is added.");
+            } else {
+                this.errorAddProfessor.setTextFill(Color.color(1, 0, 0));
+                this.errorAddProfessor.setText(message);
+            }
 
+            this.clear();
         }
 
     }
@@ -119,12 +129,22 @@ public class DashboardController implements Initializable {
                 &&
                 choiceBoxPicker(this.quarterAC.getValue(), this.errorAddCourse, "Quarter field is required.") &&
                 choiceBoxPicker(this.schoolyearAC.getValue(), this.errorAddCourse, "School year field is required.")) {
-            this.clear();
-            this.errorAddCourse.setTextFill(Color.color(0, 1, 0));
-            this.errorAddCourse.setText("A new course is added.");
 
             // connect to sql here.
+            String message = jbdc.insertCourse(this.courseLabelAC.getText(),
+                    this.courseNameAC.getText(),
+                    this.instructorIdAC.getText(),
+                    this.quarterAC.getValue().toString(),
+                    this.schoolyearAC.getValue().toString());
+            if (message == null) {
+                this.errorAddCourse.setTextFill(Color.color(0, 1, 0));
+                this.errorAddCourse.setText("A new course is added.");
+            } else {
+                this.errorAddCourse.setTextFill(Color.color(1, 0, 0));
+                this.errorAddCourse.setText(message);
+            }
 
+            this.clear();
         }
 
     }
@@ -145,14 +165,19 @@ public class DashboardController implements Initializable {
         if (idValidator(this.courseIDAG.getText(), this.errorAddGrade, "Course ID must contain numbers only.") &&
                 idValidator(this.studentIDAG.getText(), this.errorAddGrade, "Student ID must contain numbers only.") &&
                 choiceBoxPicker(this.gradeAG.getValue(), this.errorAddGrade, "School year field is required.")) {
-            this.clear();
-            this.errorAddGrade.setTextFill(Color.color(0, 1, 0));
-            this.errorAddGrade.setText("A student's grade is added.");
 
             // connect to sql here.
+            String message = jbdc.insertGrade(this.courseIDAG.getText(), this.studentIDAG.getText(), this.gradeAG.getValue());
+            if (message == null) {
+                this.errorAddGrade.setTextFill(Color.color(0, 1, 0));
+                this.errorAddGrade.setText("A new grade is added.");
+            } else {
+                this.errorAddGrade.setTextFill(Color.color(1, 0, 0));
+                this.errorAddGrade.setText(message);
+            }
 
+            this.clear();
         }
-
     }
 
     // Search Student
