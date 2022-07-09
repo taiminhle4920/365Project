@@ -14,12 +14,11 @@ import com.finalproject.finalproject.Tables.Student;
 
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class DashboardController implements Initializable {
 
     JBDCInsert jbdc = new JBDCInsert();
-    JBDCRemove jbdcRemove = new JBDCRemove();
+    // JBDCRemove jbdcRemove = new JBDCRemove();
 
     // Add Student /////////////////////////////////////////////////////////////
     @FXML

@@ -4,39 +4,9 @@ import java.sql.*;
 
 public class JBDCInsert {
 
-    Connection connect;
-    PreparedStatement insert;
-    private static String CONNECTION = "jdbc:mysql://ambari-node5.csc.calpoly.edu:3306/phutai?user=phutai&password=phutai";
-    private static String DRIVER = "com.mysql.jdbc.Driver";
+    private JDBCConnection jdbcConnection = new JDBCConnection();
 
     public JBDCInsert() {
-    }
-
-    public boolean makeConnection() {
-        try {
-            Class.forName(DRIVER);
-            this.connect = DriverManager.getConnection(CONNECTION);
-            return true;
-        } catch (Exception e) {
-            printSQLException((SQLException) e);
-            return false;
-        }
-    }
-
-    public static void printSQLException(SQLException ex) {
-        for (Throwable e : ex) {
-            if (ex instanceof SQLException) {
-                e.printStackTrace(System.err);
-                System.err.println("SQLState: " + ((SQLException) e).getSQLState());
-                System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
-                System.err.println("Message: " + ex.getMessage());
-                Throwable t = ex.getCause();
-                while (t != null) {
-                    System.err.println("Cause: " + t);
-                    t = t.getCause();
-                }
-            }
-        }
     }
 
     public String insertStudent(String firstName, String lastName, String email, String dob, String major) {
@@ -46,17 +16,20 @@ public class JBDCInsert {
                     "VALUES " +
                     "( ?, ?, ?, ?, ? );";
 
-            this.makeConnection();
-            this.insert = this.connect.prepareStatement(sql);
-            this.insert.setString(1, firstName);
-            this.insert.setString(2, lastName);
-            this.insert.setString(3, email);
-            this.insert.setString(4, dob);
-            this.insert.setString(5, major);
-            this.insert.executeUpdate();
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(sql);
+            preStatement.setString(1, firstName);
+            preStatement.setString(2, lastName);
+            preStatement.setString(3, email);
+            preStatement.setString(4, dob);
+            preStatement.setString(5, major);
+            preStatement.executeUpdate();
+            connect.close();
             return null;
         } catch (SQLException e) {
-            printSQLException(e);
+            JDBCConnection.printSQLException(e);
             return e.getMessage();
         }
     }
@@ -68,16 +41,19 @@ public class JBDCInsert {
                     "VALUES " +
                     "( ?, ?, ?, ?);";
 
-            this.makeConnection();
-            this.insert = this.connect.prepareStatement(sql);
-            this.insert.setString(1, firstName);
-            this.insert.setString(2, lastName);
-            this.insert.setString(3, email);
-            this.insert.setString(4, dob);
-            this.insert.executeUpdate();
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(sql);
+            preStatement.setString(1, firstName);
+            preStatement.setString(2, lastName);
+            preStatement.setString(3, email);
+            preStatement.setString(4, dob);
+            preStatement.executeUpdate();
+            connect.close();
             return null;
         } catch (SQLException e) {
-            printSQLException(e);
+            JDBCConnection.printSQLException(e);
             return e.getMessage();
         }
     }
@@ -86,21 +62,24 @@ public class JBDCInsert {
             String schoolYear) {
         try {
             String sql = "INSERT INTO " +
-                    "course (courseLabel, courseName, professorId, quarter, schoolYear) " +
+                    "course (courseLabel, courseName, pid, quarter, schoolYear) " +
                     "VALUES " +
                     "( ?, ?, ?, ?, ?);";
 
-            this.makeConnection();
-            this.insert = this.connect.prepareStatement(sql);
-            this.insert.setString(1, courseTitle);
-            this.insert.setString(2, courseName);
-            this.insert.setInt(3, Integer.valueOf(professorId));
-            this.insert.setString(4, quarter);
-            this.insert.setInt(5, Integer.valueOf(schoolYear));
-            this.insert.executeUpdate();
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(sql);
+            preStatement.setString(1, courseTitle);
+            preStatement.setString(2, courseName);
+            preStatement.setInt(3, Integer.valueOf(professorId));
+            preStatement.setString(4, quarter);
+            preStatement.setInt(5, Integer.valueOf(schoolYear));
+            preStatement.executeUpdate();
+            connect.close();
             return null;
         } catch (SQLException e) {
-            printSQLException(e);
+            JDBCConnection.printSQLException(e);
             return e.getMessage();
         }
     }
@@ -108,19 +87,33 @@ public class JBDCInsert {
     public String insertGrade(String courseId, String studentId, String grade) {
         try {
             String sql = "INSERT INTO " +
-                    "grade (courseId, studentId, grade) " +
+                    "grade (cid, sid, grade) " +
                     "VALUES " +
                     "( ?, ?, ?);";
 
-            this.makeConnection();
-            this.insert = this.connect.prepareStatement(sql);
-            this.insert.setInt(1, Integer.valueOf(courseId));
-            this.insert.setInt(2, Integer.valueOf(studentId));
-            this.insert.setString(3, grade);
-            this.insert.executeUpdate();
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(sql);
+            preStatement.setInt(1, Integer.valueOf(courseId));
+            preStatement.setInt(2, Integer.valueOf(studentId));
+
+            if (grade.equals("A"))
+                preStatement.setDouble(3, 4.00);
+            if (grade.equals("B"))
+                preStatement.setDouble(3, 3.00);
+            if (grade.equals("C"))
+                preStatement.setDouble(3, 2.00);
+            if (grade.equals("D"))
+                preStatement.setDouble(3, 1.00);
+            if (grade.equals("F"))
+                preStatement.setDouble(3, 0.00);
+
+            preStatement.executeUpdate();
+            connect.close();
             return null;
         } catch (SQLException e) {
-            printSQLException(e);
+            JDBCConnection.printSQLException(e);
             return e.getMessage();
         }
     }
