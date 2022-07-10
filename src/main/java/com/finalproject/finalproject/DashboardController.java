@@ -10,10 +10,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import com.finalproject.finalproject.Tables.Student;
-
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TableColumn;
 
 public class DashboardController implements Initializable {
@@ -39,36 +36,21 @@ public class DashboardController implements Initializable {
 
         this.gradeAG.getItems().addAll("A", "B", "C", "D", "E", "F");
 
-        // sstColumn1.setCellValueFactory(new PropertyValueFactory<>("sid"));
-        // sstColumn2.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        // sstColumn3.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        // sstColumn4.setCellValueFactory(new PropertyValueFactory<>("email"));
-        // sstColumn5.setCellValueFactory(new PropertyValueFactory<>("dob"));
-        // sstColumn6.setCellValueFactory(new PropertyValueFactory<>("major"));
-        // this.searchStudentTable.getColumns().add(sstColumn1);
-        // this.searchStudentTable.getColumns().add(sstColumn2);
-        // this.searchStudentTable.getColumns().add(sstColumn3);
-        // this.searchStudentTable.getColumns().add(sstColumn4);
-        // this.searchStudentTable.getColumns().add(sstColumn5);
-        // this.searchStudentTable.getColumns().add(sstColumn6);
-        // this.searchStudentTable.getItems().add(new Student("1", "lam", "phu",
-        // "phu@gmail.com", "1111-11-11", "CSC"));
-
-        jbdcSearch.searchStudent(
-                this.searchStudentTable,
-                this.sstColumn1,
-                this.sstColumn2,
-                this.sstColumn3,
-                this.sstColumn4,
-                this.sstColumn5,
-                this.sstColumn6,
-                this.searchStudentCourseTable,
-                this.sstcColumn1,
-                this.sstcColumn2,
-                this.sstcColumn3,
-                this.sstcColumn4,
-                this.sstcColumn5,
-                this.sstcColumn6);
+        this.jbdcSearch.createSearchStudentTable(
+            this.searchStudentTable,
+            this.sstColumn1,
+            this.sstColumn2,
+            this.sstColumn3,
+            this.sstColumn4,
+            this.sstColumn5,
+            this.sstColumn6,
+            this.searchStudentCourseTable,
+            this.sstcColumn1,
+            this.sstcColumn2,
+            this.sstcColumn3,
+            this.sstcColumn4,
+            this.sstcColumn5,
+            this.sstcColumn6);
 
     }
 
@@ -279,11 +261,14 @@ public class DashboardController implements Initializable {
     private void onSubmitSearchStudent(ActionEvent actionEvent) {
         this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.studentIdSS.getText(), this.errorSearchStudent, "Student ID must contain numbers only.")) {
-            this.clear();
-            this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
-            this.errorSearchStudent.setText("Searching for student");
 
-            // connect to sql here.
+            jbdcSearch.searchStudent(this.studentIdSS.getText(), this.searchStudentTable,
+                    this.searchStudentCourseTable);
+
+            // this.clear();
+            // this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
+            // this.errorSearchStudent.setText("Searching for student");
+
         }
 
     }

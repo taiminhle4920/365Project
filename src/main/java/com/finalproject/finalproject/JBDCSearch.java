@@ -1,20 +1,25 @@
 package com.finalproject.finalproject;
 
-import com.finalproject.finalproject.Tables.Student;
-
 import javafx.scene.control.TableView;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class JBDCSearch {
 
-    JDBCConnection connection = new JDBCConnection();
+    JDBCConnection jdbcConnection = new JDBCConnection();
 
     public JBDCSearch() {
     }
 
-    public String searchStudent(
-            TableView<Student> table1,
+    public void createSearchStudentTable(TableView<Student> table1,
             TableColumn<Student, String> column1,
             TableColumn<Student, String> column2,
             TableColumn<Student, String> column3,
@@ -56,7 +61,38 @@ public class JBDCSearch {
         table2.getColumns().add(column11);
         table2.getColumns().add(column12);
         table2.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        return null;
+    }
+
+    public String searchStudent(
+            String sid,
+            TableView<Student> table1,
+            TableView<Student> table2) {
+        try {
+            String sql = "SELECT * FROM student WHERE sid = ?;";
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(sql);
+            preStatement.setInt(1, Integer.valueOf(sid));
+            ResultSet rs = preStatement.executeQuery();
+
+            while (rs.next()) {
+                int tempsid = rs.getInt("sid");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                String email = rs.getString("email");
+                String dob = rs.getString("dob");
+                String major = rs.getString("major");
+                
+                table1.getItems().add(new Student(tempsid, firstName, lastName, email, dob, major));
+            }
+            
+            return null;
+        } catch (SQLException e) {
+            JDBCConnection.printSQLException(e);
+            return e.getMessage();
+        }
+
     }
 
 }

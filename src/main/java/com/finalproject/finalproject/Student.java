@@ -1,8 +1,8 @@
-package com.finalproject.finalproject.Tables;
+package com.finalproject.finalproject;
 
 public class Student {
 
-    private String sid = null;
+    private int sid;
     private String firstName = null;
     private String lastName = null;
     private String email = null;
@@ -12,7 +12,7 @@ public class Student {
     public Student() {
     }
 
-    public Student(String sid, String firstName, String lastName, String email, String dob, String major) {
+    public Student(int sid, String firstName, String lastName, String email, String dob, String major) {
         this.sid = sid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -21,7 +21,7 @@ public class Student {
         this.major = major;
     }
 
-    public String getSid() {
+    public int getSid() {
         return sid;
     }
 
@@ -45,7 +45,7 @@ public class Student {
         return major;
     }
 
-    public void setSid(String sid) {
+    public void setSid(int sid) {
         this.sid = sid;
     }
 
