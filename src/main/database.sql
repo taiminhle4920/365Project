@@ -100,7 +100,7 @@ insert into course (courseLabel, courseName, quarter, schoolYear, pid) values ("
 insert into course (courseLabel, courseName, quarter, schoolYear, pid) values ("CSC 203", "Object Oriented Programming", 3, 2022, 3);
 insert into course (courseLabel, courseName, quarter, schoolYear, pid) values ("CSC 357", "System Programming", 3, 2022, 4);
 
-insert into grade (sid, cid, grade) values (1, 1, 1);
+insert into grade (sid, cid, grade) values (1, 1, 4);
 insert into grade (sid, cid, grade) values (2, 1, 1);
 insert into grade (sid, cid, grade) values (3, 1, 1);
 insert into grade (sid, cid, grade) values (4, 1, 1);
@@ -202,15 +202,15 @@ insert into grade (sid, cid, grade) values (24, 4, 5);
 insert into grade (sid, cid, grade) values (25, 4, 5);
 
 
+
 select distinct
-    grade.cid,
     course.pid,
     course.courseLabel,
     course.courseName,
     course.quarter,
-    course.schoolYear
-from
-    grade,
-    course
+    course.schoolYear,
+    grade.grade
+from grade
+INNER JOIN course ON grade.cid=course.cid
 where
-    grade.cid = 1;
+    grade.sid = 1;
