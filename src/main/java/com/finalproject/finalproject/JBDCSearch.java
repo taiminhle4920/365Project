@@ -75,6 +75,7 @@ public class JBDCSearch {
             preStatement = connect.prepareStatement(sql);
             preStatement.setInt(1, Integer.valueOf(sid));
             ResultSet rs = preStatement.executeQuery();
+            table1.getItems().clear();
 
             while (rs.next()) {
                 int tempsid = rs.getInt("sid");
