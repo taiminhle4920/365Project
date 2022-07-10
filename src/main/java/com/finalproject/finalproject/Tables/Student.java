@@ -2,26 +2,18 @@ package com.finalproject.finalproject.Tables;
 
 public class Student {
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String dob;
-    private String major;
+    private String sid = null;
+    private String firstName = null;
+    private String lastName = null;
+    private String email = null;
+    private String dob = null;
+    private String major = null;
 
     public Student() {
-        this.firstName = "";
-        this.lastName = "";
-        this.email = "";
-        this.dob = "";
-        this.major = "";
     }
 
-    public Student(
-            String firstName,
-            String lastName,
-            String email,
-            String dob,
-            String major) {
+    public Student(String sid, String firstName, String lastName, String email, String dob, String major) {
+        this.sid = sid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -29,28 +21,34 @@ public class Student {
         this.major = major;
     }
 
-    // getters
+    public String getSid() {
+        return sid;
+    }
+
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     public String getLastName() {
-        return this.lastName;
-    }
-
-    public String email() {
-        return this.email;
+        return lastName;
     }
 
     public String getDob() {
-        return this.dob;
+        return dob;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getMajor() {
-        return this.major;
+        return major;
     }
 
-    // setters
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
