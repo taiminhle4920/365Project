@@ -19,12 +19,18 @@ public class DashboardController implements Initializable {
     JBDCRemove jbdcRemove = new JBDCRemove();
     JBDCSearch jbdcSearch = new JBDCSearch();
 
+
+
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.majorAS.getItems().addAll(
                 "Computer Science",
                 "Software Engineer",
-                "Hardware Engineer");
+                "Hardware Engineer",
+                "Information Technology",
+                "Information Systems Security",
+                "Computer Engineering");
 
         this.quarterAC.getItems().addAll("Fall", "Winter", "Spring", "Summer");
         this.quarterSCL.getItems().addAll("Fall", "Winter", "Spring", "Summer");
@@ -37,20 +43,20 @@ public class DashboardController implements Initializable {
         this.gradeAG.getItems().addAll("A", "B", "C", "D", "E", "F");
 
         this.jbdcSearch.createSearchStudentTable(
-            this.searchStudentTable,
-            this.sstColumn1,
-            this.sstColumn2,
-            this.sstColumn3,
-            this.sstColumn4,
-            this.sstColumn5,
-            this.sstColumn6,
-            this.searchStudentCourseTable,
-            this.sstcColumn1,
-            this.sstcColumn2,
-            this.sstcColumn3,
-            this.sstcColumn4,
-            this.sstcColumn5,
-            this.sstcColumn6);
+                this.searchStudentTable,
+                this.sstColumn1,
+                this.sstColumn2,
+                this.sstColumn3,
+                this.sstColumn4,
+                this.sstColumn5,
+                this.sstColumn6,
+                this.searchStudentCourseTable,
+                this.sstcColumn1,
+                this.sstcColumn2,
+                this.sstcColumn3,
+                this.sstcColumn4,
+                this.sstcColumn5,
+                this.sstcColumn6);
 
     }
 

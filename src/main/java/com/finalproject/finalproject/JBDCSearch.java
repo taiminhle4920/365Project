@@ -87,6 +87,19 @@ public class JBDCSearch {
                 
                 table1.getItems().add(new Student(tempsid, firstName, lastName, email, dob, major));
             }
+
+            // sql = "SELECT * FROM student WHERE sid = ?;";
+            // this.jdbcConnection.makeConnection();
+            // Connection connect = this.jdbcConnection.getConnection();
+            // PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            // preStatement = connect.prepareStatement(sql);
+            // preStatement.setInt(1, Integer.valueOf(sid));
+            // ResultSet rs = preStatement.executeQuery();
+            // table1.getItems().clear();
+
+
+
+
             
             return null;
         } catch (SQLException e) {
