@@ -7,8 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -26,13 +24,13 @@ public class JBDCSearch {
             TableColumn<Student, String> column4,
             TableColumn<Student, String> column5,
             TableColumn<Student, String> column6,
-            TableView<Student> table2,
-            TableColumn<Student, String> column7,
-            TableColumn<Student, String> column8,
-            TableColumn<Student, String> column9,
-            TableColumn<Student, String> column10,
-            TableColumn<Student, String> column11,
-            TableColumn<Student, String> column12) {
+            TableView<StudentCourse> table2,
+            TableColumn<StudentCourse, String> column7,
+            TableColumn<StudentCourse, String> column8,
+            TableColumn<StudentCourse, String> column9,
+            TableColumn<StudentCourse, String> column10,
+            TableColumn<StudentCourse, String> column11,
+            TableColumn<StudentCourse, String> column12) {
 
         column1.setCellValueFactory(new PropertyValueFactory<>("sid"));
         column2.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -48,12 +46,12 @@ public class JBDCSearch {
         table1.getColumns().add(column6);
         table1.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        column7.setCellValueFactory(new PropertyValueFactory<>("cid"));
+        column7.setCellValueFactory(new PropertyValueFactory<>("pid"));
         column8.setCellValueFactory(new PropertyValueFactory<>("courseLabel"));
         column9.setCellValueFactory(new PropertyValueFactory<>("courseName"));
-        column10.setCellValueFactory(new PropertyValueFactory<>("pid"));
-        column11.setCellValueFactory(new PropertyValueFactory<>("quarter"));
-        column12.setCellValueFactory(new PropertyValueFactory<>("schoolyear"));
+        column10.setCellValueFactory(new PropertyValueFactory<>("quarter"));
+        column11.setCellValueFactory(new PropertyValueFactory<>("schoolYear"));
+        column12.setCellValueFactory(new PropertyValueFactory<>("grade"));
         table2.getColumns().add(column7);
         table2.getColumns().add(column8);
         table2.getColumns().add(column9);
@@ -66,8 +64,11 @@ public class JBDCSearch {
     public String searchStudent(
             String sid,
             TableView<Student> table1,
-            TableView<Student> table2) {
+            TableView<StudentCourse> table2) {
         try {
+            table1.getItems().clear();
+            table2.getItems().clear();
+
             String sql = "SELECT * FROM student WHERE sid = ?;";
             this.jdbcConnection.makeConnection();
             Connection connect = this.jdbcConnection.getConnection();
@@ -75,7 +76,6 @@ public class JBDCSearch {
             preStatement = connect.prepareStatement(sql);
             preStatement.setInt(1, Integer.valueOf(sid));
             ResultSet rs = preStatement.executeQuery();
-            table1.getItems().clear();
 
             while (rs.next()) {
                 int tempsid = rs.getInt("sid");
@@ -84,23 +84,32 @@ public class JBDCSearch {
                 String email = rs.getString("email");
                 String dob = rs.getString("dob");
                 String major = rs.getString("major");
-                
+
                 table1.getItems().add(new Student(tempsid, firstName, lastName, email, dob, major));
             }
 
-            // sql = "SELECT * FROM student WHERE sid = ?;";
-            // this.jdbcConnection.makeConnection();
-            // Connection connect = this.jdbcConnection.getConnection();
-            // PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
-            // preStatement = connect.prepareStatement(sql);
-            // preStatement.setInt(1, Integer.valueOf(sid));
-            // ResultSet rs = preStatement.executeQuery();
-            // table1.getItems().clear();
+            sql = "SELECT DISTINCT " +
+                    "course.pid, course.courseLabel, course.courseName, course.quarter, course.schoolYear, grade.grade "+
+                    "FROM grade INNER JOIN course on grade.cid = course.cid " +
+                    "WHERE grade.sid = ?;";
 
+            this.jdbcConnection.makeConnection();
+            connect = this.jdbcConnection.getConnection();
+            preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(sql);
+            preStatement.setInt(1, Integer.valueOf(sid));
+            rs = preStatement.executeQuery();
 
+            while (rs.next()) {
+                String pid = rs.getString("pid");
+                String courseLabel = rs.getString("courseLabel");
+                String courseName = rs.getString("courseName");
+                String quarter = rs.getString("quarter");
+                String schoolYear = rs.getString("schoolYear");
+                String grade = rs.getString("grade");
+                table2.getItems().add(new StudentCourse(pid, courseLabel, courseName, quarter, schoolYear, grade));
+            }
 
-
-            
             return null;
         } catch (SQLException e) {
             JDBCConnection.printSQLException(e);

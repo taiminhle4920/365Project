@@ -18,9 +18,6 @@ public class DashboardController implements Initializable {
     JBDCInsert jbdc = new JBDCInsert();
     JBDCRemove jbdcRemove = new JBDCRemove();
     JBDCSearch jbdcSearch = new JBDCSearch();
-
-
-
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -249,19 +246,19 @@ public class DashboardController implements Initializable {
     TableColumn<Student, String> sstColumn6 = new TableColumn<>("Major");
 
     @FXML
-    private TableView<Student> searchStudentCourseTable;
+    private TableView<StudentCourse> searchStudentCourseTable;
     @FXML
-    TableColumn<Student, String> sstcColumn1 = new TableColumn<>("Course ID");
+    TableColumn<StudentCourse, String> sstcColumn1 = new TableColumn<>("Professor ID");
     @FXML
-    TableColumn<Student, String> sstcColumn2 = new TableColumn<>("Course Label");
+    TableColumn<StudentCourse, String> sstcColumn2 = new TableColumn<>("Course Label");
     @FXML
-    TableColumn<Student, String> sstcColumn3 = new TableColumn<>("Course Name");
+    TableColumn<StudentCourse, String> sstcColumn3 = new TableColumn<>("Course Name");
     @FXML
-    TableColumn<Student, String> sstcColumn4 = new TableColumn<>("Professor ID");
+    TableColumn<StudentCourse, String> sstcColumn4 = new TableColumn<>("Quarter");
     @FXML
-    TableColumn<Student, String> sstcColumn5 = new TableColumn<>("Quarter");
+    TableColumn<StudentCourse, String> sstcColumn5 = new TableColumn<>("School Year");
     @FXML
-    TableColumn<Student, String> sstcColumn6 = new TableColumn<>("School Year");
+    TableColumn<StudentCourse, String> sstcColumn6 = new TableColumn<>("Grade");
 
     @FXML
     private void onSubmitSearchStudent(ActionEvent actionEvent) {

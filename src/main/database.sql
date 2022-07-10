@@ -200,3 +200,17 @@ insert into grade (sid, cid, grade) values (22, 4, 4);
 insert into grade (sid, cid, grade) values (23, 4, 5);
 insert into grade (sid, cid, grade) values (24, 4, 5);
 insert into grade (sid, cid, grade) values (25, 4, 5);
+
+
+select distinct
+    grade.cid,
+    course.pid,
+    course.courseLabel,
+    course.courseName,
+    course.quarter,
+    course.schoolYear
+from
+    grade,
+    course
+where
+    grade.cid = 1;
