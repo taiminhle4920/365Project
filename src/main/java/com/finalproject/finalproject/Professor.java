@@ -1,19 +1,19 @@
 package com.finalproject.finalproject;
 
-public class Student {
+public class Professor {
 
-    private String sid;
+    private String pid;
     private String firstName = null;
     private String lastName = null;
     private String email = null;
     private String dob = null;
     private String major = null;
 
-    public Student() {
+    public Professor() {
     }
 
-    public Student(String sid, String firstName, String lastName, String email, String dob, String major) {
-        this.sid = sid;
+    public Professor(String pid, String firstName, String lastName, String email, String dob, String major) {
+        this.pid = pid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -21,8 +21,8 @@ public class Student {
         this.major = major;
     }
 
-    public String getSid() {
-        return sid;
+    public String getPid() {
+        return pid;
     }
 
     public String getFirstName() {
@@ -45,8 +45,8 @@ public class Student {
         return major;
     }
 
-    public void setSid(String sid) {
-        this.sid = sid;
+    public void setPid(String pid) {
+        this.pid = pid;
     }
 
     public void setFirstName(String firstName) {

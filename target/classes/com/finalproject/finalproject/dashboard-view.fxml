@@ -330,24 +330,8 @@
                         <Label fx:id="errorSearchProfessor" text="temp" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
-                  <TableView layoutX="30.0" layoutY="160.0" prefHeight="60.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
-                        <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="First Name" />
-                        <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Last Name" />
-                        <TableColumn maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Email" />
-                        <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Day of Birth" />
-                     </columns>
-                  </TableView>
-                  <TableView layoutX="30.0" layoutY="250.0" prefHeight="300.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course ID" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course Label" />
-                        <TableColumn maxWidth="400.0" minWidth="400.0" prefWidth="400.0" text="Course Name" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Quarter" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="School year" />
-                     </columns>
-                  </TableView>
+                  <TableView fx:id="searchProfessorTable" layoutX="30.0" layoutY="160.0" prefHeight="60.0" prefWidth="800.0" />
+                  <TableView fx:id="searchProfessorCourseTable" layoutX="30.0" layoutY="250.0" prefHeight="300.0" prefWidth="800.0" />
                </children>
             </AnchorPane>
          </content>

@@ -18,7 +18,7 @@ public class DashboardController implements Initializable {
     JBDCInsert jbdc = new JBDCInsert();
     JBDCRemove jbdcRemove = new JBDCRemove();
     JBDCSearch jbdcSearch = new JBDCSearch();
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.majorAS.getItems().addAll(
@@ -54,6 +54,21 @@ public class DashboardController implements Initializable {
                 this.sstcColumn4,
                 this.sstcColumn5,
                 this.sstcColumn6);
+
+        this.jbdcSearch.createSearchProfessorTable(
+                this.searchProfessorTable,
+                this.sptColumn1,
+                this.sptColumn2,
+                this.sptColumn3,
+                this.sptColumn4,
+                this.sptColumn5,
+                this.sptColumn6,
+                this.searchProfessorCourseTable,
+                this.spctColumn1,
+                this.spctColumn2,
+                this.spctColumn3,
+                this.spctColumn4,
+                this.spctColumn5);
 
     }
 
@@ -208,8 +223,6 @@ public class DashboardController implements Initializable {
         if (idValidator(this.courseIDAG.getText(), this.errorAddGrade, "Course ID must contain numbers only.") &&
                 idValidator(this.studentIDAG.getText(), this.errorAddGrade, "Student ID must contain numbers only.") &&
                 choiceBoxPicker(this.gradeAG.getValue(), this.errorAddGrade, "School year field is required.")) {
-
-            // connect to sql here.
             String message = jbdc.insertGrade(this.courseIDAG.getText(), this.studentIDAG.getText(),
                     this.gradeAG.getValue());
             if (message == null) {
@@ -219,9 +232,9 @@ public class DashboardController implements Initializable {
                 this.errorAddGrade.setTextFill(Color.color(1, 0, 0));
                 this.errorAddGrade.setText(message);
             }
-
             this.clear();
         }
+
     }
 
     // Search Student
@@ -264,14 +277,16 @@ public class DashboardController implements Initializable {
     private void onSubmitSearchStudent(ActionEvent actionEvent) {
         this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.studentIdSS.getText(), this.errorSearchStudent, "Student ID must contain numbers only.")) {
-
-            jbdcSearch.searchStudent(this.studentIdSS.getText(), this.searchStudentTable,
+            String message = jbdcSearch.searchStudent(this.studentIdSS.getText(), this.searchStudentTable,
                     this.searchStudentCourseTable);
-
-            // this.clear();
-            // this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
-            // this.errorSearchStudent.setText("Searching for student");
-
+            if (message == null) {
+                this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
+                this.errorSearchStudent.setText("Searching student with ID: " + this.studentIdSS.getText());
+            } else {
+                this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
+                this.errorSearchStudent.setText(message);
+            }
+            this.clear();
         }
 
     }
@@ -281,44 +296,52 @@ public class DashboardController implements Initializable {
     private Label errorSearchProfessor;
     @FXML
     private TextField professorIdSP;
+
     @FXML
-    private TableView<?> tableInstructor;
+    private TableView<Professor> searchProfessorTable;
     @FXML
-    private TableColumn<?, ?> colIDSearchInstructor;
+    private TableColumn<Professor, String> sptColumn1 = new TableColumn<>("Professor ID");
     @FXML
-    private TableColumn<?, ?> colFNSearchInstructor;
+    private TableColumn<Professor, String> sptColumn2 = new TableColumn<>("First Name");
     @FXML
-    private TableColumn<?, ?> colLNSearchInstructor;
+    private TableColumn<Professor, String> sptColumn3 = new TableColumn<>("Last Name");
     @FXML
-    private TableColumn<?, ?> colEmailSearchInstructor;
+    private TableColumn<Professor, String> sptColumn4 = new TableColumn<>("Email");
     @FXML
-    private TableColumn<?, ?> colDOBSearchInstructor;
+    private TableColumn<Professor, String> sptColumn5 = new TableColumn<>("Day of Birth");
     @FXML
-    private TableView<?> tableCourseInstructor;
+    private TableColumn<Professor, String> sptColumn6 = new TableColumn<>("Deparment");
+
     @FXML
-    private TableColumn<?, ?> colCourseIDSearchInstructor;
+    private TableView<ProfessorCourse> searchProfessorCourseTable;
+
     @FXML
-    private TableColumn<?, ?> colCourseLabelSearchInstructor;
+    private TableColumn<ProfessorCourse, String> spctColumn1 = new TableColumn<>("Course ID");
     @FXML
-    private TableColumn<?, ?> colCourseNameSearchInstructor;
+    private TableColumn<ProfessorCourse, String> spctColumn2 = new TableColumn<>("Course Label");
     @FXML
-    private TableColumn<?, ?> colInstructorIDSearchInstructor;
+    private TableColumn<ProfessorCourse, String> spctColumn3 = new TableColumn<>("Course Name");
     @FXML
-    private TableColumn<?, ?> colQuarterSearchInstructor;
+    private TableColumn<ProfessorCourse, String> spctColumn4 = new TableColumn<>("Quarter");
     @FXML
-    private TableColumn<?, ?> colYearSearchInstructor;
+    private TableColumn<ProfessorCourse, String> spctColumn5 = new TableColumn<>("School Year");
 
     @FXML
     private void onSubmitSearchProfessor(ActionEvent actionEvent) {
         this.errorSearchProfessor.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.professorIdSP.getText(), this.errorSearchProfessor,
                 "Professor ID must contain numbers only.")) {
+
+            String message = jbdcSearch.searchProfessor(this.professorIdSP.getText(), this.searchProfessorTable,
+                    this.searchProfessorCourseTable);
+            if (message == null) {
+                this.errorSearchProfessor.setTextFill(Color.color(0, 1, 0));
+                this.errorSearchProfessor.setText("Searching professor with ID: " + this.professorIdSP.getText());
+            } else {
+                this.errorSearchProfessor.setTextFill(Color.color(1, 0, 0));
+                this.errorSearchProfessor.setText(message);
+            }
             this.clear();
-            this.errorSearchProfessor.setTextFill(Color.color(0, 1, 0));
-            this.errorSearchProfessor.setText("Searching for professor");
-
-            // connect to sql here.
-
         }
 
     }
