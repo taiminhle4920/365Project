@@ -44,11 +44,6 @@ public class DashboardController implements Initializable {
 
         this.gradeAG.getItems().addAll("A", "B", "C", "D", "E", "F");
 
-        this.findStudentGpaSlider.setShowTickLabels(true);
-        this.findStudentGpaSlider.setShowTickMarks(true);
-        this.findStudentGpaSlider.setMajorTickUnit(25);
-        this.findStudentGpaSlider.setBlockIncrement(10);
-
         this.findStudentGpaChoiceBox.setValue("All");
         this.findStudentGpaChoiceBox.getItems().addAll(
                 "All",
