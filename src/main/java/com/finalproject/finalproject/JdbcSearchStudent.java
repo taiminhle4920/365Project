@@ -225,5 +225,105 @@ public class JdbcSearchStudent {
         }
 
     }
+    public void createTableSearchStudentInClass(TableView<Student> table,
+                                                TableColumn<Student, String> column1,
+                                                TableColumn<Student, String> column2,
+                                                TableColumn<Student, String> column3,
+                                                TableColumn<Student, String> column4){
+        column1.setCellValueFactory(new PropertyValueFactory<>("sid"));
+        column2.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        column3.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        column4.setCellValueFactory(new PropertyValueFactory<>("grade"));
+
+        table.getColumns().add(column1);
+        table.getColumns().add(column2);
+        table.getColumns().add(column3);
+        table.getColumns().add(column4);
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    }
+
+    public String searchStudentInclass(String cid, TableView<Student>table){
+        try{
+            table.getItems().clear();
+            String query = "SELECT distinct A.sid, A.firstName, A.lastName, B.grade FROM student A, grade B WHERE B.cid=? and B.sid = A.sid;";
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(query);
+            preStatement.setInt(1, Integer.valueOf(cid));
+            ResultSet rs = preStatement.executeQuery();
+            while(rs.next()){
+                String tempsid = rs.getString("sid");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                String grade = rs.getString("grade");
+                table.getItems().add(new Student(tempsid, firstName, lastName, grade));
+            }
+            return null;
+
+        }catch (SQLException e){
+            jdbcConnection.printSQLException(e);
+            return e.getMessage();
+        }
+    }
+
+    public void createTableSearchCourseInQuarter(TableView<CourseSearch> table1,
+                                                 TableColumn<CourseSearch, String> column1,
+                                                 TableColumn<CourseSearch, String> column2,
+                                                 TableColumn<CourseSearch, String> column3,
+                                                 TableColumn<CourseSearch, String> column4,
+                                                 TableColumn<CourseSearch, String> column5,
+                                                 TableColumn<CourseSearch, String> column6){
+
+        column1.setCellValueFactory(new PropertyValueFactory<>("cid"));
+        column2.setCellValueFactory(new PropertyValueFactory<>("courseLabel"));
+        column3.setCellValueFactory(new PropertyValueFactory<>("courseName"));
+        column4.setCellValueFactory(new PropertyValueFactory<>("pid"));
+        column5.setCellValueFactory(new PropertyValueFactory<>("quarter"));
+        column6.setCellValueFactory(new PropertyValueFactory<>("schoolYear"));
+        table1.getColumns().add(column1);
+        table1.getColumns().add(column2);
+        table1.getColumns().add(column3);
+        table1.getColumns().add(column4);
+        table1.getColumns().add(column5);
+        table1.getColumns().add(column6);
+        table1.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    }
+    public String searchCourseInQuarter(String schoolYear, String quarter, TableView<CourseSearch>table){
+        try{
+            table.getItems().clear();
+            String query = "SELECT * FROM course WHERE schoolYear=? AND quarter = ?;";
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(query);
+            preStatement.setInt(1, Integer.valueOf(schoolYear));
+            if(quarter.equals("Fall")){
+                preStatement.setInt(2, 1);
+            }else if(quarter.equals("Winter")){
+                preStatement.setInt(2, 2);
+            }else if(quarter.equals("Spring")){
+                preStatement.setInt(2, 3);
+            }else {
+                preStatement.setInt(2, 4);
+            }
+            System.out.println(preStatement);
+            ResultSet rs = preStatement.executeQuery();
+            while(rs.next()){
+                String tempcid = rs.getString("cid");
+                String courseLabel = rs.getString("courseLabel");
+                String courseName = rs.getString("courseName");
+                String temppid = rs.getString("pid");
+                String tempQuarter = rs.getString("quarter");
+                String year = rs.getString("schoolYear");
+                table.getItems().add(new CourseSearch(tempcid, courseLabel, courseName, temppid, tempQuarter, year));
+            }
+            return null;
+
+        }catch (SQLException e){
+            jdbcConnection.printSQLException(e);
+            return e.getMessage();
+        }
+    }
 
 }

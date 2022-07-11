@@ -9,9 +9,23 @@ public class Student {
     private String dob = null;
     private String major = null;
 
-    public Student() {
+    public String getGrade() {
+        return grade;
     }
 
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    private String grade = null;
+    public Student() {
+    }
+    public Student(String sid, String firstName, String lastName, String grade){
+        this.sid = sid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.grade = grade;
+    }
     public Student(String sid, String firstName, String lastName, String email, String dob, String major) {
         this.sid = sid;
         this.firstName = firstName;

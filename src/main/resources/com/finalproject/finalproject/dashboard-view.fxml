@@ -8,7 +8,6 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -70,16 +69,6 @@
                         <Label fx:id="errorAddStudent" text="temp" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                      </children>
                   </GridPane>
-                  <TableView layoutX="30.0" layoutY="290.0" prefHeight="260.0" prefWidth="800.0">
-                    <columns>
-                      <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
-                      <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="First Name" />
-                        <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Last Name" />
-                        <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Email" />
-                        <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Day of Birth" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Major" />
-                    </columns>
-                  </TableView>
                </children></AnchorPane>
       </content>
     </Tab>
@@ -131,15 +120,6 @@
                         <Label fx:id="errorAddProfessor" text="temp" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                      </children>
                   </GridPane>
-                  <TableView layoutX="30.0" layoutY="290.0" prefHeight="260.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
-                        <TableColumn maxWidth="175.0" minWidth="175.0" prefWidth="175.0" text="First Name" />
-                        <TableColumn maxWidth="175.0" minWidth="175.0" prefWidth="175.0" text="Last Name" />
-                        <TableColumn maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Email" />
-                        <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Day of Birth" />
-                     </columns>
-                  </TableView>
                </children></AnchorPane>
          </content>
       </Tab>
@@ -190,16 +170,6 @@
                         <Label fx:id="errorAddCourse" text="temp" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                      </children>
                   </GridPane>
-                  <TableView layoutX="30.0" layoutY="290.0" prefHeight="260.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course ID" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course Label" />
-                        <TableColumn maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Course Name" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Instructor ID" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Quarter" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="School year" />
-                     </columns>
-                  </TableView>
                </children></AnchorPane>
          </content>
       </Tab>
@@ -244,14 +214,6 @@
                         <ChoiceBox fx:id="gradeAG" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
-                  <TableView layoutX="30.0" layoutY="290.0" prefHeight="260.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Student ID" />
-                        <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="First Name" />
-                        <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Last Name" />
-                        <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Grade" />
-                     </columns>
-                  </TableView>
                </children></AnchorPane>
          </content>
       </Tab>
@@ -372,14 +334,7 @@
                         <Label fx:id="errorSearchStudentsInClass" text="temp" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
-                  <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Student ID" />
-                        <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="First Name" />
-                        <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Last Name" />
-                        <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Grade" />
-                     </columns>
-                  </TableView>
+                  <TableView fx:id="tableCourse" layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0" />
                </children>
             </AnchorPane>
          </content>
@@ -422,16 +377,7 @@
                         <ChoiceBox fx:id="quarterSCL" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
-                  <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course ID" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course Label" />
-                        <TableColumn maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Course Name" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Instructor ID" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Quarter" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="School year" />
-                     </columns>
-                  </TableView>
+                  <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0" />
                </children>
             </AnchorPane>
          </content>
