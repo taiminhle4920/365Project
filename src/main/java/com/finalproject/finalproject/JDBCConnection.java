@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class JDBCConnection {
+public class JdbcConnection {
 
     private Connection connect;
     private PreparedStatement preparedStatement;

@@ -13,11 +13,16 @@ import java.util.ResourceBundle;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+
 public class DashboardController implements Initializable {
 
-    JBDCInsert jbdc = new JBDCInsert();
-    JBDCRemove jbdcRemove = new JBDCRemove();
-    JBDCSearch jbdcSearch = new JBDCSearch();
+    private JdbcInsert jbdcInsert = new JdbcInsert();
+    private JdbcRemove jbdcRemove = new JdbcRemove();
+    private JdbcSearchStudent jdbcSearchStudent = new JdbcSearchStudent();
+    private JdbcSearchStudent jdbcSearchProfessor = new JdbcSearchStudent();
+    private JdbcFindStudentByGpa jdbcFindStudentByGpa = new JdbcFindStudentByGpa();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -39,7 +44,22 @@ public class DashboardController implements Initializable {
 
         this.gradeAG.getItems().addAll("A", "B", "C", "D", "E", "F");
 
-        this.jbdcSearch.createSearchStudentTable(
+        this.findStudentGpaSlider.setShowTickLabels(true);
+        this.findStudentGpaSlider.setShowTickMarks(true);
+        this.findStudentGpaSlider.setMajorTickUnit(25);
+        this.findStudentGpaSlider.setBlockIncrement(10);
+
+        this.findStudentGpaChoiceBox.setValue("All");
+        this.findStudentGpaChoiceBox.getItems().addAll(
+                "All",
+                "Computer Science",
+                "Software Engineer",
+                "Hardware Engineer",
+                "Information Technology",
+                "Information Systems Security",
+                "Computer Engineering");
+
+        this.jdbcSearchStudent.createSearchStudentTable(
                 this.searchStudentTable,
                 this.sstColumn1,
                 this.sstColumn2,
@@ -55,7 +75,7 @@ public class DashboardController implements Initializable {
                 this.sstcColumn5,
                 this.sstcColumn6);
 
-        this.jbdcSearch.createSearchProfessorTable(
+        this.jdbcSearchProfessor.createSearchProfessorTable(
                 this.searchProfessorTable,
                 this.sptColumn1,
                 this.sptColumn2,
@@ -69,6 +89,22 @@ public class DashboardController implements Initializable {
                 this.spctColumn3,
                 this.spctColumn4,
                 this.spctColumn5);
+
+        this.jdbcFindStudentByGpa.createTable(
+                this.findStudentGpaTable,
+                this.fsgtColumn1,
+                this.fsgtColumn2,
+                this.fsgtColumn3,
+                this.fsgtColumn4,
+                this.fsgtColumn5);
+
+        this.findStudentGpaSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, //
+                    Number oldValue, Number newValue) {
+                sliderLabel.setText(String.format("%.2f", newValue));
+            }
+        });
 
     }
 
@@ -100,7 +136,7 @@ public class DashboardController implements Initializable {
                 choiceBoxPicker(this.majorAS.getValue(), this.errorAddStudent, "Major field is required.")) {
 
             // connect to sql here.
-            String message = jbdc.insertStudent(this.firstNameAS.getText(),
+            String message = this.jbdcInsert.insertStudent(this.firstNameAS.getText(),
                     this.lastNameAS.getText(),
                     this.emailAS.getText(),
                     this.dobAS.getValue().toString(),
@@ -143,7 +179,7 @@ public class DashboardController implements Initializable {
                 datePickerValidator(this.dobAP.getValue(), this.errorAddProfessor, "Day of birth field is required.")) {
 
             // connect to sql here.
-            String message = jbdc.insertProfessor(this.firstNameAP.getText(),
+            String message = this.jbdcInsert.insertProfessor(this.firstNameAP.getText(),
                     this.lastNameAP.getText(),
                     this.emailAP.getText(),
                     this.dobAP.getValue().toString());
@@ -189,7 +225,7 @@ public class DashboardController implements Initializable {
                 choiceBoxPicker(this.schoolyearAC.getValue(), this.errorAddCourse, "School year field is required.")) {
 
             // connect to sql here.
-            String message = jbdc.insertCourse(this.courseLabelAC.getText(),
+            String message = this.jbdcInsert.insertCourse(this.courseLabelAC.getText(),
                     this.courseNameAC.getText(),
                     this.instructorIdAC.getText(),
                     this.quarterAC.getValue().toString(),
@@ -223,7 +259,7 @@ public class DashboardController implements Initializable {
         if (idValidator(this.courseIDAG.getText(), this.errorAddGrade, "Course ID must contain numbers only.") &&
                 idValidator(this.studentIDAG.getText(), this.errorAddGrade, "Student ID must contain numbers only.") &&
                 choiceBoxPicker(this.gradeAG.getValue(), this.errorAddGrade, "School year field is required.")) {
-            String message = jbdc.insertGrade(this.courseIDAG.getText(), this.studentIDAG.getText(),
+            String message = this.jbdcInsert.insertGrade(this.courseIDAG.getText(), this.studentIDAG.getText(),
                     this.gradeAG.getValue());
             if (message == null) {
                 this.errorAddGrade.setTextFill(Color.color(0, 1, 0));
@@ -277,7 +313,7 @@ public class DashboardController implements Initializable {
     private void onSubmitSearchStudent(ActionEvent actionEvent) {
         this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.studentIdSS.getText(), this.errorSearchStudent, "Student ID must contain numbers only.")) {
-            String message = jbdcSearch.searchStudent(this.studentIdSS.getText(), this.searchStudentTable,
+            String message = this.jdbcSearchStudent.searchStudent(this.studentIdSS.getText(), this.searchStudentTable,
                     this.searchStudentCourseTable);
             if (message == null) {
                 this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
@@ -332,7 +368,7 @@ public class DashboardController implements Initializable {
         if (idValidator(this.professorIdSP.getText(), this.errorSearchProfessor,
                 "Professor ID must contain numbers only.")) {
 
-            String message = jbdcSearch.searchProfessor(this.professorIdSP.getText(), this.searchProfessorTable,
+            String message = this.jdbcSearchProfessor.searchProfessor(this.professorIdSP.getText(), this.searchProfessorTable,
                     this.searchProfessorCourseTable);
             if (message == null) {
                 this.errorSearchProfessor.setTextFill(Color.color(0, 1, 0));
@@ -413,6 +449,39 @@ public class DashboardController implements Initializable {
             // connect to sql here.
 
         }
+
+    }
+
+    // Find Students by GPA
+    @FXML
+    public Label sliderLabel;
+
+    @FXML
+    private Label errorFindStudentGpa;
+
+    @FXML
+    private Slider findStudentGpaSlider = new Slider(0, 4, 0);
+
+    @FXML
+    private ChoiceBox<String> findStudentGpaChoiceBox = new ChoiceBox<>();
+
+    @FXML
+    private TableView<StudentGpa> findStudentGpaTable = new TableView<>();
+    @FXML
+    private TableColumn<StudentGpa, String> fsgtColumn1 = new TableColumn<>("Student ID");
+    @FXML
+    private TableColumn<StudentGpa, String> fsgtColumn2 = new TableColumn<>("Fist Name");
+    @FXML
+    private TableColumn<StudentGpa, String> fsgtColumn3 = new TableColumn<>("Last Name");
+    @FXML
+    private TableColumn<StudentGpa, String> fsgtColumn4 = new TableColumn<>("Major");
+    @FXML
+    private TableColumn<StudentGpa, String> fsgtColumn5 = new TableColumn<>("GPA");
+
+    @FXML
+    private void onSubmitFindStudentGpa(ActionEvent actionEvent) {
+        
+
 
     }
 
@@ -567,6 +636,12 @@ public class DashboardController implements Initializable {
     @FXML
     private void onClearRemoveProfessor(ActionEvent actionEvent) {
         this.errorRemoveProfessor.setText("");
+        this.clear();
+    }
+
+    @FXML
+    private void onClearFindStudentGpa(ActionEvent actionEvent) {
+        this.errorFindStudentGpa.setText("");
         this.clear();
     }
 

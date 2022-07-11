@@ -9,11 +9,11 @@ import java.sql.SQLException;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class JBDCSearch {
+public class JdbcSearchStudent {
 
-    JDBCConnection jdbcConnection = new JDBCConnection();
+    JdbcConnection jdbcConnection = new JdbcConnection();
 
-    public JBDCSearch() {
+    public JdbcSearchStudent() {
     }
 
     public void createSearchStudentTable(TableView<Student> table1,
@@ -153,7 +153,7 @@ public class JBDCSearch {
 
             return null;
         } catch (SQLException e) {
-            JDBCConnection.printSQLException(e);
+            JdbcConnection.printSQLException(e);
             return e.getMessage();
         }
 
@@ -209,7 +209,7 @@ public class JBDCSearch {
 
             return null;
         } catch (SQLException e) {
-            JDBCConnection.printSQLException(e);
+            JdbcConnection.printSQLException(e);
             return e.getMessage();
         }
 

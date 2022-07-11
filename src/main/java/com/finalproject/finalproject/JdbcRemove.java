@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import static com.finalproject.finalproject.JDBCConnection.printSQLException;
+import static com.finalproject.finalproject.JdbcConnection.printSQLException;
 
-public class JBDCRemove {
+public class JdbcRemove {
 
-    JDBCConnection connection = new JDBCConnection();
+    JdbcConnection connection = new JdbcConnection();
 
     public String removeByStudentID(String studentID) {
         try {

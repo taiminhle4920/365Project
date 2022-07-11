@@ -2,11 +2,11 @@ package com.finalproject.finalproject;
 
 import java.sql.*;
 
-public class JBDCInsert {
+public class JdbcInsert {
 
-    private JDBCConnection jdbcConnection = new JDBCConnection();
+    private JdbcConnection jdbcConnection = new JdbcConnection();
 
-    public JBDCInsert() {
+    public JdbcInsert() {
     }
 
     public String insertStudent(String firstName, String lastName, String email, String dob, String major) {
@@ -29,7 +29,7 @@ public class JBDCInsert {
             connect.close();
             return null;
         } catch (SQLException e) {
-            JDBCConnection.printSQLException(e);
+            JdbcConnection.printSQLException(e);
             return e.getMessage();
         }
     }
@@ -53,7 +53,7 @@ public class JBDCInsert {
             connect.close();
             return null;
         } catch (SQLException e) {
-            JDBCConnection.printSQLException(e);
+            JdbcConnection.printSQLException(e);
             return e.getMessage();
         }
     }
@@ -79,7 +79,7 @@ public class JBDCInsert {
             connect.close();
             return null;
         } catch (SQLException e) {
-            JDBCConnection.printSQLException(e);
+            JdbcConnection.printSQLException(e);
             return e.getMessage();
         }
     }
@@ -113,7 +113,7 @@ public class JBDCInsert {
             connect.close();
             return null;
         } catch (SQLException e) {
-            JDBCConnection.printSQLException(e);
+            JdbcConnection.printSQLException(e);
             return e.getMessage();
         }
     }
