@@ -289,25 +289,8 @@
                         <Label fx:id="errorSearchStudent" text="temp" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
-                  <TableView layoutX="30.0" layoutY="160.0" prefHeight="60.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
-                        <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="First Name" />
-                        <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Last Name" />
-                        <TableColumn maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Email" />
-                        <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Day of Birth" />
-                     </columns>
-                  </TableView>
-                  <TableView layoutX="30.0" layoutY="250.0" prefHeight="300.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course ID" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course Label" />
-                        <TableColumn maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Course Name" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Instructor ID" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Quarter" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="School year" />
-                     </columns>
-                  </TableView>
+                  <TableView layoutX="30.0" layoutY="160.0" prefHeight="60.0" prefWidth="800.0" />
+                  <TableView layoutX="30.0" layoutY="250.0" prefHeight="300.0" prefWidth="800.0" />
                </children>
             </AnchorPane>
          </content>
@@ -347,24 +330,8 @@
                         <Label fx:id="errorSearchProfessor" text="temp" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
-                  <TableView layoutX="30.0" layoutY="160.0" prefHeight="60.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
-                        <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="First Name" />
-                        <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Last Name" />
-                        <TableColumn maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Email" />
-                        <TableColumn maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Day of Birth" />
-                     </columns>
-                  </TableView>
-                  <TableView layoutX="30.0" layoutY="250.0" prefHeight="300.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course ID" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course Label" />
-                        <TableColumn maxWidth="400.0" minWidth="400.0" prefWidth="400.0" text="Course Name" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Quarter" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="School year" />
-                     </columns>
-                  </TableView>
+                  <TableView layoutX="30.0" layoutY="160.0" prefHeight="60.0" prefWidth="800.0" />
+                  <TableView layoutX="30.0" layoutY="250.0" prefHeight="300.0" prefWidth="800.0" />
                </children>
             </AnchorPane>
          </content>
@@ -464,6 +431,88 @@
                         <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="School year" />
                      </columns>
                   </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab closable="false" text="Find Students By GPA">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="571.0" prefWidth="1195.0">
+               <children>
+                  <GridPane layoutX="30.0" layoutY="20.0" prefWidth="350.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="......." GridPane.rowIndex="1" />
+                        <Label prefHeight="27.0" prefWidth="171.0" text="......." GridPane.columnIndex="1">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <TextField prefHeight="26.0" prefWidth="158.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <Button mnemonicParsing="false" text="Clear" />
+                              <Button mnemonicParsing="false" text="Submit" />
+                           </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                        </HBox>
+                        <Label fx:id="warningNP10" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                     </children>
+                  </GridPane>
+                  <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0" />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab closable="false" text="Find Professor By GPA">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="555.0" prefWidth="1100.0">
+               <children>
+                  <GridPane layoutX="30.0" layoutY="20.0" prefWidth="350.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="......." GridPane.rowIndex="1" />
+                        <Label prefHeight="27.0" prefWidth="171.0" text="......." GridPane.columnIndex="1">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <TextField prefHeight="26.0" prefWidth="158.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <Button mnemonicParsing="false" text="Clear" />
+                              <Button mnemonicParsing="false" text="Submit" />
+                           </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                        </HBox>
+                        <Label fx:id="warningNP11" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                     </children>
+                  </GridPane>
+                  <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0" />
                </children>
             </AnchorPane>
          </content>
@@ -581,106 +630,6 @@
                         <Label fx:id="errorRemoveCourse" text="temp" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
-               </children>
-            </AnchorPane>
-         </content>
-      </Tab>
-      <Tab closable="false" text="New Tab 1">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="571.0" prefWidth="1195.0">
-               <children>
-                  <GridPane layoutX="30.0" layoutY="20.0" prefWidth="350.0">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Label text="......." GridPane.rowIndex="1" />
-                        <Label prefHeight="27.0" prefWidth="171.0" text="......." GridPane.columnIndex="1">
-                           <font>
-                              <Font size="21.0" />
-                           </font>
-                        </Label>
-                        <TextField prefHeight="26.0" prefWidth="158.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                           <children>
-                              <Button mnemonicParsing="false" text="Clear" />
-                              <Button mnemonicParsing="false" text="Submit" />
-                           </children>
-                           <padding>
-                              <Insets top="5.0" />
-                           </padding>
-                        </HBox>
-                        <Label fx:id="warningNP10" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                     </children>
-                  </GridPane>
-                  <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course ID" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course Label" />
-                        <TableColumn maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Course Name" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Instructor ID" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Quarter" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="School year" />
-                     </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-         </content>
-      </Tab>
-      <Tab closable="false" text="New Tab 2">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="555.0" prefWidth="1100.0">
-               <children>
-                  <GridPane layoutX="30.0" layoutY="20.0" prefWidth="350.0">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Label text="......." GridPane.rowIndex="1" />
-                        <Label prefHeight="27.0" prefWidth="171.0" text="......." GridPane.columnIndex="1">
-                           <font>
-                              <Font size="21.0" />
-                           </font>
-                        </Label>
-                        <TextField prefHeight="26.0" prefWidth="158.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                           <children>
-                              <Button mnemonicParsing="false" text="Clear" />
-                              <Button mnemonicParsing="false" text="Submit" />
-                           </children>
-                           <padding>
-                              <Insets top="5.0" />
-                           </padding>
-                        </HBox>
-                        <Label fx:id="warningNP11" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                     </children>
-                  </GridPane>
-                  <TableView layoutX="30.0" layoutY="190.0" prefHeight="360.0" prefWidth="800.0">
-                     <columns>
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course ID" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Course Label" />
-                        <TableColumn maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Course Name" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Instructor ID" />
-                        <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Quarter" />
-                        <TableColumn minWidth="100.0" prefWidth="100.0" text="School year" />
-                     </columns>
-                  </TableView>
                </children>
             </AnchorPane>
          </content>
