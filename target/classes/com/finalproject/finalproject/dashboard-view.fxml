@@ -461,8 +461,8 @@
                         </Label>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
-                              <Button fx:id="onClearFindStudentGpa" mnemonicParsing="false" text="Clear" />
-                              <Button fx:id="onSubmitFindStudentGpa" mnemonicParsing="false" text="Submit" />
+                              <Button mnemonicParsing="false" onAction="#onClearFindStudentGpa" text="Clear" />
+                              <Button mnemonicParsing="false" onAction="#onSubmitFindStudentGpa" text="Submit" />
                            </children>
                            <padding>
                               <Insets top="5.0" />

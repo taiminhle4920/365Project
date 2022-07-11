@@ -148,7 +148,18 @@ public class JdbcSearchStudent {
                 String quarter = rs.getString("quarter");
                 String schoolYear = rs.getString("schoolYear");
                 String grade = rs.getString("grade");
-                table2.getItems().add(new StudentCourse(pid, courseLabel, courseName, quarter, schoolYear, grade));
+                String tempGrade = null;
+                if (grade.equals("0.00"))
+                    tempGrade = "F";
+                if (grade.equals("1.00"))
+                    tempGrade = "D";
+                if (grade.equals("2.00"))
+                    tempGrade = "C";
+                if (grade.equals("3.00"))
+                    tempGrade = "B";
+                if (grade.equals("4.00"))
+                    tempGrade = "A";
+                table2.getItems().add(new StudentCourse(pid, courseLabel, courseName, quarter, schoolYear, tempGrade));
             }
 
             return null;

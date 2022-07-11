@@ -368,7 +368,8 @@ public class DashboardController implements Initializable {
         if (idValidator(this.professorIdSP.getText(), this.errorSearchProfessor,
                 "Professor ID must contain numbers only.")) {
 
-            String message = this.jdbcSearchProfessor.searchProfessor(this.professorIdSP.getText(), this.searchProfessorTable,
+            String message = this.jdbcSearchProfessor.searchProfessor(this.professorIdSP.getText(),
+                    this.searchProfessorTable,
                     this.searchProfessorCourseTable);
             if (message == null) {
                 this.errorSearchProfessor.setTextFill(Color.color(0, 1, 0));
@@ -480,9 +481,19 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void onSubmitFindStudentGpa(ActionEvent actionEvent) {
-        
-
-
+        String message = this.jdbcFindStudentByGpa.findStudentByGpa(
+                this.findStudentGpaSlider.getValue(),
+                this.findStudentGpaChoiceBox.getValue(),
+                this.findStudentGpaTable);
+        if (message == null) {
+            this.errorFindStudentGpa.setTextFill(Color.color(0, 1, 0));
+            this.errorFindStudentGpa
+                    .setText("Searching student with GPA higher than: " + this.findStudentGpaSlider.getValue());
+        } else {
+            this.errorFindStudentGpa.setTextFill(Color.color(1, 0, 0));
+            this.errorFindStudentGpa.setText(message);
+        }
+        this.clear();
     }
 
     // Remove student

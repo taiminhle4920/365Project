@@ -17,13 +17,12 @@ public class JdbcFindStudentByGpa {
     }
 
     public void createTable(
-        TableView<StudentGpa> table,
-        TableColumn<StudentGpa, String> column1,
-        TableColumn<StudentGpa, String> column2,
-        TableColumn<StudentGpa, String> column3,
-        TableColumn<StudentGpa, String> column4,
-        TableColumn<StudentGpa, String> column5
-    ) {
+            TableView<StudentGpa> table,
+            TableColumn<StudentGpa, String> column1,
+            TableColumn<StudentGpa, String> column2,
+            TableColumn<StudentGpa, String> column3,
+            TableColumn<StudentGpa, String> column4,
+            TableColumn<StudentGpa, String> column5) {
         column1.setCellValueFactory(new PropertyValueFactory<>("sid"));
         column2.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         column3.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -37,37 +36,62 @@ public class JdbcFindStudentByGpa {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
-    // public String searchProfessor(
-    //         String gpa,
-    //         String major,
-    //         TableView<StudentAvgGpa> table) {
-    //     try {
-    //         table.getItems().clear();
+    public String findStudentByGpa(
+            double gpa,
+            String major,
+            TableView<StudentGpa> table) {
+        try {
+            table.getItems().clear();
 
-    //         String sql = "SELECT * FROM professor WHERE pid = ?;";
-    //         this.jdbcConnection.makeConnection();
-    //         Connection connect = this.jdbcConnection.getConnection();
-    //         PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
-    //         preStatement = connect.prepareStatement(sql);
-    //         preStatement.setString(1, pid);
-    //         ResultSet rs = preStatement.executeQuery();
+            String sql1 = "SELECT student.sid, student.firstName, student.lastName, student.major, AVG(grade.grade) GPA "
+                    +
+                    "FROM grade " +
+                    "INNER JOIN student on grade.sid = student.sid " +
+                    "WHERE student.major = ? " +
+                    "GROUP BY grade.sid " +
+                    "HAVING AVG(grade.grade) > ? " +
+                    "ORDER BY AVG(grade.grade) DESC;";
 
-    //         while (rs.next()) {
-    //             String temppid = rs.getString("pid");
-    //             String firstName = rs.getString("firstName");
-    //             String lastName = rs.getString("lastName");
-    //             String email = rs.getString("email");
-    //             String dob = rs.getString("dob");
+            String sql2 = "SELECT student.sid, student.firstName, student.lastName, student.major, AVG(grade.grade) GPA "
+                    +
+                    "FROM grade " +
+                    "INNER JOIN student on grade.sid = student.sid " +
+                    "GROUP BY grade.sid " +
+                    "HAVING AVG(grade.grade) > ? " +
+                    "ORDER BY AVG(grade.grade) DESC;";
 
-    //             table.getItems().add(new StudentAvgGpa());
-    //         }
+            String tempgpa = String.valueOf(gpa);
 
-    //         return null;
-    //     } catch (SQLException e) {
-    //         JdbcConnection.printSQLException(e);
-    //         return e.getMessage();
-    //     }
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
 
-    // }
+            if (major.equals("All")) {
+                preStatement = connect.prepareStatement(sql2);
+                preStatement.setString(1, tempgpa);
+            } else {
+                preStatement = connect.prepareStatement(sql1);
+                preStatement.setString(1, major);
+                preStatement.setString(2, tempgpa);
+            }
+
+            ResultSet rs = preStatement.executeQuery();
+            while (rs.next()) {
+                String sid = rs.getString("sid");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                String tempmajor = rs.getString("major");
+                String tempgpa2 = rs.getString("gpa");
+
+                table.getItems().add(new StudentGpa(sid, firstName, lastName, tempmajor, tempgpa2));
+            }
+
+            return null;
+        } catch (SQLException e) {
+            JdbcConnection.printSQLException(e);
+            return e.getMessage();
+        }
+
+    }
 
 }

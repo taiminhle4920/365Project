@@ -5,20 +5,18 @@ public class StudentGpa {
     private String sid;
     private String firstName = null;
     private String lastName = null;
-    private String email = null;
-    private String dob = null;
     private String major = null;
+    private String gpa = null;
 
     public StudentGpa() {
     }
 
-    public StudentGpa(String sid, String firstName, String lastName, String email, String dob, String major) {
+    public StudentGpa(String sid, String firstName, String lastName, String major, String gpa) {
         this.sid = sid;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
-        this.dob = dob;
         this.major = major;
+        this.gpa = gpa;
     }
 
     public String getSid() {
@@ -33,16 +31,12 @@ public class StudentGpa {
         return lastName;
     }
 
-    public String getDob() {
-        return dob;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     public String getMajor() {
         return major;
+    }
+
+    public String getGpa() {
+        return gpa;
     }
 
     public void setSid(String sid) {
@@ -57,16 +51,12 @@ public class StudentGpa {
         this.lastName = lastName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
-    }
-
     public void setMajor(String major) {
         this.major = major;
+    }
+
+    public void setGpa(String gpa) {
+        this.gpa = gpa;
     }
 
 }
