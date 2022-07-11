@@ -23,6 +23,7 @@ public class DashboardController implements Initializable {
     private JdbcSearchStudent jdbcSearchStudent = new JdbcSearchStudent();
     private JdbcSearchStudent jdbcSearchProfessor = new JdbcSearchStudent();
     private JdbcFindStudentByGpa jdbcFindStudentByGpa = new JdbcFindStudentByGpa();
+    private JdbcFindProfessorByGpa jdbcFindProfessorByGpa = new JdbcFindProfessorByGpa();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -46,6 +47,16 @@ public class DashboardController implements Initializable {
 
         this.findStudentGpaChoiceBox.setValue("All");
         this.findStudentGpaChoiceBox.getItems().addAll(
+                "All",
+                "Computer Science",
+                "Software Engineer",
+                "Hardware Engineer",
+                "Information Technology",
+                "Information Systems Security",
+                "Computer Engineering");
+
+        this.findProfessorGpaChoiceBox.setValue("All");
+        this.findProfessorGpaChoiceBox.getItems().addAll(
                 "All",
                 "Computer Science",
                 "Software Engineer",
@@ -93,11 +104,27 @@ public class DashboardController implements Initializable {
                 this.fsgtColumn4,
                 this.fsgtColumn5);
 
+        this.jdbcFindProfessorByGpa.createTable(
+                this.findProfessorGpaTable,
+                this.fpbgColumn1,
+                this.fpbgColumn2,
+                this.fpbgColumn3,
+                this.fpbgColumn4, 
+                this.fpbgColumn5);
+
         this.findStudentGpaSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, //
                     Number oldValue, Number newValue) {
                 sliderLabel.setText(String.format("%.2f", newValue));
+            }
+        });
+
+        this.findProfessorGpaSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, //
+                    Number oldValue, Number newValue) {
+                sliderLabel2.setText(String.format("%.2f", newValue));
             }
         });
 
@@ -491,6 +518,49 @@ public class DashboardController implements Initializable {
         this.clear();
     }
 
+    // Find Professors by GPA
+    @FXML
+    public Label sliderLabel2;
+
+    @FXML
+    private Label errorFindProfessorGpa;
+
+    @FXML
+    private Slider findProfessorGpaSlider = new Slider(0, 4, 0);
+
+    @FXML
+    private ChoiceBox<String> findProfessorGpaChoiceBox = new ChoiceBox<>();
+
+    @FXML
+    private TableView<ProfessorGpa> findProfessorGpaTable = new TableView<>();
+    @FXML
+    private TableColumn<ProfessorGpa, String> fpbgColumn1 = new TableColumn<>("Professor ID");
+    @FXML
+    private TableColumn<ProfessorGpa, String> fpbgColumn2 = new TableColumn<>("Fist Name");
+    @FXML
+    private TableColumn<ProfessorGpa, String> fpbgColumn3 = new TableColumn<>("Last Name");
+    @FXML
+    private TableColumn<ProfessorGpa, String> fpbgColumn4 = new TableColumn<>("Department");
+    @FXML
+    private TableColumn<ProfessorGpa, String> fpbgColumn5 = new TableColumn<>("GPA");
+
+    @FXML
+    private void onSubmitFindProfessorGpa(ActionEvent actionEvent) {
+        String message = this.jdbcFindProfessorByGpa.findProfessorByGpa(
+                this.findProfessorGpaSlider.getValue(),
+                this.findProfessorGpaChoiceBox.getValue(),
+                this.findProfessorGpaTable);
+        if (message == null) {
+            this.errorFindProfessorGpa.setTextFill(Color.color(0, 1, 0));
+            this.errorFindProfessorGpa
+                    .setText("Searching professor with class GPA higher than: " + this.findProfessorGpaSlider.getValue());
+        } else {
+            this.errorFindProfessorGpa.setTextFill(Color.color(1, 0, 0));
+            this.errorFindProfessorGpa.setText(message);
+        }
+        this.clear();
+    }
+
     // Remove student
     @FXML
     private Label errorRemoveStudent;
@@ -648,6 +718,12 @@ public class DashboardController implements Initializable {
     @FXML
     private void onClearFindStudentGpa(ActionEvent actionEvent) {
         this.errorFindStudentGpa.setText("");
+        this.clear();
+    }
+
+    @FXML
+    private void onClearFindProfessorGpa(ActionEvent actionEvent) {
+        this.errorFindProfessorGpa.setText("");
         this.clear();
     }
 
