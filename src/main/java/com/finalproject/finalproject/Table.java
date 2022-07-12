@@ -55,10 +55,37 @@ public class Table {
         this.quarter = quarter;
         this.schoolYear = schoolYear;
     }
+    
+    // Search All Students in a Class
+    public void initSearchStudentInClass(String sid, String firstName, String lastName, String grade){
+        this.sid = sid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.grade = grade;
+    }
+
+    // Search All Courses By Professor Id
+    public void initSearchCoursesByProfessorId(String cid, String courseLabel, String courseName, String pid,String quarter, String schoolYear){
+        this.cid = cid;
+        this.courseLabel = courseLabel;
+        this.courseName = courseName;
+        this.pid = pid;
+        this.quarter = quarter;
+        this.schoolYear = schoolYear;
+    }
 
     // Find Students By GPA
     public void initFindStudentByGpa(String sid, String firstName, String lastName, String major, String gpa) {
         this.sid = sid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.major = major;
+        this.gpa = gpa;
+    }
+
+    // Find Professors By Class GPA
+    public void initFindProfessorByClassGpa(String pid, String firstName, String lastName, String major, String gpa) {
+        this.pid = pid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.major = major;

@@ -36,7 +36,7 @@ public class JdbcFindStudentByGpa {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
-    public String queryDataToFindStudentByGpaTable(
+    public String queryDataToTable(
             double gpa,
             String major,
             TableView<Table> table) {

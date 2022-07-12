@@ -17,12 +17,12 @@ public class JdbcFindProfessorByGpa {
     }
 
     public void createTable(
-            TableView<ProfessorGpa> table,
-            TableColumn<ProfessorGpa, String> column1,
-            TableColumn<ProfessorGpa, String> column2,
-            TableColumn<ProfessorGpa, String> column3,
-            TableColumn<ProfessorGpa, String> column4,
-            TableColumn<ProfessorGpa, String> column5) {
+            TableView<Table> table,
+            TableColumn<Table, String> column1,
+            TableColumn<Table, String> column2,
+            TableColumn<Table, String> column3,
+            TableColumn<Table, String> column4,
+            TableColumn<Table, String> column5) {
         column1.setCellValueFactory(new PropertyValueFactory<>("pid"));
         column2.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         column3.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -36,18 +36,18 @@ public class JdbcFindProfessorByGpa {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
-    public String findProfessorByGpa(
+    public String queryDataToTable(
             double gpa,
             String major,
-            TableView<ProfessorGpa> table) {
+            TableView<Table> table) {
         try {
             table.getItems().clear();
 
             String sql = "SELECT * " +
-            "FROM course " +
-            "INNER JOIN grade on grade.cid = course.cid " +
-            "INNER JOIN professor on course.pid = professor.pid " +
-            "WHERE professor.major = ?;";
+                    "FROM course " +
+                    "INNER JOIN grade on grade.cid = course.cid " +
+                    "INNER JOIN professor on course.pid = professor.pid " +
+                    "WHERE professor.major = ?;";
 
             this.jdbcConnection.makeConnection();
             Connection connect = this.jdbcConnection.getConnection();
@@ -57,20 +57,17 @@ public class JdbcFindProfessorByGpa {
             ResultSet rs = preStatement.executeQuery();
 
             while (rs.next()) {
-                String pid = rs.getString("pid");
-                String firstName = rs.getString("firstName");
-                String lastName = rs.getString("lastName");
-                String tempmajor = rs.getString("major");
-                String tempgpa2 = "null";
-                System.out.println(pid);
-                System.out.println(firstName);
-                System.out.println(lastName);
+                String rspid = rs.getString("pid");
+                String rsfirstName = rs.getString("firstName");
+                String rslastName = rs.getString("lastName");
+                String rsmajor = rs.getString("major");
+                String rsgpa = "null";
 
-
-
-                table.getItems().add(new ProfessorGpa(pid, firstName, lastName, tempmajor, tempgpa2));
+                Table newTable = new Table();
+                newTable.initFindProfessorByClassGpa(rspid, rsfirstName, rslastName, rsmajor, rsgpa);
+                table.getItems().add(newTable);
             }
-
+            connect.close();
             return null;
         } catch (SQLException e) {
             JdbcConnection.printSQLException(e);
@@ -80,4 +77,3 @@ public class JdbcFindProfessorByGpa {
     }
 
 }
-
