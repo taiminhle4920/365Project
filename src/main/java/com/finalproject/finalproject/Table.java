@@ -56,7 +56,14 @@ public class Table {
         this.schoolYear = schoolYear;
     }
 
-
+    // Find Students By GPA
+    public void initFindStudentByGpa(String sid, String firstName, String lastName, String major, String gpa) {
+        this.sid = sid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.major = major;
+        this.gpa = gpa;
+    }
 
     // getters
     public String getSid() {

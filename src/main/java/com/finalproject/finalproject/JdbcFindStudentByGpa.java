@@ -17,12 +17,12 @@ public class JdbcFindStudentByGpa {
     }
 
     public void createTable(
-            TableView<StudentGpa> table,
-            TableColumn<StudentGpa, String> column1,
-            TableColumn<StudentGpa, String> column2,
-            TableColumn<StudentGpa, String> column3,
-            TableColumn<StudentGpa, String> column4,
-            TableColumn<StudentGpa, String> column5) {
+            TableView<Table> table,
+            TableColumn<Table, String> column1,
+            TableColumn<Table, String> column2,
+            TableColumn<Table, String> column3,
+            TableColumn<Table, String> column4,
+            TableColumn<Table, String> column5) {
         column1.setCellValueFactory(new PropertyValueFactory<>("sid"));
         column2.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         column3.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -36,10 +36,10 @@ public class JdbcFindStudentByGpa {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
-    public String findStudentByGpa(
+    public String queryDataToFindStudentByGpaTable(
             double gpa,
             String major,
-            TableView<StudentGpa> table) {
+            TableView<Table> table) {
         try {
             table.getItems().clear();
 
@@ -77,13 +77,15 @@ public class JdbcFindStudentByGpa {
 
             ResultSet rs = preStatement.executeQuery();
             while (rs.next()) {
-                String sid = rs.getString("sid");
-                String firstName = rs.getString("firstName");
-                String lastName = rs.getString("lastName");
-                String tempmajor = rs.getString("major");
-                String tempgpa2 = rs.getString("gpa");
+                String rssid = rs.getString("sid");
+                String rsfirstName = rs.getString("firstName");
+                String rslastName = rs.getString("lastName");
+                String rsmajor = rs.getString("major");
+                String rsgpa = rs.getString("gpa");
 
-                table.getItems().add(new StudentGpa(sid, firstName, lastName, tempmajor, tempgpa2));
+                Table newTable = new Table();
+                newTable.initFindStudentByGpa(rssid, rsfirstName, rslastName, rsmajor, rsgpa);
+                table.getItems().add(newTable);
             }
 
             return null;

@@ -508,21 +508,21 @@ public class DashboardController implements Initializable {
     private ChoiceBox<String> findStudentGpaChoiceBox = new ChoiceBox<>();
 
     @FXML
-    private TableView<StudentGpa> findStudentGpaTable = new TableView<>();
+    private TableView<Table> findStudentGpaTable = new TableView<>();
     @FXML
-    private TableColumn<StudentGpa, String> fsgtColumn1 = new TableColumn<>("Student ID");
+    private TableColumn<Table, String> fsgtColumn1 = new TableColumn<>("Student ID");
     @FXML
-    private TableColumn<StudentGpa, String> fsgtColumn2 = new TableColumn<>("Fist Name");
+    private TableColumn<Table, String> fsgtColumn2 = new TableColumn<>("Fist Name");
     @FXML
-    private TableColumn<StudentGpa, String> fsgtColumn3 = new TableColumn<>("Last Name");
+    private TableColumn<Table, String> fsgtColumn3 = new TableColumn<>("Last Name");
     @FXML
-    private TableColumn<StudentGpa, String> fsgtColumn4 = new TableColumn<>("Major");
+    private TableColumn<Table, String> fsgtColumn4 = new TableColumn<>("Major");
     @FXML
-    private TableColumn<StudentGpa, String> fsgtColumn5 = new TableColumn<>("GPA");
+    private TableColumn<Table, String> fsgtColumn5 = new TableColumn<>("GPA");
 
     @FXML
     private void onSubmitFindStudentGpa(ActionEvent actionEvent) {
-        String message = this.jdbcFindStudentByGpa.findStudentByGpa(
+        String message = this.jdbcFindStudentByGpa.queryDataToFindStudentByGpaTable(
                 this.findStudentGpaSlider.getValue(),
                 this.findStudentGpaChoiceBox.getValue(),
                 this.findStudentGpaTable);
