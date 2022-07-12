@@ -20,10 +20,7 @@ public class DashboardController implements Initializable {
 
     private JdbcInsert jbdcInsert = new JdbcInsert();
     private JdbcRemove jbdcRemove = new JdbcRemove();
-    private JdbcSearchStudent jdbcSearchStudent = new JdbcSearchStudent();
-    private JdbcSearchStudent jdbcSearchProfessor = new JdbcSearchStudent();
-    private JdbcFindStudentByGpa jdbcFindStudentByGpa = new JdbcFindStudentByGpa();
-    private JdbcFindProfessorByGpa jdbcFindProfessorByGpa = new JdbcFindProfessorByGpa();
+    private JdbcQuery jdbcSearchStudent = new JdbcQuery();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -65,67 +62,76 @@ public class DashboardController implements Initializable {
                 "Information Systems Security",
                 "Computer Engineering");
 
-        this.jdbcSearchStudent.createSearchStudentTable(
-                this.searchStudentTable,
+        this.jdbcSearchStudent.createNewTable(this.searchStudentTable,
                 this.sstColumn1,
                 this.sstColumn2,
                 this.sstColumn3,
                 this.sstColumn4,
                 this.sstColumn5,
-                this.sstColumn6,
+                this.sstColumn6, "sid", "firstName", "lastName", "email", "dob", "major");
+
+        this.jdbcSearchStudent.createNewTable(
                 this.searchStudentCourseTable,
                 this.sstcColumn1,
                 this.sstcColumn2,
                 this.sstcColumn3,
                 this.sstcColumn4,
                 this.sstcColumn5,
-                this.sstcColumn6);
+                this.sstcColumn6, "pid", "courseLabel", "courseName", "quarter", "schoolYear", "grade");
 
-        this.jdbcSearchProfessor.createSearchProfessorTable(
-                this.searchProfessorTable,
+        this.jdbcSearchStudent.createNewTable(this.searchProfessorTable,
                 this.sptColumn1,
                 this.sptColumn2,
                 this.sptColumn3,
                 this.sptColumn4,
                 this.sptColumn5,
-                this.sptColumn6,
+                this.sptColumn6, "pid", "firstName", "lastName", "email", "dob", "major");
+
+        this.jdbcSearchStudent.createNewTable(
                 this.searchProfessorCourseTable,
                 this.spctColumn1,
                 this.spctColumn2,
                 this.spctColumn3,
                 this.spctColumn4,
-                this.spctColumn5);
+                this.spctColumn5,
+                null, "cid", "courseLabel", "courseName", "quarter", "schoolYear", null);
 
-        this.jdbcFindStudentByGpa.createTable(
-                this.findStudentGpaTable,
-                this.fsgtColumn1,
-                this.fsgtColumn2,
-                this.fsgtColumn3,
-                this.fsgtColumn4,
-                this.fsgtColumn5);
-
-        this.jdbcFindProfessorByGpa.createTable(
-                this.findProfessorGpaTable,
-                this.fpbgColumn1,
-                this.fpbgColumn2,
-                this.fpbgColumn3,
-                this.fpbgColumn4, 
-                this.fpbgColumn5);
-        this.jdbcSearchStudent.createTableSearchStudentInClass(
+        this.jdbcSearchStudent.createNewTable(
                 tableCourse,
                 colStudentIDSearchCourse,
                 colFNSearchCourse,
                 colLNSearchCourse,
-                colGradeSearchCourse);
+                colGradeSearchCourse,
+                null,
+                null, "sid", "firstName", "lastName", "grade", null, null);
 
-        this.jdbcSearchStudent.createTableSearchCourseInQuarter(
+        this.jdbcSearchStudent.createNewTable(
                 tableCourseFindCourse,
                 colCourseIDFindCourse,
                 colCourseLabelFindCourse,
                 colCourseNameFindCourse,
                 colInstructorIDFindCourse,
                 colQuarterFindCourse,
-                colYearFindCourse);
+                colYearFindCourse, "cid", "courseLabel", "courseName", "pid", "quarter", "schoolYear");
+
+        this.jdbcSearchStudent.createNewTable(
+                this.findStudentGpaTable,
+                this.fsgtColumn1,
+                this.fsgtColumn2,
+                this.fsgtColumn3,
+                this.fsgtColumn4,
+                this.fsgtColumn5,
+                null, "sid", "firstName", "lastName", "major", "gpa", null);
+
+        this.jdbcSearchStudent.createNewTable(
+                this.findProfessorGpaTable,
+                this.fpbgColumn1,
+                this.fpbgColumn2,
+                this.fpbgColumn3,
+                this.fpbgColumn4,
+                this.fpbgColumn5, 
+                null, "pid", "firstName", "lastName", "major", "gpa", null);
+
         this.findStudentGpaSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, //
@@ -316,40 +322,41 @@ public class DashboardController implements Initializable {
     private TextField studentIdSS;
 
     @FXML
-    private TableView<Student> searchStudentTable;
+    private TableView<Table> searchStudentTable;
     @FXML
-    TableColumn<Student, String> sstColumn1 = new TableColumn<>("Student ID");
+    TableColumn<Table, String> sstColumn1 = new TableColumn<>("Student ID");
     @FXML
-    TableColumn<Student, String> sstColumn2 = new TableColumn<>("First Name");
+    TableColumn<Table, String> sstColumn2 = new TableColumn<>("First Name");
     @FXML
-    TableColumn<Student, String> sstColumn3 = new TableColumn<>("Last Name");
+    TableColumn<Table, String> sstColumn3 = new TableColumn<>("Last Name");
     @FXML
-    TableColumn<Student, String> sstColumn4 = new TableColumn<>("Email");
+    TableColumn<Table, String> sstColumn4 = new TableColumn<>("Email");
     @FXML
-    TableColumn<Student, String> sstColumn5 = new TableColumn<>("Day of Birth");
+    TableColumn<Table, String> sstColumn5 = new TableColumn<>("Day of Birth");
     @FXML
-    TableColumn<Student, String> sstColumn6 = new TableColumn<>("Major");
+    TableColumn<Table, String> sstColumn6 = new TableColumn<>("Major");
 
     @FXML
-    private TableView<StudentCourse> searchStudentCourseTable;
+    private TableView<Table> searchStudentCourseTable;
     @FXML
-    TableColumn<StudentCourse, String> sstcColumn1 = new TableColumn<>("Professor ID");
+    TableColumn<Table, String> sstcColumn1 = new TableColumn<>("Professor ID");
     @FXML
-    TableColumn<StudentCourse, String> sstcColumn2 = new TableColumn<>("Course Label");
+    TableColumn<Table, String> sstcColumn2 = new TableColumn<>("Course Label");
     @FXML
-    TableColumn<StudentCourse, String> sstcColumn3 = new TableColumn<>("Course Name");
+    TableColumn<Table, String> sstcColumn3 = new TableColumn<>("Course Name");
     @FXML
-    TableColumn<StudentCourse, String> sstcColumn4 = new TableColumn<>("Quarter");
+    TableColumn<Table, String> sstcColumn4 = new TableColumn<>("Quarter");
     @FXML
-    TableColumn<StudentCourse, String> sstcColumn5 = new TableColumn<>("School Year");
+    TableColumn<Table, String> sstcColumn5 = new TableColumn<>("School Year");
     @FXML
-    TableColumn<StudentCourse, String> sstcColumn6 = new TableColumn<>("Grade");
+    TableColumn<Table, String> sstcColumn6 = new TableColumn<>("Grade");
 
     @FXML
     private void onSubmitSearchStudent(ActionEvent actionEvent) {
         this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.studentIdSS.getText(), this.errorSearchStudent, "Student ID must contain numbers only.")) {
-            String message = this.jdbcSearchStudent.searchStudent(this.studentIdSS.getText(), this.searchStudentTable,
+            String message = this.jdbcSearchStudent.queryDataToSearchStudentTable(this.studentIdSS.getText(),
+                    this.searchStudentTable,
                     this.searchStudentCourseTable);
             if (message == null) {
                 this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
@@ -370,33 +377,33 @@ public class DashboardController implements Initializable {
     private TextField professorIdSP;
 
     @FXML
-    private TableView<Professor> searchProfessorTable;
+    private TableView<Table> searchProfessorTable;
     @FXML
-    private TableColumn<Professor, String> sptColumn1 = new TableColumn<>("Professor ID");
+    private TableColumn<Table, String> sptColumn1 = new TableColumn<>("Professor ID");
     @FXML
-    private TableColumn<Professor, String> sptColumn2 = new TableColumn<>("First Name");
+    private TableColumn<Table, String> sptColumn2 = new TableColumn<>("First Name");
     @FXML
-    private TableColumn<Professor, String> sptColumn3 = new TableColumn<>("Last Name");
+    private TableColumn<Table, String> sptColumn3 = new TableColumn<>("Last Name");
     @FXML
-    private TableColumn<Professor, String> sptColumn4 = new TableColumn<>("Email");
+    private TableColumn<Table, String> sptColumn4 = new TableColumn<>("Email");
     @FXML
-    private TableColumn<Professor, String> sptColumn5 = new TableColumn<>("Day of Birth");
+    private TableColumn<Table, String> sptColumn5 = new TableColumn<>("Day of Birth");
     @FXML
-    private TableColumn<Professor, String> sptColumn6 = new TableColumn<>("Deparment");
+    private TableColumn<Table, String> sptColumn6 = new TableColumn<>("Deparment");
 
     @FXML
-    private TableView<ProfessorCourse> searchProfessorCourseTable;
+    private TableView<Table> searchProfessorCourseTable;
 
     @FXML
-    private TableColumn<ProfessorCourse, String> spctColumn1 = new TableColumn<>("Course ID");
+    private TableColumn<Table, String> spctColumn1 = new TableColumn<>("Course ID");
     @FXML
-    private TableColumn<ProfessorCourse, String> spctColumn2 = new TableColumn<>("Course Label");
+    private TableColumn<Table, String> spctColumn2 = new TableColumn<>("Course Label");
     @FXML
-    private TableColumn<ProfessorCourse, String> spctColumn3 = new TableColumn<>("Course Name");
+    private TableColumn<Table, String> spctColumn3 = new TableColumn<>("Course Name");
     @FXML
-    private TableColumn<ProfessorCourse, String> spctColumn4 = new TableColumn<>("Quarter");
+    private TableColumn<Table, String> spctColumn4 = new TableColumn<>("Quarter");
     @FXML
-    private TableColumn<ProfessorCourse, String> spctColumn5 = new TableColumn<>("School Year");
+    private TableColumn<Table, String> spctColumn5 = new TableColumn<>("School Year");
 
     @FXML
     private void onSubmitSearchProfessor(ActionEvent actionEvent) {
@@ -404,7 +411,7 @@ public class DashboardController implements Initializable {
         if (idValidator(this.professorIdSP.getText(), this.errorSearchProfessor,
                 "Professor ID must contain numbers only.")) {
 
-            String message = this.jdbcSearchProfessor.searchProfessor(this.professorIdSP.getText(),
+            String message = this.jdbcSearchStudent.queryDataToSearchProfessorTable(this.professorIdSP.getText(),
                     this.searchProfessorTable,
                     this.searchProfessorCourseTable);
             if (message == null) {
@@ -419,28 +426,29 @@ public class DashboardController implements Initializable {
 
     }
 
-    // Search Student in class
+    // Search All Students in a Class
     @FXML
     private TextField courseIDSSC;
     @FXML
     private Label errorSearchStudentsInClass;
     @FXML
-    private TableView<Student> tableCourse;
+    private TableView<Table> tableCourse;
     @FXML
-    private TableColumn<Student, String> colStudentIDSearchCourse = new TableColumn<>("Student Id");
+    private TableColumn<Table, String> colStudentIDSearchCourse = new TableColumn<>("Student Id");
     @FXML
-    private TableColumn<Student, String> colFNSearchCourse = new TableColumn<>("First Name");
+    private TableColumn<Table, String> colFNSearchCourse = new TableColumn<>("First Name");
     @FXML
-    private TableColumn<Student, String> colLNSearchCourse = new TableColumn<>("Last Name");
+    private TableColumn<Table, String> colLNSearchCourse = new TableColumn<>("Last Name");
     @FXML
-    private TableColumn<Student, String> colGradeSearchCourse = new TableColumn<>("Grade");
+    private TableColumn<Table, String> colGradeSearchCourse = new TableColumn<>("Grade");
 
     @FXML
     private void onSubmitSearchStudentsInClass(ActionEvent actionEvent) {
         this.errorSearchStudentsInClass.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.courseIDSSC.getText(), this.errorSearchStudentsInClass,
                 "Course ID must contain numbers only.")) {
-            String message = this.jdbcSearchStudent.searchStudentInclass(this.courseIDSSC.getText(), tableCourse);
+            String message = this.jdbcSearchStudent.queryDataToSearchStudentsInClass(this.courseIDSSC.getText(),
+                    tableCourse);
             if (message == null) {
                 this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
                 this.errorSearchStudent.setText("Searching student with Course ID: " + this.courseIDSSC.getText());
@@ -453,7 +461,7 @@ public class DashboardController implements Initializable {
 
     }
 
-    // Search Course List
+    // Search All Course By Quarter and School Year
     @FXML
     private Label errorSearchCourseList;
     @FXML
@@ -461,19 +469,19 @@ public class DashboardController implements Initializable {
     @FXML
     private ChoiceBox<String> quarterSCL;
     @FXML
-    private TableView<CourseSearch> tableCourseFindCourse;
+    private TableView<Table> tableCourseFindCourse;
     @FXML
-    private TableColumn<CourseSearch, String> colCourseIDFindCourse = new TableColumn<>("Course ID");
+    private TableColumn<Table, String> colCourseIDFindCourse = new TableColumn<>("Course ID");
     @FXML
-    private TableColumn<CourseSearch, String> colCourseLabelFindCourse = new TableColumn<>("Course Label");
+    private TableColumn<Table, String> colCourseLabelFindCourse = new TableColumn<>("Course Label");
     @FXML
-    private TableColumn<CourseSearch, String> colCourseNameFindCourse = new TableColumn<>("Course Name");
+    private TableColumn<Table, String> colCourseNameFindCourse = new TableColumn<>("Course Name");
     @FXML
-    private TableColumn<CourseSearch, String> colInstructorIDFindCourse = new TableColumn<>("Instructor ID");
+    private TableColumn<Table, String> colInstructorIDFindCourse = new TableColumn<>("Instructor ID");
     @FXML
-    private TableColumn<CourseSearch, String> colQuarterFindCourse = new TableColumn<>("Quarter");
+    private TableColumn<Table, String> colQuarterFindCourse = new TableColumn<>("Quarter");
     @FXML
-    private TableColumn<CourseSearch, String> colYearFindCourse = new TableColumn<>("School Year");
+    private TableColumn<Table, String> colYearFindCourse = new TableColumn<>("School Year");
 
     @FXML
     private void onSubmitSearchCourseList(ActionEvent actionEvent) {
@@ -481,10 +489,13 @@ public class DashboardController implements Initializable {
         if (choiceBoxPicker(this.quarterSCL.getValue(), this.errorSearchCourseList, "Quarter field is required.") &&
                 choiceBoxPicker(this.schoolYearSCL.getValue(), this.errorSearchCourseList,
                         "School year field is required.")) {
-            String message = this.jdbcSearchStudent.searchCourseInQuarter(this.schoolYearSCL.getValue(), this.quarterSCL.getValue(), tableCourseFindCourse);
+            String message = this.jdbcSearchStudent.queryDataToSearchCourseByQuarterAndSchoolYear(
+                    this.schoolYearSCL.getValue(),
+                    this.quarterSCL.getValue(), tableCourseFindCourse);
             if (message == null) {
                 this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
-                this.errorSearchStudent.setText("Searching course list in " + this.quarterSCL.getValue() + ' ' + this.schoolYearSCL.getValue() +": ");
+                this.errorSearchStudent.setText("Searching course list in " + this.quarterSCL.getValue() + ' '
+                        + this.schoolYearSCL.getValue() + ": ");
             } else {
                 this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
                 this.errorSearchStudent.setText(message);
@@ -508,21 +519,21 @@ public class DashboardController implements Initializable {
     private ChoiceBox<String> findStudentGpaChoiceBox = new ChoiceBox<>();
 
     @FXML
-    private TableView<StudentGpa> findStudentGpaTable = new TableView<>();
+    private TableView<Table> findStudentGpaTable = new TableView<>();
     @FXML
-    private TableColumn<StudentGpa, String> fsgtColumn1 = new TableColumn<>("Student ID");
+    private TableColumn<Table, String> fsgtColumn1 = new TableColumn<>("Student ID");
     @FXML
-    private TableColumn<StudentGpa, String> fsgtColumn2 = new TableColumn<>("Fist Name");
+    private TableColumn<Table, String> fsgtColumn2 = new TableColumn<>("Fist Name");
     @FXML
-    private TableColumn<StudentGpa, String> fsgtColumn3 = new TableColumn<>("Last Name");
+    private TableColumn<Table, String> fsgtColumn3 = new TableColumn<>("Last Name");
     @FXML
-    private TableColumn<StudentGpa, String> fsgtColumn4 = new TableColumn<>("Major");
+    private TableColumn<Table, String> fsgtColumn4 = new TableColumn<>("Major");
     @FXML
-    private TableColumn<StudentGpa, String> fsgtColumn5 = new TableColumn<>("GPA");
+    private TableColumn<Table, String> fsgtColumn5 = new TableColumn<>("GPA");
 
     @FXML
     private void onSubmitFindStudentGpa(ActionEvent actionEvent) {
-        String message = this.jdbcFindStudentByGpa.findStudentByGpa(
+        String message = this.jdbcSearchStudent.queryDataToFindStudentsByGpaAndMajor(
                 this.findStudentGpaSlider.getValue(),
                 this.findStudentGpaChoiceBox.getValue(),
                 this.findStudentGpaTable);
@@ -537,7 +548,7 @@ public class DashboardController implements Initializable {
         this.clear();
     }
 
-    // Find Professors by GPA
+    // Find Professors by Class GPA
     @FXML
     public Label sliderLabel2;
 
@@ -551,28 +562,29 @@ public class DashboardController implements Initializable {
     private ChoiceBox<String> findProfessorGpaChoiceBox = new ChoiceBox<>();
 
     @FXML
-    private TableView<ProfessorGpa> findProfessorGpaTable = new TableView<>();
+    private TableView<Table> findProfessorGpaTable = new TableView<>();
     @FXML
-    private TableColumn<ProfessorGpa, String> fpbgColumn1 = new TableColumn<>("Professor ID");
+    private TableColumn<Table, String> fpbgColumn1 = new TableColumn<>("Professor ID");
     @FXML
-    private TableColumn<ProfessorGpa, String> fpbgColumn2 = new TableColumn<>("Fist Name");
+    private TableColumn<Table, String> fpbgColumn2 = new TableColumn<>("Fist Name");
     @FXML
-    private TableColumn<ProfessorGpa, String> fpbgColumn3 = new TableColumn<>("Last Name");
+    private TableColumn<Table, String> fpbgColumn3 = new TableColumn<>("Last Name");
     @FXML
-    private TableColumn<ProfessorGpa, String> fpbgColumn4 = new TableColumn<>("Department");
+    private TableColumn<Table, String> fpbgColumn4 = new TableColumn<>("Department");
     @FXML
-    private TableColumn<ProfessorGpa, String> fpbgColumn5 = new TableColumn<>("GPA");
+    private TableColumn<Table, String> fpbgColumn5 = new TableColumn<>("GPA");
 
     @FXML
     private void onSubmitFindProfessorGpa(ActionEvent actionEvent) {
-        String message = this.jdbcFindProfessorByGpa.findProfessorByGpa(
+        String message = this.jdbcSearchStudent.queryToFindProfessorsByClassGpaAndDepartment(
                 this.findProfessorGpaSlider.getValue(),
                 this.findProfessorGpaChoiceBox.getValue(),
                 this.findProfessorGpaTable);
         if (message == null) {
             this.errorFindProfessorGpa.setTextFill(Color.color(0, 1, 0));
             this.errorFindProfessorGpa
-                    .setText("Searching professor with class GPA higher than: " + this.findProfessorGpaSlider.getValue());
+                    .setText("Searching professor with class GPA higher than: "
+                            + this.findProfessorGpaSlider.getValue());
         } else {
             this.errorFindProfessorGpa.setTextFill(Color.color(1, 0, 0));
             this.errorFindProfessorGpa.setText(message);
@@ -585,27 +597,6 @@ public class DashboardController implements Initializable {
     private Label errorRemoveStudent;
     @FXML
     private TextField studentIdRS;
-
-    @FXML
-    private TableView<Student> removeStudentTable = new TableView<Student>();
-
-    @FXML
-    private TableColumn<Student, String> column1RemoveStudent = new TableColumn<>("ID");
-
-    @FXML
-    private TableColumn<Student, String> column2RemoveStudent = new TableColumn<>("First Name");
-
-    @FXML
-    private TableColumn<Student, String> column3RemoveStudent = new TableColumn<>("Last Name");
-
-    @FXML
-    private TableColumn<Student, String> column4RemoveStudent = new TableColumn<>("Email");
-
-    @FXML
-    private TableColumn<Student, String> column5RemoveStudent = new TableColumn<>("Day of Birth");
-
-    @FXML
-    private TableColumn<Student, String> column6RemoveStudent = new TableColumn<>("Major");
 
     @FXML
     private void onSubmitRemoveStudent(ActionEvent actionEvent) {
