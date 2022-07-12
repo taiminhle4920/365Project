@@ -37,6 +37,26 @@ public class Table {
         this.grade = grade;
     }    
 
+    // Search Professor Table
+    public void initSearchProfessorTable(String pid, String firstName, String lastName, String email, String dob, String major) {
+        this.pid = pid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.dob = dob;
+        this.major = major;
+    }
+
+    // Search Professor Course Table
+    public void initSearchProfessorCourseTable(String cid, String courseLabel, String courseName, String quarter, String schoolYear) {
+        this.cid = cid;
+        this.courseLabel = courseLabel;
+        this.courseName = courseName;
+        this.quarter = quarter;
+        this.schoolYear = schoolYear;
+    }
+
+
 
     // getters
     public String getSid() {

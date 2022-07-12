@@ -16,19 +16,19 @@ public class JdbcSearchProfessor {
     public JdbcSearchProfessor() {
     }
 
-    public void createSearchProfessorTable(TableView<Professor> table1,
-            TableColumn<Professor, String> column1,
-            TableColumn<Professor, String> column2,
-            TableColumn<Professor, String> column3,
-            TableColumn<Professor, String> column4,
-            TableColumn<Professor, String> column5,
-            TableColumn<Professor, String> column6,
-            TableView<ProfessorCourse> table2,
-            TableColumn<ProfessorCourse, String> column7,
-            TableColumn<ProfessorCourse, String> column8,
-            TableColumn<ProfessorCourse, String> column9,
-            TableColumn<ProfessorCourse, String> column10,
-            TableColumn<ProfessorCourse, String> column11) {
+    public void createTable(TableView<Table> table1,
+            TableColumn<Table, String> column1,
+            TableColumn<Table, String> column2,
+            TableColumn<Table, String> column3,
+            TableColumn<Table, String> column4,
+            TableColumn<Table, String> column5,
+            TableColumn<Table, String> column6,
+            TableView<Table> table2,
+            TableColumn<Table, String> column7,
+            TableColumn<Table, String> column8,
+            TableColumn<Table, String> column9,
+            TableColumn<Table, String> column10,
+            TableColumn<Table, String> column11) {
 
         column1.setCellValueFactory(new PropertyValueFactory<>("pid"));
         column2.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -57,10 +57,10 @@ public class JdbcSearchProfessor {
         table2.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
-    public String searchProfessor(
+    public String queryDataToTable(
             String pid,
-            TableView<Professor> table1,
-            TableView<ProfessorCourse> table2) {
+            TableView<Table> table1,
+            TableView<Table> table2) {
         try {
             table1.getItems().clear();
             table2.getItems().clear();
@@ -74,14 +74,16 @@ public class JdbcSearchProfessor {
             ResultSet rs = preStatement.executeQuery();
 
             while (rs.next()) {
-                String temppid = rs.getString("pid");
-                String firstName = rs.getString("firstName");
-                String lastName = rs.getString("lastName");
-                String email = rs.getString("email");
-                String dob = rs.getString("dob");
-                String major = rs.getString("major");
+                String rspid = rs.getString("pid");
+                String rsfirstName = rs.getString("firstName");
+                String rslastName = rs.getString("lastName");
+                String rsemail = rs.getString("email");
+                String rsdob = rs.getString("dob");
+                String rsmajor = rs.getString("major");
 
-                table1.getItems().add(new Professor(temppid, firstName, lastName, email, dob, major));
+                Table newTable1 = new Table();
+                newTable1.initSearchProfessorTable(rspid, rsfirstName, rslastName, rsemail, rsdob, rsmajor);
+                table1.getItems().add(newTable1);
             }
 
             sql = "select distinct course.cid, course.courseLabel, course.courseName, course.quarter, course.schoolYear "
@@ -89,22 +91,22 @@ public class JdbcSearchProfessor {
                     "from course " +
                     "where course.pid = ?;";
 
-            this.jdbcConnection.makeConnection();
-            connect = this.jdbcConnection.getConnection();
-            preStatement = this.jdbcConnection.getPreparedStatement();
             preStatement = connect.prepareStatement(sql);
             preStatement.setInt(1, Integer.valueOf(pid));
             rs = preStatement.executeQuery();
 
             while (rs.next()) {
-                String cid = rs.getString("cid");
-                String courseLabel = rs.getString("courseLabel");
-                String courseName = rs.getString("courseName");
-                String quarter = rs.getString("quarter");
-                String schoolYear = rs.getString("schoolYear");
-                table2.getItems().add(new ProfessorCourse(cid, courseLabel, courseName, quarter, schoolYear));
+                String rscid = rs.getString("cid");
+                String rscourseLabel = rs.getString("courseLabel");
+                String rscourseName = rs.getString("courseName");
+                String rsquarter = rs.getString("quarter");
+                String rsschoolYear = rs.getString("schoolYear");
+                Table newTable2 = new Table();
+                newTable2.initSearchProfessorCourseTable(rscid, rscourseLabel, rscourseName, rsquarter, rsschoolYear);
+                table2.getItems().add(newTable2);
             }
 
+            connect.close();
             return null;
         } catch (SQLException e) {
             JdbcConnection.printSQLException(e);

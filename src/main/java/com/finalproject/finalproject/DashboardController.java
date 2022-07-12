@@ -21,7 +21,7 @@ public class DashboardController implements Initializable {
     private JdbcInsert jbdcInsert = new JdbcInsert();
     private JdbcRemove jbdcRemove = new JdbcRemove();
     private JdbcSearchStudent jdbcSearchStudent = new JdbcSearchStudent();
-    private JdbcSearchStudent jdbcSearchProfessor = new JdbcSearchStudent();
+    private JdbcSearchProfessor jdbcSearchProfessor = new JdbcSearchProfessor();
     private JdbcFindStudentByGpa jdbcFindStudentByGpa = new JdbcFindStudentByGpa();
     private JdbcFindProfessorByGpa jdbcFindProfessorByGpa = new JdbcFindProfessorByGpa();
 
@@ -65,7 +65,7 @@ public class DashboardController implements Initializable {
                 "Information Systems Security",
                 "Computer Engineering");
 
-        this.jdbcSearchStudent.createSearchStudentTable(
+        this.jdbcSearchStudent.createTable(
                 this.searchStudentTable,
                 this.sstColumn1,
                 this.sstColumn2,
@@ -81,7 +81,7 @@ public class DashboardController implements Initializable {
                 this.sstcColumn5,
                 this.sstcColumn6);
 
-        this.jdbcSearchProfessor.createSearchProfessorTable(
+        this.jdbcSearchProfessor.createTable(
                 this.searchProfessorTable,
                 this.sptColumn1,
                 this.sptColumn2,
@@ -349,7 +349,7 @@ public class DashboardController implements Initializable {
     private void onSubmitSearchStudent(ActionEvent actionEvent) {
         this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.studentIdSS.getText(), this.errorSearchStudent, "Student ID must contain numbers only.")) {
-            String message = this.jdbcSearchStudent.searchStudent(this.studentIdSS.getText(), this.searchStudentTable,
+            String message = this.jdbcSearchStudent.queryDataToTable(this.studentIdSS.getText(), this.searchStudentTable,
                     this.searchStudentCourseTable);
             if (message == null) {
                 this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
@@ -370,33 +370,33 @@ public class DashboardController implements Initializable {
     private TextField professorIdSP;
 
     @FXML
-    private TableView<Professor> searchProfessorTable;
+    private TableView<Table> searchProfessorTable;
     @FXML
-    private TableColumn<Professor, String> sptColumn1 = new TableColumn<>("Professor ID");
+    private TableColumn<Table, String> sptColumn1 = new TableColumn<>("Professor ID");
     @FXML
-    private TableColumn<Professor, String> sptColumn2 = new TableColumn<>("First Name");
+    private TableColumn<Table, String> sptColumn2 = new TableColumn<>("First Name");
     @FXML
-    private TableColumn<Professor, String> sptColumn3 = new TableColumn<>("Last Name");
+    private TableColumn<Table, String> sptColumn3 = new TableColumn<>("Last Name");
     @FXML
-    private TableColumn<Professor, String> sptColumn4 = new TableColumn<>("Email");
+    private TableColumn<Table, String> sptColumn4 = new TableColumn<>("Email");
     @FXML
-    private TableColumn<Professor, String> sptColumn5 = new TableColumn<>("Day of Birth");
+    private TableColumn<Table, String> sptColumn5 = new TableColumn<>("Day of Birth");
     @FXML
-    private TableColumn<Professor, String> sptColumn6 = new TableColumn<>("Deparment");
+    private TableColumn<Table, String> sptColumn6 = new TableColumn<>("Deparment");
 
     @FXML
-    private TableView<ProfessorCourse> searchProfessorCourseTable;
+    private TableView<Table> searchProfessorCourseTable;
 
     @FXML
-    private TableColumn<ProfessorCourse, String> spctColumn1 = new TableColumn<>("Course ID");
+    private TableColumn<Table, String> spctColumn1 = new TableColumn<>("Course ID");
     @FXML
-    private TableColumn<ProfessorCourse, String> spctColumn2 = new TableColumn<>("Course Label");
+    private TableColumn<Table, String> spctColumn2 = new TableColumn<>("Course Label");
     @FXML
-    private TableColumn<ProfessorCourse, String> spctColumn3 = new TableColumn<>("Course Name");
+    private TableColumn<Table, String> spctColumn3 = new TableColumn<>("Course Name");
     @FXML
-    private TableColumn<ProfessorCourse, String> spctColumn4 = new TableColumn<>("Quarter");
+    private TableColumn<Table, String> spctColumn4 = new TableColumn<>("Quarter");
     @FXML
-    private TableColumn<ProfessorCourse, String> spctColumn5 = new TableColumn<>("School Year");
+    private TableColumn<Table, String> spctColumn5 = new TableColumn<>("School Year");
 
     @FXML
     private void onSubmitSearchProfessor(ActionEvent actionEvent) {
@@ -404,7 +404,7 @@ public class DashboardController implements Initializable {
         if (idValidator(this.professorIdSP.getText(), this.errorSearchProfessor,
                 "Professor ID must contain numbers only.")) {
 
-            String message = this.jdbcSearchProfessor.searchProfessor(this.professorIdSP.getText(),
+            String message = this.jdbcSearchProfessor.queryDataToTable(this.professorIdSP.getText(),
                     this.searchProfessorTable,
                     this.searchProfessorCourseTable);
             if (message == null) {
