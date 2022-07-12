@@ -18,27 +18,30 @@ public class Table {
     private String gpa = null;
 
     // Search Student Table
-    public void initSearchStudentTable(String sid, String firstName, String lastName, String email, String dob, String major) {
+    public void initSearchStudentTable(String sid, String firstName, String lastName, String email, String dob,
+            String major) {
         this.sid = sid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.dob = dob;
         this.major = major;
-    }    
+    }
 
     // Search Student Course Table
-    public void initSearchStudentCourseTable(String pid, String courseLabel, String courseName, String quarter, String schoolYear, String grade) {
+    public void initSearchStudentCourseTable(String pid, String courseLabel, String courseName, String quarter,
+            String schoolYear, String grade) {
         this.pid = pid;
         this.courseLabel = courseLabel;
         this.courseName = courseName;
         this.quarter = quarter;
         this.schoolYear = schoolYear;
         this.grade = grade;
-    }    
+    }
 
     // Search Professor Table
-    public void initSearchProfessorTable(String pid, String firstName, String lastName, String email, String dob, String major) {
+    public void initSearchProfessorTable(String pid, String firstName, String lastName, String email, String dob,
+            String major) {
         this.pid = pid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,16 +51,17 @@ public class Table {
     }
 
     // Search Professor Course Table
-    public void initSearchProfessorCourseTable(String cid, String courseLabel, String courseName, String quarter, String schoolYear) {
+    public void initSearchProfessorCourseTable(String cid, String courseLabel, String courseName, String quarter,
+            String schoolYear) {
         this.cid = cid;
         this.courseLabel = courseLabel;
         this.courseName = courseName;
         this.quarter = quarter;
         this.schoolYear = schoolYear;
     }
-    
+
     // Search All Students in a Class
-    public void initSearchStudentInClass(String sid, String firstName, String lastName, String grade){
+    public void initSearchStudentInClass(String sid, String firstName, String lastName, String grade) {
         this.sid = sid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -65,7 +69,8 @@ public class Table {
     }
 
     // Search All Courses By Professor Id
-    public void initSearchCoursesByProfessorId(String cid, String courseLabel, String courseName, String pid,String quarter, String schoolYear){
+    public void initSearchCoursesByProfessorId(String cid, String courseLabel, String courseName, String pid,
+            String quarter, String schoolYear) {
         this.cid = cid;
         this.courseLabel = courseLabel;
         this.courseName = courseName;

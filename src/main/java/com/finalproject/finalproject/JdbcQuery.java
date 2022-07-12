@@ -59,6 +59,7 @@ public class JdbcQuery {
 
     }
 
+    // Search Students Table
     public String queryDataToSearchStudentTable(
             String sid,
             TableView<Table> table1,
@@ -115,6 +116,7 @@ public class JdbcQuery {
                     rsgrade = "B";
                 if (rsgrade.equals("4.00"))
                     rsgrade = "A";
+
                 Table newTable2 = new Table();
                 newTable2.initSearchStudentCourseTable(rspid, rscourseLabel, rscourseName, rsquarter, rsschoolYear,
                         rsgrade);
@@ -130,82 +132,68 @@ public class JdbcQuery {
 
     }
 
+    // Search Professors Table
     public String queryDataToSearchProfessorTable(
-        String pid,
-        TableView<Table> table1,
-        TableView<Table> table2) {
-    try {
-        table1.getItems().clear();
-        table2.getItems().clear();
+            String pid,
+            TableView<Table> table1,
+            TableView<Table> table2) {
+        try {
+            table1.getItems().clear();
+            table2.getItems().clear();
 
-        String sql = "SELECT * FROM professor WHERE pid = ?;";
-        this.jdbcConnection.makeConnection();
-        Connection connect = this.jdbcConnection.getConnection();
-        PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
-        preStatement = connect.prepareStatement(sql);
-        preStatement.setString(1, pid);
-        ResultSet rs = preStatement.executeQuery();
+            String sql = "SELECT * FROM professor WHERE pid = ?;";
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(sql);
+            preStatement.setString(1, pid);
+            ResultSet rs = preStatement.executeQuery();
 
-        while (rs.next()) {
-            String rspid = rs.getString("pid");
-            String rsfirstName = rs.getString("firstName");
-            String rslastName = rs.getString("lastName");
-            String rsemail = rs.getString("email");
-            String rsdob = rs.getString("dob");
-            String rsmajor = rs.getString("major");
+            while (rs.next()) {
+                String rspid = rs.getString("pid");
+                String rsfirstName = rs.getString("firstName");
+                String rslastName = rs.getString("lastName");
+                String rsemail = rs.getString("email");
+                String rsdob = rs.getString("dob");
+                String rsmajor = rs.getString("major");
 
-            Table newTable1 = new Table();
-            newTable1.initSearchProfessorTable(rspid, rsfirstName, rslastName, rsemail, rsdob, rsmajor);
-            table1.getItems().add(newTable1);
+                Table newTable1 = new Table();
+                newTable1.initSearchProfessorTable(rspid, rsfirstName, rslastName, rsemail, rsdob, rsmajor);
+                table1.getItems().add(newTable1);
+            }
+
+            sql = "select distinct course.cid, course.courseLabel, course.courseName, course.quarter, course.schoolYear "
+                    +
+                    "from course " +
+                    "where course.pid = ?;";
+
+            preStatement = connect.prepareStatement(sql);
+            preStatement.setInt(1, Integer.valueOf(pid));
+            rs = preStatement.executeQuery();
+
+            while (rs.next()) {
+                String rscid = rs.getString("cid");
+                String rscourseLabel = rs.getString("courseLabel");
+                String rscourseName = rs.getString("courseName");
+                String rsquarter = rs.getString("quarter");
+                String rsschoolYear = rs.getString("schoolYear");
+                Table newTable2 = new Table();
+
+                newTable2.initSearchProfessorCourseTable(rscid, rscourseLabel, rscourseName, rsquarter, rsschoolYear);
+                table2.getItems().add(newTable2);
+            }
+
+            connect.close();
+            return null;
+        } catch (SQLException e) {
+            JdbcConnection.printSQLException(e);
+            return e.getMessage();
         }
 
-        sql = "select distinct course.cid, course.courseLabel, course.courseName, course.quarter, course.schoolYear "
-                +
-                "from course " +
-                "where course.pid = ?;";
-
-        preStatement = connect.prepareStatement(sql);
-        preStatement.setInt(1, Integer.valueOf(pid));
-        rs = preStatement.executeQuery();
-
-        while (rs.next()) {
-            String rscid = rs.getString("cid");
-            String rscourseLabel = rs.getString("courseLabel");
-            String rscourseName = rs.getString("courseName");
-            String rsquarter = rs.getString("quarter");
-            String rsschoolYear = rs.getString("schoolYear");
-            Table newTable2 = new Table();
-            newTable2.initSearchProfessorCourseTable(rscid, rscourseLabel, rscourseName, rsquarter, rsschoolYear);
-            table2.getItems().add(newTable2);
-        }
-
-        connect.close();
-        return null;
-    } catch (SQLException e) {
-        JdbcConnection.printSQLException(e);
-        return e.getMessage();
     }
 
-}
-
-    public void createTableSearchStudentInClass(TableView<Table> table,
-            TableColumn<Table, String> column1,
-            TableColumn<Table, String> column2,
-            TableColumn<Table, String> column3,
-            TableColumn<Table, String> column4) {
-        column1.setCellValueFactory(new PropertyValueFactory<>("sid"));
-        column2.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        column3.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        column4.setCellValueFactory(new PropertyValueFactory<>("grade"));
-
-        table.getColumns().add(column1);
-        table.getColumns().add(column2);
-        table.getColumns().add(column3);
-        table.getColumns().add(column4);
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-    }
-
-    public String searchStudentsInClass(
+    // Search Students in Class
+    public String queryDataToSearchStudentsInClass(
             String cid,
             TableView<Table> table) {
         try {
@@ -240,36 +228,15 @@ public class JdbcQuery {
         }
     }
 
-    public void createTableSearchCourseInQuarter(
-            TableView<Table> table1,
-            TableColumn<Table, String> column1,
-            TableColumn<Table, String> column2,
-            TableColumn<Table, String> column3,
-            TableColumn<Table, String> column4,
-            TableColumn<Table, String> column5,
-            TableColumn<Table, String> column6) {
-        column1.setCellValueFactory(new PropertyValueFactory<>("cid"));
-        column2.setCellValueFactory(new PropertyValueFactory<>("courseLabel"));
-        column3.setCellValueFactory(new PropertyValueFactory<>("courseName"));
-        column4.setCellValueFactory(new PropertyValueFactory<>("pid"));
-        column5.setCellValueFactory(new PropertyValueFactory<>("quarter"));
-        column6.setCellValueFactory(new PropertyValueFactory<>("schoolYear"));
-        table1.getColumns().add(column1);
-        table1.getColumns().add(column2);
-        table1.getColumns().add(column3);
-        table1.getColumns().add(column4);
-        table1.getColumns().add(column5);
-        table1.getColumns().add(column6);
-        table1.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-    }
-
-    public String searchCourseByQuarterAndSchoolYear(
+    // Search Course By Quarter And School Year
+    public String queryDataToSearchCourseByQuarterAndSchoolYear(
             String schoolYear,
             String quarter,
             TableView<Table> table) {
         try {
             table.getItems().clear();
             String query = "SELECT * FROM course WHERE schoolYear = ? AND quarter = ?;";
+
             this.jdbcConnection.makeConnection();
             Connection connect = this.jdbcConnection.getConnection();
             PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
@@ -298,6 +265,106 @@ public class JdbcQuery {
             JdbcConnection.printSQLException(e);
             return e.getMessage();
         }
+    }
+
+    // Find Students by GPA and Major
+    public String queryDataToFindStudentsByGpaAndMajor(
+            double gpa,
+            String major,
+            TableView<Table> table) {
+        try {
+            table.getItems().clear();
+            String sql1 = "SELECT student.sid, student.firstName, student.lastName, student.major, AVG(grade.grade) GPA "
+                    +
+                    "FROM grade " +
+                    "INNER JOIN student on grade.sid = student.sid " +
+                    "WHERE student.major = ? " +
+                    "GROUP BY grade.sid " +
+                    "HAVING AVG(grade.grade) > ? " +
+                    "ORDER BY AVG(grade.grade) DESC;";
+            String sql2 = "SELECT student.sid, student.firstName, student.lastName, student.major, AVG(grade.grade) GPA "
+                    +
+                    "FROM grade " +
+                    "INNER JOIN student on grade.sid = student.sid " +
+                    "GROUP BY grade.sid " +
+                    "HAVING AVG(grade.grade) > ? " +
+                    "ORDER BY AVG(grade.grade) DESC;";
+
+            String tempgpa = String.valueOf(gpa);
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+
+            if (major.equals("All")) {
+                preStatement = connect.prepareStatement(sql2);
+                preStatement.setString(1, tempgpa);
+            } else {
+                preStatement = connect.prepareStatement(sql1);
+                preStatement.setString(1, major);
+                preStatement.setString(2, tempgpa);
+            }
+            ResultSet rs = preStatement.executeQuery();
+
+            while (rs.next()) {
+                String rssid = rs.getString("sid");
+                String rsfirstName = rs.getString("firstName");
+                String rslastName = rs.getString("lastName");
+                String rsmajor = rs.getString("major");
+                String rsgpa = rs.getString("gpa");
+
+                Table newTable = new Table();
+                newTable.initFindStudentByGpa(rssid, rsfirstName, rslastName, rsmajor, rsgpa);
+                table.getItems().add(newTable);
+            }
+
+            connect.close();
+            return null;
+        } catch (SQLException e) {
+            JdbcConnection.printSQLException(e);
+            return e.getMessage();
+        }
+
+    }
+
+    // Find Professors by Class GPA and Department
+    public String queryToFindProfessorsByClassGpaAndDepartment(
+            double gpa,
+            String major,
+            TableView<Table> table) {
+        try {
+            table.getItems().clear();
+            String sql = "SELECT * " +
+                    "FROM course " +
+                    "INNER JOIN grade on grade.cid = course.cid " +
+                    "INNER JOIN professor on course.pid = professor.pid " +
+                    "WHERE professor.major = ?;";
+
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(sql);
+            preStatement.setString(1, major);
+            ResultSet rs = preStatement.executeQuery();
+
+            while (rs.next()) {
+                String rspid = rs.getString("pid");
+                String rsfirstName = rs.getString("firstName");
+                String rslastName = rs.getString("lastName");
+                String rsmajor = rs.getString("major");
+                String rsgpa = "null";
+
+                Table newTable = new Table();
+                newTable.initFindProfessorByClassGpa(rspid, rsfirstName, rslastName, rsmajor, rsgpa);
+                table.getItems().add(newTable);
+            }
+
+            connect.close();
+            return null;
+        } catch (SQLException e) {
+            JdbcConnection.printSQLException(e);
+            return e.getMessage();
+        }
+
     }
 
 }

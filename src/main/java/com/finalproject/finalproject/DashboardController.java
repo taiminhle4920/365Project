@@ -21,8 +21,6 @@ public class DashboardController implements Initializable {
     private JdbcInsert jbdcInsert = new JdbcInsert();
     private JdbcRemove jbdcRemove = new JdbcRemove();
     private JdbcQuery jdbcSearchStudent = new JdbcQuery();
-    private JdbcFindStudentByGpa jdbcFindStudentByGpa = new JdbcFindStudentByGpa();
-    private JdbcFindProfessorByGpa jdbcFindProfessorByGpa = new JdbcFindProfessorByGpa();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -96,38 +94,43 @@ public class DashboardController implements Initializable {
                 this.spctColumn3,
                 this.spctColumn4,
                 this.spctColumn5,
-                null , "cid", "courseLabel", "courseName", "quarter", "schoolYear", null);
+                null, "cid", "courseLabel", "courseName", "quarter", "schoolYear", null);
 
-        this.jdbcFindStudentByGpa.createTable(
-                this.findStudentGpaTable,
-                this.fsgtColumn1,
-                this.fsgtColumn2,
-                this.fsgtColumn3,
-                this.fsgtColumn4,
-                this.fsgtColumn5);
-
-        this.jdbcFindProfessorByGpa.createTable(
-                this.findProfessorGpaTable,
-                this.fpbgColumn1,
-                this.fpbgColumn2,
-                this.fpbgColumn3,
-                this.fpbgColumn4,
-                this.fpbgColumn5);
-        this.jdbcSearchStudent.createTableSearchStudentInClass(
+        this.jdbcSearchStudent.createNewTable(
                 tableCourse,
                 colStudentIDSearchCourse,
                 colFNSearchCourse,
                 colLNSearchCourse,
-                colGradeSearchCourse);
+                colGradeSearchCourse,
+                null,
+                null, "sid", "firstName", "lastName", "grade", null, null);
 
-        this.jdbcSearchStudent.createTableSearchCourseInQuarter(
+        this.jdbcSearchStudent.createNewTable(
                 tableCourseFindCourse,
                 colCourseIDFindCourse,
                 colCourseLabelFindCourse,
                 colCourseNameFindCourse,
                 colInstructorIDFindCourse,
                 colQuarterFindCourse,
-                colYearFindCourse);
+                colYearFindCourse, "cid", "courseLabel", "courseName", "pid", "quarter", "schoolYear");
+
+        this.jdbcSearchStudent.createNewTable(
+                this.findStudentGpaTable,
+                this.fsgtColumn1,
+                this.fsgtColumn2,
+                this.fsgtColumn3,
+                this.fsgtColumn4,
+                this.fsgtColumn5,
+                null, "sid", "firstName", "lastName", "major", "gpa", null);
+
+        this.jdbcSearchStudent.createNewTable(
+                this.findProfessorGpaTable,
+                this.fpbgColumn1,
+                this.fpbgColumn2,
+                this.fpbgColumn3,
+                this.fpbgColumn4,
+                this.fpbgColumn5, 
+                null, "pid", "firstName", "lastName", "major", "gpa", null);
 
         this.findStudentGpaSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -444,7 +447,8 @@ public class DashboardController implements Initializable {
         this.errorSearchStudentsInClass.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.courseIDSSC.getText(), this.errorSearchStudentsInClass,
                 "Course ID must contain numbers only.")) {
-            String message = this.jdbcSearchStudent.searchStudentsInClass(this.courseIDSSC.getText(), tableCourse);
+            String message = this.jdbcSearchStudent.queryDataToSearchStudentsInClass(this.courseIDSSC.getText(),
+                    tableCourse);
             if (message == null) {
                 this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
                 this.errorSearchStudent.setText("Searching student with Course ID: " + this.courseIDSSC.getText());
@@ -485,7 +489,8 @@ public class DashboardController implements Initializable {
         if (choiceBoxPicker(this.quarterSCL.getValue(), this.errorSearchCourseList, "Quarter field is required.") &&
                 choiceBoxPicker(this.schoolYearSCL.getValue(), this.errorSearchCourseList,
                         "School year field is required.")) {
-            String message = this.jdbcSearchStudent.searchCourseByQuarterAndSchoolYear(this.schoolYearSCL.getValue(),
+            String message = this.jdbcSearchStudent.queryDataToSearchCourseByQuarterAndSchoolYear(
+                    this.schoolYearSCL.getValue(),
                     this.quarterSCL.getValue(), tableCourseFindCourse);
             if (message == null) {
                 this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
@@ -528,7 +533,7 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void onSubmitFindStudentGpa(ActionEvent actionEvent) {
-        String message = this.jdbcFindStudentByGpa.queryDataToTable(
+        String message = this.jdbcSearchStudent.queryDataToFindStudentsByGpaAndMajor(
                 this.findStudentGpaSlider.getValue(),
                 this.findStudentGpaChoiceBox.getValue(),
                 this.findStudentGpaTable);
@@ -571,7 +576,7 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void onSubmitFindProfessorGpa(ActionEvent actionEvent) {
-        String message = this.jdbcFindProfessorByGpa.queryDataToTable(
+        String message = this.jdbcSearchStudent.queryToFindProfessorsByClassGpaAndDepartment(
                 this.findProfessorGpaSlider.getValue(),
                 this.findProfessorGpaChoiceBox.getValue(),
                 this.findProfessorGpaTable);
