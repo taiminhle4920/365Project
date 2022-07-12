@@ -1,0 +1,155 @@
+package com.finalproject.finalproject;
+
+public class Table {
+
+    private String sid = null;
+    private String pid = null;
+    private String cid = null;
+    private String firstName = null;
+    private String lastName = null;
+    private String dob = null;
+    private String email = null;
+    private String major = null;
+    private String courseLabel = null;
+    private String courseName = null;
+    private String quarter = null;
+    private String schoolYear = null;
+    private String grade = null;
+    private String gpa = null;
+
+    // Search Student Table
+    public Table(String sid, String firstName, String lastName, String email, String dob, String major) {
+        this.sid = sid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.dob = dob;
+        this.major = major;
+    }    
+
+    // Search Student Course Table
+    public Table(String pid, String courseLabel, String courseName, String quarter, String schoolYear, String grade, Object none) {
+        this.pid = pid;
+        this.courseLabel = courseLabel;
+        this.courseName = courseName;
+        this.quarter = quarter;
+        this.schoolYear = schoolYear;
+        this.grade = grade;
+    }    
+
+
+    // getters
+    public String getSid() {
+        return sid;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public String getCid() {
+        return cid;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public String getCourseLabel() {
+        return courseLabel;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public String getQuarter() {
+        return quarter;
+    }
+
+    public String getSchoolYear() {
+        return schoolYear;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public String getGpa() {
+        return gpa;
+    }
+
+    // setters
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public void setCourseLabel(String courseLabel) {
+        this.courseLabel = courseLabel;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public void setQuarter(String quarter) {
+        this.quarter = quarter;
+    }
+
+    public void setSchoolYear(String schoolYear) {
+        this.schoolYear = schoolYear;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public void setGpa(String gpa) {
+        this.gpa = gpa;
+    }
+
+}

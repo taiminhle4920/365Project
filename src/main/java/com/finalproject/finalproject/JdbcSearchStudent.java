@@ -16,21 +16,20 @@ public class JdbcSearchStudent {
     public JdbcSearchStudent() {
     }
 
-    public void createSearchStudentTable(TableView<Student> table1,
-            TableColumn<Student, String> column1,
-            TableColumn<Student, String> column2,
-            TableColumn<Student, String> column3,
-            TableColumn<Student, String> column4,
-            TableColumn<Student, String> column5,
-            TableColumn<Student, String> column6,
-            TableView<StudentCourse> table2,
-            TableColumn<StudentCourse, String> column7,
-            TableColumn<StudentCourse, String> column8,
-            TableColumn<StudentCourse, String> column9,
-            TableColumn<StudentCourse, String> column10,
-            TableColumn<StudentCourse, String> column11,
-            TableColumn<StudentCourse, String> column12) {
-
+    public void createSearchStudentTable(TableView<Table> table1,
+            TableColumn<Table, String> column1,
+            TableColumn<Table, String> column2,
+            TableColumn<Table, String> column3,
+            TableColumn<Table, String> column4,
+            TableColumn<Table, String> column5,
+            TableColumn<Table, String> column6,
+            TableView<Table> table2,
+            TableColumn<Table, String> column7,
+            TableColumn<Table, String> column8,
+            TableColumn<Table, String> column9,
+            TableColumn<Table, String> column10,
+            TableColumn<Table, String> column11,
+            TableColumn<Table, String> column12) {
         column1.setCellValueFactory(new PropertyValueFactory<>("sid"));
         column2.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         column3.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -103,8 +102,8 @@ public class JdbcSearchStudent {
 
     public String searchStudent(
             String sid,
-            TableView<Student> table1,
-            TableView<StudentCourse> table2) {
+            TableView<Table> table1,
+            TableView<Table> table2) {
         try {
             table1.getItems().clear();
             table2.getItems().clear();
@@ -114,18 +113,18 @@ public class JdbcSearchStudent {
             Connection connect = this.jdbcConnection.getConnection();
             PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
             preStatement = connect.prepareStatement(sql);
-            preStatement.setInt(1, Integer.valueOf(sid));
+            preStatement.setString(1, sid);
             ResultSet rs = preStatement.executeQuery();
 
             while (rs.next()) {
-                String tempsid = rs.getString("sid");
-                String firstName = rs.getString("firstName");
-                String lastName = rs.getString("lastName");
-                String email = rs.getString("email");
-                String dob = rs.getString("dob");
-                String major = rs.getString("major");
+                String rssid = rs.getString("sid");
+                String rsfirstName = rs.getString("firstName");
+                String rslastName = rs.getString("lastName");
+                String rsemail = rs.getString("email");
+                String rsdob = rs.getString("dob");
+                String rsmajor = rs.getString("major");
 
-                table1.getItems().add(new Student(tempsid, firstName, lastName, email, dob, major));
+                table1.getItems().add(new Table(rssid, rsfirstName, rslastName, rsemail, rsdob, rsmajor));
             }
 
             sql = "SELECT DISTINCT " +
@@ -134,34 +133,31 @@ public class JdbcSearchStudent {
                     "FROM grade INNER JOIN course on grade.cid = course.cid " +
                     "WHERE grade.sid = ?;";
 
-            this.jdbcConnection.makeConnection();
-            connect = this.jdbcConnection.getConnection();
-            preStatement = this.jdbcConnection.getPreparedStatement();
             preStatement = connect.prepareStatement(sql);
-            preStatement.setInt(1, Integer.valueOf(sid));
+            preStatement.setString(1, sid);
             rs = preStatement.executeQuery();
 
             while (rs.next()) {
-                String pid = rs.getString("pid");
-                String courseLabel = rs.getString("courseLabel");
-                String courseName = rs.getString("courseName");
-                String quarter = rs.getString("quarter");
-                String schoolYear = rs.getString("schoolYear");
-                String grade = rs.getString("grade");
-                String tempGrade = null;
-                if (grade.equals("0.00"))
-                    tempGrade = "F";
-                if (grade.equals("1.00"))
-                    tempGrade = "D";
-                if (grade.equals("2.00"))
-                    tempGrade = "C";
-                if (grade.equals("3.00"))
-                    tempGrade = "B";
-                if (grade.equals("4.00"))
-                    tempGrade = "A";
-                table2.getItems().add(new StudentCourse(pid, courseLabel, courseName, quarter, schoolYear, tempGrade));
+                String rspid = rs.getString("pid");
+                String rscourseLabel = rs.getString("courseLabel");
+                String rscourseName = rs.getString("courseName");
+                String rsquarter = rs.getString("quarter");
+                String rsschoolYear = rs.getString("schoolYear");
+                String rsgrade = rs.getString("grade");
+                if (rsgrade.equals("0.00"))
+                    rsgrade = "F";
+                if (rsgrade.equals("1.00"))
+                    rsgrade = "D";
+                if (rsgrade.equals("2.00"))
+                    rsgrade = "C";
+                if (rsgrade.equals("3.00"))
+                    rsgrade = "B";
+                if (rsgrade.equals("4.00"))
+                    rsgrade = "A";
+                table2.getItems().add(new Table(rspid, rscourseLabel, rscourseName, rsquarter, rsschoolYear, rsgrade, null));
             }
 
+            connect.close();
             return null;
         } catch (SQLException e) {
             JdbcConnection.printSQLException(e);

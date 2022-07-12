@@ -316,34 +316,34 @@ public class DashboardController implements Initializable {
     private TextField studentIdSS;
 
     @FXML
-    private TableView<Student> searchStudentTable;
+    private TableView<Table> searchStudentTable;
     @FXML
-    TableColumn<Student, String> sstColumn1 = new TableColumn<>("Student ID");
+    TableColumn<Table, String> sstColumn1 = new TableColumn<>("Student ID");
     @FXML
-    TableColumn<Student, String> sstColumn2 = new TableColumn<>("First Name");
+    TableColumn<Table, String> sstColumn2 = new TableColumn<>("First Name");
     @FXML
-    TableColumn<Student, String> sstColumn3 = new TableColumn<>("Last Name");
+    TableColumn<Table, String> sstColumn3 = new TableColumn<>("Last Name");
     @FXML
-    TableColumn<Student, String> sstColumn4 = new TableColumn<>("Email");
+    TableColumn<Table, String> sstColumn4 = new TableColumn<>("Email");
     @FXML
-    TableColumn<Student, String> sstColumn5 = new TableColumn<>("Day of Birth");
+    TableColumn<Table, String> sstColumn5 = new TableColumn<>("Day of Birth");
     @FXML
-    TableColumn<Student, String> sstColumn6 = new TableColumn<>("Major");
+    TableColumn<Table, String> sstColumn6 = new TableColumn<>("Major");
 
     @FXML
-    private TableView<StudentCourse> searchStudentCourseTable;
+    private TableView<Table> searchStudentCourseTable;
     @FXML
-    TableColumn<StudentCourse, String> sstcColumn1 = new TableColumn<>("Professor ID");
+    TableColumn<Table, String> sstcColumn1 = new TableColumn<>("Professor ID");
     @FXML
-    TableColumn<StudentCourse, String> sstcColumn2 = new TableColumn<>("Course Label");
+    TableColumn<Table, String> sstcColumn2 = new TableColumn<>("Course Label");
     @FXML
-    TableColumn<StudentCourse, String> sstcColumn3 = new TableColumn<>("Course Name");
+    TableColumn<Table, String> sstcColumn3 = new TableColumn<>("Course Name");
     @FXML
-    TableColumn<StudentCourse, String> sstcColumn4 = new TableColumn<>("Quarter");
+    TableColumn<Table, String> sstcColumn4 = new TableColumn<>("Quarter");
     @FXML
-    TableColumn<StudentCourse, String> sstcColumn5 = new TableColumn<>("School Year");
+    TableColumn<Table, String> sstcColumn5 = new TableColumn<>("School Year");
     @FXML
-    TableColumn<StudentCourse, String> sstcColumn6 = new TableColumn<>("Grade");
+    TableColumn<Table, String> sstcColumn6 = new TableColumn<>("Grade");
 
     @FXML
     private void onSubmitSearchStudent(ActionEvent actionEvent) {
