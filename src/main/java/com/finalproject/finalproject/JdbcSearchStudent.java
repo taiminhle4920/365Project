@@ -124,7 +124,9 @@ public class JdbcSearchStudent {
                 String rsdob = rs.getString("dob");
                 String rsmajor = rs.getString("major");
 
-                table1.getItems().add(new Table(rssid, rsfirstName, rslastName, rsemail, rsdob, rsmajor));
+                Table newTable1 = new Table();
+                newTable1.initSearchStudentTable(rssid, rsfirstName, rslastName, rsemail, rsdob, rsmajor);
+                table1.getItems().add(newTable1);
             }
 
             sql = "SELECT DISTINCT " +
@@ -154,7 +156,9 @@ public class JdbcSearchStudent {
                     rsgrade = "B";
                 if (rsgrade.equals("4.00"))
                     rsgrade = "A";
-                table2.getItems().add(new Table(rspid, rscourseLabel, rscourseName, rsquarter, rsschoolYear, rsgrade, null));
+                Table newTable2 = new Table();
+                newTable2.initSearchStudentCourseTable(rspid, rscourseLabel, rscourseName, rsquarter, rsschoolYear, rsgrade);
+                table2.getItems().add(newTable2);
             }
 
             connect.close();

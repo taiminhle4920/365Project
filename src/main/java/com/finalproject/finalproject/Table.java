@@ -18,7 +18,7 @@ public class Table {
     private String gpa = null;
 
     // Search Student Table
-    public Table(String sid, String firstName, String lastName, String email, String dob, String major) {
+    public void initSearchStudentTable(String sid, String firstName, String lastName, String email, String dob, String major) {
         this.sid = sid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,7 +28,7 @@ public class Table {
     }    
 
     // Search Student Course Table
-    public Table(String pid, String courseLabel, String courseName, String quarter, String schoolYear, String grade, Object none) {
+    public void initSearchStudentCourseTable(String pid, String courseLabel, String courseName, String quarter, String schoolYear, String grade) {
         this.pid = pid;
         this.courseLabel = courseLabel;
         this.courseName = courseName;
