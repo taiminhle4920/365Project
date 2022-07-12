@@ -21,7 +21,6 @@ public class DashboardController implements Initializable {
     private JdbcInsert jbdcInsert = new JdbcInsert();
     private JdbcRemove jbdcRemove = new JdbcRemove();
     private JdbcQuery jdbcSearchStudent = new JdbcQuery();
-    private JdbcSearchProfessor jdbcSearchProfessor = new JdbcSearchProfessor();
     private JdbcFindStudentByGpa jdbcFindStudentByGpa = new JdbcFindStudentByGpa();
     private JdbcFindProfessorByGpa jdbcFindProfessorByGpa = new JdbcFindProfessorByGpa();
 
@@ -65,36 +64,39 @@ public class DashboardController implements Initializable {
                 "Information Systems Security",
                 "Computer Engineering");
 
-        this.jdbcSearchStudent.createTable(
-                this.searchStudentTable,
+        this.jdbcSearchStudent.createNewTable(this.searchStudentTable,
                 this.sstColumn1,
                 this.sstColumn2,
                 this.sstColumn3,
                 this.sstColumn4,
                 this.sstColumn5,
-                this.sstColumn6,
+                this.sstColumn6, "sid", "firstName", "lastName", "email", "dob", "major");
+
+        this.jdbcSearchStudent.createNewTable(
                 this.searchStudentCourseTable,
                 this.sstcColumn1,
                 this.sstcColumn2,
                 this.sstcColumn3,
                 this.sstcColumn4,
                 this.sstcColumn5,
-                this.sstcColumn6);
+                this.sstcColumn6, "pid", "courseLabel", "courseName", "quarter", "schoolYear", "grade");
 
-        this.jdbcSearchProfessor.createTable(
-                this.searchProfessorTable,
+        this.jdbcSearchStudent.createNewTable(this.searchProfessorTable,
                 this.sptColumn1,
                 this.sptColumn2,
                 this.sptColumn3,
                 this.sptColumn4,
                 this.sptColumn5,
-                this.sptColumn6,
+                this.sptColumn6, "pid", "firstName", "lastName", "email", "dob", "major");
+
+        this.jdbcSearchStudent.createNewTable(
                 this.searchProfessorCourseTable,
                 this.spctColumn1,
                 this.spctColumn2,
                 this.spctColumn3,
                 this.spctColumn4,
-                this.spctColumn5);
+                this.spctColumn5,
+                null , "cid", "courseLabel", "courseName", "quarter", "schoolYear", null);
 
         this.jdbcFindStudentByGpa.createTable(
                 this.findStudentGpaTable,
@@ -350,7 +352,7 @@ public class DashboardController implements Initializable {
     private void onSubmitSearchStudent(ActionEvent actionEvent) {
         this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.studentIdSS.getText(), this.errorSearchStudent, "Student ID must contain numbers only.")) {
-            String message = this.jdbcSearchStudent.queryDataToTable(this.studentIdSS.getText(),
+            String message = this.jdbcSearchStudent.queryDataToSearchStudentTable(this.studentIdSS.getText(),
                     this.searchStudentTable,
                     this.searchStudentCourseTable);
             if (message == null) {
@@ -406,7 +408,7 @@ public class DashboardController implements Initializable {
         if (idValidator(this.professorIdSP.getText(), this.errorSearchProfessor,
                 "Professor ID must contain numbers only.")) {
 
-            String message = this.jdbcSearchProfessor.queryDataToTable(this.professorIdSP.getText(),
+            String message = this.jdbcSearchStudent.queryDataToSearchProfessorTable(this.professorIdSP.getText(),
                     this.searchProfessorTable,
                     this.searchProfessorCourseTable);
             if (message == null) {
@@ -590,27 +592,6 @@ public class DashboardController implements Initializable {
     private Label errorRemoveStudent;
     @FXML
     private TextField studentIdRS;
-
-    @FXML
-    private TableView<Student> removeStudentTable = new TableView<Student>();
-
-    @FXML
-    private TableColumn<Student, String> column1RemoveStudent = new TableColumn<>("ID");
-
-    @FXML
-    private TableColumn<Student, String> column2RemoveStudent = new TableColumn<>("First Name");
-
-    @FXML
-    private TableColumn<Student, String> column3RemoveStudent = new TableColumn<>("Last Name");
-
-    @FXML
-    private TableColumn<Student, String> column4RemoveStudent = new TableColumn<>("Email");
-
-    @FXML
-    private TableColumn<Student, String> column5RemoveStudent = new TableColumn<>("Day of Birth");
-
-    @FXML
-    private TableColumn<Student, String> column6RemoveStudent = new TableColumn<>("Major");
 
     @FXML
     private void onSubmitRemoveStudent(ActionEvent actionEvent) {
