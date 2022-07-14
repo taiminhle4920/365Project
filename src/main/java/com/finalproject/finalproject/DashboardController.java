@@ -60,6 +60,14 @@ public class DashboardController implements Initializable {
                 "Information Systems Security",
                 "Computer Engineering");
 
+        this.majorAP.getItems().addAll(
+                "Computer Science",
+                "Software Engineer",
+                "Hardware Engineer",
+                "Information Technology",
+                "Information Systems Security",
+                "Computer Engineering");
+
         this.quarterAC.getItems().addAll("Fall", "Winter", "Spring", "Summer");
         this.quarterSCL.getItems().addAll("Fall", "Winter", "Spring", "Summer");
 
@@ -250,7 +258,7 @@ public class DashboardController implements Initializable {
             }
             this.clear();
         }
-
+        this.jdbcQuery.queryToTableRemoveStudent(this.tableRemoveStudent);
     }
 
     // Add Professor
@@ -264,6 +272,8 @@ public class DashboardController implements Initializable {
     private TextField emailAP;
     @FXML
     private DatePicker dobAP;
+    @FXML
+    private ChoiceBox<String> majorAP;
 
     @FXML
     private void onSubmitAddProfessor(ActionEvent actionEvent) {
@@ -275,7 +285,8 @@ public class DashboardController implements Initializable {
                         "Last name must be 3 or more characters long.")
                 &&
                 emailValidator(this.emailAP.getText(), this.errorAddProfessor, "Email is invalid.") &&
-                datePickerValidator(this.dobAP.getValue(), this.errorAddProfessor, "Day of birth field is required.")) {
+                datePickerValidator(this.dobAP.getValue(), this.errorAddProfessor, "Day of birth field is required.") &&
+                choiceBoxPicker(this.majorAP.getValue(), this.errorAddProfessor, "Department field is required.")) {
 
             String message = this.jbdcInsert.insertProfessor(this.firstNameAP.getText(),
                     this.lastNameAP.getText(),
@@ -290,7 +301,7 @@ public class DashboardController implements Initializable {
             }
             this.clear();
         }
-
+        this.jdbcQuery.queryToTableRemoveProfessor(this.tableRemoveProfessor);
     }
 
     // Add Course
@@ -335,7 +346,7 @@ public class DashboardController implements Initializable {
             }
             this.clear();
         }
-
+        this.jdbcQuery.queryToTableRemoveCourse(this.tableRemoveCourse);
     }
 
     // Add Grade
