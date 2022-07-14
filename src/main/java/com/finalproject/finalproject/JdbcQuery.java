@@ -127,7 +127,7 @@ public class JdbcQuery {
             return null;
         } catch (SQLException e) {
             JdbcConnection.printSQLException(e);
-            return e.getMessage();
+            return String.valueOf(e.getErrorCode());
         }
 
     }
@@ -187,7 +187,7 @@ public class JdbcQuery {
             return null;
         } catch (SQLException e) {
             JdbcConnection.printSQLException(e);
-            return e.getMessage();
+            return String.valueOf(e.getErrorCode());
         }
 
     }
@@ -224,7 +224,7 @@ public class JdbcQuery {
             return null;
         } catch (SQLException e) {
             JdbcConnection.printSQLException(e);
-            return e.getMessage();
+            return String.valueOf(e.getErrorCode());
         }
     }
 
@@ -263,7 +263,7 @@ public class JdbcQuery {
             return null;
         } catch (SQLException e) {
             JdbcConnection.printSQLException(e);
-            return e.getMessage();
+            return String.valueOf(e.getErrorCode());
         }
     }
 
@@ -321,7 +321,7 @@ public class JdbcQuery {
             return null;
         } catch (SQLException e) {
             JdbcConnection.printSQLException(e);
-            return e.getMessage();
+            return String.valueOf(e.getErrorCode());
         }
 
     }
@@ -333,17 +333,33 @@ public class JdbcQuery {
             TableView<Table> table) {
         try {
             table.getItems().clear();
-            String sql = "SELECT * " +
-                    "FROM course " +
-                    "INNER JOIN grade on grade.cid = course.cid " +
-                    "INNER JOIN professor on course.pid = professor.pid " +
-                    "WHERE professor.major = ?;";
+            String sql1 = "select professor.pid, professor.firstName, professor.lastName, professor.major, professor.major, avg(grade.grade) as gpa "
+                    +
+                    "from professor natural join course natural join grade " +
+                    "where professor.major = ?" +
+                    "group by professor.pid, professor.firstName, professor.lastName, professor.major, professor.major "
+                    +
+                    "having gpa >= ?;";
 
+            String sql2 = "select professor.pid, professor.firstName, professor.lastName, professor.major, professor.major, avg(grade.grade) as gpa "
+                    +
+                    "from professor natural join course natural join grade " +
+                    "group by professor.pid, professor.firstName, professor.lastName, professor.major, professor.major "
+                    +
+                    "having gpa >= ?;";
+
+            String tempgpa = String.valueOf(gpa);
             this.jdbcConnection.makeConnection();
             Connection connect = this.jdbcConnection.getConnection();
             PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
-            preStatement = connect.prepareStatement(sql);
-            preStatement.setString(1, major);
+            if (major.equals("All")) {
+                preStatement = connect.prepareStatement(sql2);
+                preStatement.setString(1, tempgpa);
+            } else {
+                preStatement = connect.prepareStatement(sql1);
+                preStatement.setString(1, major);
+                preStatement.setString(2, tempgpa);
+            }
             ResultSet rs = preStatement.executeQuery();
 
             while (rs.next()) {
@@ -351,7 +367,7 @@ public class JdbcQuery {
                 String rsfirstName = rs.getString("firstName");
                 String rslastName = rs.getString("lastName");
                 String rsmajor = rs.getString("major");
-                String rsgpa = "null";
+                String rsgpa = rs.getString("gpa");
 
                 Table newTable = new Table();
                 newTable.initFindProfessorByClassGpa(rspid, rsfirstName, rslastName, rsmajor, rsgpa);
@@ -362,7 +378,109 @@ public class JdbcQuery {
             return null;
         } catch (SQLException e) {
             JdbcConnection.printSQLException(e);
-            return e.getMessage();
+            return String.valueOf(e.getErrorCode());
+        }
+
+    }
+
+    // Remove Course Query
+    public String queryToTableRemoveCourse(
+            TableView<Table> table) {
+        try {
+            table.getItems().clear();
+            String sql = "SELECT * FROM course";
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(sql);
+            ResultSet rs = preStatement.executeQuery();
+
+            while (rs.next()) {
+                String rscid = rs.getString("cid");
+                String rscourseLabel = rs.getString("courseLabel");
+                String rscourseName = rs.getString("courseName");
+                String rsquarter = rs.getString("quarter");
+                String rsschoolYear = rs.getString("schoolYear");
+                String rspid = rs.getString("pid");
+
+                Table newTable = new Table();
+                newTable.initTableRemoveCourse(rscid, rscourseLabel, rscourseName, rsquarter, rsschoolYear, rspid);
+                table.getItems().add(newTable);
+            }
+
+            connect.close();
+            return null;
+        } catch (SQLException e) {
+            JdbcConnection.printSQLException(e);
+            return String.valueOf(e.getErrorCode());
+        }
+
+    }
+
+    // Remove Professor Query
+    public String queryToTableRemoveProfessor(
+            TableView<Table> table) {
+        try {
+            table.getItems().clear();
+            String sql = "SELECT * FROM professor";
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(sql);
+            ResultSet rs = preStatement.executeQuery();
+
+            while (rs.next()) {
+                String rspid = rs.getString("pid");
+                String rsfirstName = rs.getString("firstName");
+                String rslastName = rs.getString("lastName");
+                String rsemail = rs.getString("email");
+                String rsdob = rs.getString("dob");
+                String rsmajor = rs.getString("major");
+
+                Table newTable = new Table();
+                newTable.initTableRemoveProfessor(rspid, rsfirstName, rslastName, rsemail, rsdob, rsmajor);
+                table.getItems().add(newTable);
+            }
+
+            connect.close();
+            return null;
+        } catch (SQLException e) {
+            JdbcConnection.printSQLException(e);
+            return String.valueOf(e.getErrorCode());
+        }
+
+    }
+
+    // Remove Professor Query
+    public String queryToTableRemoveStudent(
+            TableView<Table> table) {
+        try {
+            table.getItems().clear();
+            String sql = "SELECT * FROM student";
+            this.jdbcConnection.makeConnection();
+            Connection connect = this.jdbcConnection.getConnection();
+            PreparedStatement preStatement = this.jdbcConnection.getPreparedStatement();
+            preStatement = connect.prepareStatement(sql);
+            ResultSet rs = preStatement.executeQuery();
+
+            while (rs.next()) {
+                String rssid = rs.getString("sid");
+                String rsfirstName = rs.getString("firstName");
+                String rslastName = rs.getString("lastName");
+                String rsemail = rs.getString("email");
+                String rsdob = rs.getString("dob");
+                String rsmajor = rs.getString("major");
+
+                Table newTable = new Table();
+                newTable.initTableRemoveStudent(rssid, rsfirstName, rslastName, rsemail, rsdob, rsmajor);
+                table.getItems().add(newTable);
+            }
+
+            connect.close();
+            return null;
+        } catch (SQLException e) {
+            JdbcConnection.printSQLException(e);
+            return String.valueOf(e.getErrorCode());
         }
 
     }

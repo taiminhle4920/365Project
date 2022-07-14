@@ -9,8 +9,8 @@ public class JdbcConnection {
 
     private Connection connect;
     private PreparedStatement preparedStatement;
-    private String CONNECTION = "jdbc:mysql://ambari-node5.csc.calpoly.edu:3306/phutai?user=phutai&password=phutai";
-    private String DRIVER = "com.mysql.jdbc.Driver";
+    private final String CONNECTION = "jdbc:mysql://ambari-node5.csc.calpoly.edu:3306/phutai?user=phutai&password=phutai";
+    private final String DRIVER = "com.mysql.jdbc.Driver";
 
     public boolean makeConnection() {
         try {

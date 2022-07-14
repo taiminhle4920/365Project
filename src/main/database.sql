@@ -214,3 +214,9 @@ from grade
 INNER JOIN course ON grade.cid=course.cid
 where
     grade.sid = 1;
+
+
+select professor.pid, professor.firstName, professor.lastName, professor.major, professor.major, avg(grade.grade) as gpa
+from professor natural join course natural join grade
+group by professor.pid, professor.firstName, professor.lastName, professor.major, professor.major
+having gpa >= 3;

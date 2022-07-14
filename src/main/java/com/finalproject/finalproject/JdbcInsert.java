@@ -30,7 +30,7 @@ public class JdbcInsert {
             return null;
         } catch (SQLException e) {
             JdbcConnection.printSQLException(e);
-            return e.getMessage();
+            return String.valueOf(e.getErrorCode());
         }
     }
 
@@ -80,7 +80,7 @@ public class JdbcInsert {
             return null;
         } catch (SQLException e) {
             JdbcConnection.printSQLException(e);
-            return e.getMessage();
+            return String.valueOf(e.getErrorCode());
         }
     }
 
@@ -114,7 +114,7 @@ public class JdbcInsert {
             return null;
         } catch (SQLException e) {
             JdbcConnection.printSQLException(e);
-            return e.getMessage();
+            return String.valueOf(e.getErrorCode());
         }
     }
 

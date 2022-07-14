@@ -97,6 +97,39 @@ public class Table {
         this.gpa = gpa;
     }
 
+    // Remove Course
+    public void initTableRemoveCourse(String cid, String courseLabel, String courseName, String quarter,
+            String schoolYear, String pid) {
+        this.cid = cid;
+        this.courseLabel = courseLabel;
+        this.courseName = courseName;
+        this.quarter = quarter;
+        this.schoolYear = schoolYear;
+        this.pid = pid;
+    }
+
+    // Remove Professor
+    public void initTableRemoveProfessor(String pid, String firstName, String lastName, String email, String dob,
+            String major) {
+        this.pid = pid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.dob = dob;
+        this.major = major;
+    }
+
+    // Remove Student
+    public void initTableRemoveStudent(String sid, String firstName, String lastName, String email, String dob,
+            String major) {
+        this.sid = sid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.dob = dob;
+        this.major = major;
+    }
+
     // getters
     public String getSid() {
         return sid;

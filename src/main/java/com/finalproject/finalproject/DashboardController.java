@@ -18,9 +18,6 @@ import javafx.scene.control.TableColumn;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import org.controlsfx.validation.Severity;
-import org.controlsfx.validation.ValidationSupport;
-import org.controlsfx.validation.Validator;
 
 public class DashboardController implements Initializable {
 
@@ -30,14 +27,15 @@ public class DashboardController implements Initializable {
 
     @FXML
     private TabPane tabPane = new TabPane();
-    void setTabPaneLeftTabsHorizontal(TabPane tabPane){
+
+    void setTabPaneLeftTabsHorizontal(TabPane tabPane) {
 
         tabPane.setSide(Side.LEFT);
         tabPane.setRotateGraphic(true);
 
         Label l = null;
         StackPane stp = null;
-        for(Tab t : tabPane.getTabs()){
+        for (Tab t : tabPane.getTabs()) {
             l = new Label(t.getText());
             l.setRotate(90);
             stp = new StackPane(new Group(l));
@@ -49,7 +47,6 @@ public class DashboardController implements Initializable {
         tabPane.setTabMinHeight(160);
         tabPane.setTabMaxHeight(160);
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -163,10 +160,37 @@ public class DashboardController implements Initializable {
                 this.fpbgColumn5,
                 null, "pid", "firstName", "lastName", "major", "gpa", null);
 
+        this.jdbcQuery.createNewTable(
+                this.tableRemoveCourse,
+                this.rcColumn1,
+                this.rcColumn2,
+                this.rcColumn3,
+                this.rcColumn4,
+                this.rcColumn5,
+                this.rcColumn6, "cid", "courseLabel", "courseName", "pid", "quarter", "schoolYear");
+
+        this.jdbcQuery.createNewTable(
+                this.tableRemoveProfessor,
+                this.rpColumn1,
+                this.rpColumn2,
+                this.rpColumn3,
+                this.rpColumn4,
+                this.rpColumn5,
+                this.rpColumn6, "pid", "firstName", "lastName", "email", "dob", "major");
+
+        this.jdbcQuery.createNewTable(
+                this.tableRemoveStudent,
+                this.rsColumn1,
+                this.rsColumn2,
+                this.rsColumn3,
+                this.rsColumn4,
+                this.rsColumn5,
+                this.rsColumn6, "sid", "firstName", "lastName", "email", "dob", "major");
+
         this.findStudentGpaSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, //
-                                Number oldValue, Number newValue) {
+                    Number oldValue, Number newValue) {
                 sliderLabel.setText(String.format("%.2f", newValue));
             }
         });
@@ -174,14 +198,18 @@ public class DashboardController implements Initializable {
         this.findProfessorGpaSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, //
-                                Number oldValue, Number newValue) {
+                    Number oldValue, Number newValue) {
                 sliderLabel2.setText(String.format("%.2f", newValue));
             }
         });
 
+        this.jdbcQuery.queryToTableRemoveCourse(this.tableRemoveCourse);
+        this.jdbcQuery.queryToTableRemoveProfessor(this.tableRemoveProfessor);
+        this.jdbcQuery.queryToTableRemoveStudent(this.tableRemoveStudent);
+
     }
 
-    // Add Student /////////////////////////////////////////////////////////////
+    // Add Student 
     @FXML
     private Label errorAddStudent;
     @FXML
@@ -196,9 +224,6 @@ public class DashboardController implements Initializable {
     private ChoiceBox<String> majorAS;
 
     @FXML
-    Button submit = new Button();
-
-    @FXML
     private void onSubmitAddStudent(ActionEvent actionEvent) {
         this.errorAddStudent.setTextFill(Color.color(1, 0, 0));
         if (nameValidator(this.firstNameAS.getText(), this.errorAddStudent,
@@ -211,7 +236,6 @@ public class DashboardController implements Initializable {
                 datePickerValidator(this.dobAS.getValue(), this.errorAddStudent, "Day of birth field is required.") &&
                 choiceBoxPicker(this.majorAS.getValue(), this.errorAddStudent, "Major field is required.")) {
 
-            // connect to sql here.
             String message = this.jbdcInsert.insertStudent(this.firstNameAS.getText(),
                     this.lastNameAS.getText(),
                     this.emailAS.getText(),
@@ -222,15 +246,14 @@ public class DashboardController implements Initializable {
                 this.errorAddStudent.setText("A new student is added.");
             } else {
                 this.errorAddStudent.setTextFill(Color.color(1, 0, 0));
-                this.errorAddStudent.setText(message);
+                this.errorAddStudent.setText("Error Code: " + message);
             }
-
             this.clear();
         }
 
     }
 
-    // Add Professor ///////////////////////////////////////////////////////////
+    // Add Professor
     @FXML
     private Label errorAddProfessor;
     @FXML
@@ -254,7 +277,6 @@ public class DashboardController implements Initializable {
                 emailValidator(this.emailAP.getText(), this.errorAddProfessor, "Email is invalid.") &&
                 datePickerValidator(this.dobAP.getValue(), this.errorAddProfessor, "Day of birth field is required.")) {
 
-            // connect to sql here.
             String message = this.jbdcInsert.insertProfessor(this.firstNameAP.getText(),
                     this.lastNameAP.getText(),
                     this.emailAP.getText(),
@@ -264,15 +286,14 @@ public class DashboardController implements Initializable {
                 this.errorAddProfessor.setText("A new professor is added.");
             } else {
                 this.errorAddProfessor.setTextFill(Color.color(1, 0, 0));
-                this.errorAddProfessor.setText(message);
+                this.errorAddProfessor.setText("Error Code: " + message);
             }
-
             this.clear();
         }
 
     }
 
-    // Add Course /////////////////////////////////////////////////////////////
+    // Add Course
     @FXML
     private Label errorAddCourse;
     @FXML
@@ -300,7 +321,6 @@ public class DashboardController implements Initializable {
                 choiceBoxPicker(this.quarterAC.getValue(), this.errorAddCourse, "Quarter field is required.") &&
                 choiceBoxPicker(this.schoolyearAC.getValue(), this.errorAddCourse, "School year field is required.")) {
 
-            // connect to sql here.
             String message = this.jbdcInsert.insertCourse(this.courseLabelAC.getText(),
                     this.courseNameAC.getText(),
                     this.instructorIdAC.getText(),
@@ -311,15 +331,14 @@ public class DashboardController implements Initializable {
                 this.errorAddCourse.setText("A new course is added.");
             } else {
                 this.errorAddCourse.setTextFill(Color.color(1, 0, 0));
-                this.errorAddCourse.setText(message);
+                this.errorAddCourse.setText("Error Code: " + message);
             }
-
             this.clear();
         }
 
     }
 
-    // Add Grade ////////////////////////////////////////////////////////
+    // Add Grade
     @FXML
     private Label errorAddGrade;
     @FXML
@@ -335,6 +354,7 @@ public class DashboardController implements Initializable {
         if (idValidator(this.courseIDAG.getText(), this.errorAddGrade, "Course ID must contain numbers only.") &&
                 idValidator(this.studentIDAG.getText(), this.errorAddGrade, "Student ID must contain numbers only.") &&
                 choiceBoxPicker(this.gradeAG.getValue(), this.errorAddGrade, "School year field is required.")) {
+
             String message = this.jbdcInsert.insertGrade(this.courseIDAG.getText(), this.studentIDAG.getText(),
                     this.gradeAG.getValue());
             if (message == null) {
@@ -342,7 +362,7 @@ public class DashboardController implements Initializable {
                 this.errorAddGrade.setText("A new grade is added.");
             } else {
                 this.errorAddGrade.setTextFill(Color.color(1, 0, 0));
-                this.errorAddGrade.setText(message);
+                this.errorAddGrade.setText("Error Code: " + message);
             }
             this.clear();
         }
@@ -354,51 +374,49 @@ public class DashboardController implements Initializable {
     private Label errorSearchStudent;
     @FXML
     private TextField studentIdSS;
-
     @FXML
     private TableView<Table> searchStudentTable;
     @FXML
-    TableColumn<Table, String> sstColumn1 = new TableColumn<>("Student ID");
+    private final TableColumn<Table, String> sstColumn1 = new TableColumn<>("Student ID");
     @FXML
-    TableColumn<Table, String> sstColumn2 = new TableColumn<>("First Name");
+    private final TableColumn<Table, String> sstColumn2 = new TableColumn<>("First Name");
     @FXML
-    TableColumn<Table, String> sstColumn3 = new TableColumn<>("Last Name");
+    private final TableColumn<Table, String> sstColumn3 = new TableColumn<>("Last Name");
     @FXML
-    TableColumn<Table, String> sstColumn4 = new TableColumn<>("Email");
+    private final TableColumn<Table, String> sstColumn4 = new TableColumn<>("Email");
     @FXML
-    TableColumn<Table, String> sstColumn5 = new TableColumn<>("Day of Birth");
+    private final TableColumn<Table, String> sstColumn5 = new TableColumn<>("Day of Birth");
     @FXML
-    TableColumn<Table, String> sstColumn6 = new TableColumn<>("Major");
-
+    private final TableColumn<Table, String> sstColumn6 = new TableColumn<>("Major");
     @FXML
     private TableView<Table> searchStudentCourseTable;
     @FXML
-    TableColumn<Table, String> sstcColumn1 = new TableColumn<>("Professor ID");
+    private final TableColumn<Table, String> sstcColumn1 = new TableColumn<>("Professor ID");
     @FXML
-    TableColumn<Table, String> sstcColumn2 = new TableColumn<>("Course Label");
+    private final TableColumn<Table, String> sstcColumn2 = new TableColumn<>("Course Label");
     @FXML
-    TableColumn<Table, String> sstcColumn3 = new TableColumn<>("Course Name");
+    private final TableColumn<Table, String> sstcColumn3 = new TableColumn<>("Course Name");
     @FXML
-    TableColumn<Table, String> sstcColumn4 = new TableColumn<>("Quarter");
+    private final TableColumn<Table, String> sstcColumn4 = new TableColumn<>("Quarter");
     @FXML
-    TableColumn<Table, String> sstcColumn5 = new TableColumn<>("School Year");
+    private final TableColumn<Table, String> sstcColumn5 = new TableColumn<>("School Year");
     @FXML
-    TableColumn<Table, String> sstcColumn6 = new TableColumn<>("Grade");
+    private final TableColumn<Table, String> sstcColumn6 = new TableColumn<>("Grade");
 
     @FXML
     private void onSubmitSearchStudent(ActionEvent actionEvent) {
-
         this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.studentIdSS.getText(), this.errorSearchStudent, "Student ID must contain numbers only.")) {
             String message = this.jdbcQuery.queryDataToSearchStudentTable(this.studentIdSS.getText(),
                     this.searchStudentTable,
                     this.searchStudentCourseTable);
+
             if (message == null) {
                 this.errorSearchStudent.setTextFill(Color.color(0, 0, 1));
                 this.errorSearchStudent.setText("Searching student with ID: " + this.studentIdSS.getText());
             } else {
                 this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
-                this.errorSearchStudent.setText(message);
+                this.errorSearchStudent.setText("Error Code: " + message);
             }
             this.clear();
         }
@@ -410,35 +428,32 @@ public class DashboardController implements Initializable {
     private Label errorSearchProfessor;
     @FXML
     private TextField professorIdSP;
-
     @FXML
     private TableView<Table> searchProfessorTable;
     @FXML
-    private TableColumn<Table, String> sptColumn1 = new TableColumn<>("Professor ID");
+    private final TableColumn<Table, String> sptColumn1 = new TableColumn<>("Professor ID");
     @FXML
-    private TableColumn<Table, String> sptColumn2 = new TableColumn<>("First Name");
+    private final TableColumn<Table, String> sptColumn2 = new TableColumn<>("First Name");
     @FXML
-    private TableColumn<Table, String> sptColumn3 = new TableColumn<>("Last Name");
+    private final TableColumn<Table, String> sptColumn3 = new TableColumn<>("Last Name");
     @FXML
-    private TableColumn<Table, String> sptColumn4 = new TableColumn<>("Email");
+    private final TableColumn<Table, String> sptColumn4 = new TableColumn<>("Email");
     @FXML
-    private TableColumn<Table, String> sptColumn5 = new TableColumn<>("Day of Birth");
+    private final TableColumn<Table, String> sptColumn5 = new TableColumn<>("Day of Birth");
     @FXML
-    private TableColumn<Table, String> sptColumn6 = new TableColumn<>("Deparment");
-
+    private final TableColumn<Table, String> sptColumn6 = new TableColumn<>("Department");
     @FXML
     private TableView<Table> searchProfessorCourseTable;
-
     @FXML
-    private TableColumn<Table, String> spctColumn1 = new TableColumn<>("Course ID");
+    private final TableColumn<Table, String> spctColumn1 = new TableColumn<>("Course ID");
     @FXML
-    private TableColumn<Table, String> spctColumn2 = new TableColumn<>("Course Label");
+    private final TableColumn<Table, String> spctColumn2 = new TableColumn<>("Course Label");
     @FXML
-    private TableColumn<Table, String> spctColumn3 = new TableColumn<>("Course Name");
+    private final TableColumn<Table, String> spctColumn3 = new TableColumn<>("Course Name");
     @FXML
-    private TableColumn<Table, String> spctColumn4 = new TableColumn<>("Quarter");
+    private final TableColumn<Table, String> spctColumn4 = new TableColumn<>("Quarter");
     @FXML
-    private TableColumn<Table, String> spctColumn5 = new TableColumn<>("School Year");
+    private final TableColumn<Table, String> spctColumn5 = new TableColumn<>("School Year");
 
     @FXML
     private void onSubmitSearchProfessor(ActionEvent actionEvent) {
@@ -454,7 +469,7 @@ public class DashboardController implements Initializable {
                 this.errorSearchProfessor.setText("Searching professor with ID: " + this.professorIdSP.getText());
             } else {
                 this.errorSearchProfessor.setTextFill(Color.color(1, 0, 0));
-                this.errorSearchProfessor.setText(message);
+                this.errorSearchProfessor.setText("Error Code: " + message);
             }
             this.clear();
         }
@@ -469,13 +484,13 @@ public class DashboardController implements Initializable {
     @FXML
     private TableView<Table> tableCourse;
     @FXML
-    private TableColumn<Table, String> colStudentIDSearchCourse = new TableColumn<>("Student Id");
+    private final TableColumn<Table, String> colStudentIDSearchCourse = new TableColumn<>("Student Id");
     @FXML
-    private TableColumn<Table, String> colFNSearchCourse = new TableColumn<>("First Name");
+    private final TableColumn<Table, String> colFNSearchCourse = new TableColumn<>("First Name");
     @FXML
-    private TableColumn<Table, String> colLNSearchCourse = new TableColumn<>("Last Name");
+    private final TableColumn<Table, String> colLNSearchCourse = new TableColumn<>("Last Name");
     @FXML
-    private TableColumn<Table, String> colGradeSearchCourse = new TableColumn<>("Grade");
+    private final TableColumn<Table, String> colGradeSearchCourse = new TableColumn<>("Grade");
 
     @FXML
     private void onSubmitSearchStudentsInClass(ActionEvent actionEvent) {
@@ -489,7 +504,7 @@ public class DashboardController implements Initializable {
                 this.errorSearchStudent.setText("Searching student with Course ID: " + this.courseIDSSC.getText());
             } else {
                 this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
-                this.errorSearchStudent.setText(message);
+                this.errorSearchStudent.setText("Error Code: " + message);
             }
             this.clear();
         }
@@ -506,17 +521,17 @@ public class DashboardController implements Initializable {
     @FXML
     private TableView<Table> tableCourseFindCourse;
     @FXML
-    private TableColumn<Table, String> colCourseIDFindCourse = new TableColumn<>("Course ID");
+    private final TableColumn<Table, String> colCourseIDFindCourse = new TableColumn<>("Course ID");
     @FXML
-    private TableColumn<Table, String> colCourseLabelFindCourse = new TableColumn<>("Course Label");
+    private final TableColumn<Table, String> colCourseLabelFindCourse = new TableColumn<>("Course Label");
     @FXML
-    private TableColumn<Table, String> colCourseNameFindCourse = new TableColumn<>("Course Name");
+    private final TableColumn<Table, String> colCourseNameFindCourse = new TableColumn<>("Course Name");
     @FXML
-    private TableColumn<Table, String> colInstructorIDFindCourse = new TableColumn<>("Instructor ID");
+    private final TableColumn<Table, String> colInstructorIDFindCourse = new TableColumn<>("Instructor ID");
     @FXML
-    private TableColumn<Table, String> colQuarterFindCourse = new TableColumn<>("Quarter");
+    private final TableColumn<Table, String> colQuarterFindCourse = new TableColumn<>("Quarter");
     @FXML
-    private TableColumn<Table, String> colYearFindCourse = new TableColumn<>("School Year");
+    private final TableColumn<Table, String> colYearFindCourse = new TableColumn<>("School Year");
 
     @FXML
     private void onSubmitSearchCourseList(ActionEvent actionEvent) {
@@ -524,6 +539,7 @@ public class DashboardController implements Initializable {
         if (choiceBoxPicker(this.quarterSCL.getValue(), this.errorSearchCourseList, "Quarter field is required.") &&
                 choiceBoxPicker(this.schoolYearSCL.getValue(), this.errorSearchCourseList,
                         "School year field is required.")) {
+
             String message = this.jdbcQuery.queryDataToSearchCourseByQuarterAndSchoolYear(
                     this.schoolYearSCL.getValue(),
                     this.quarterSCL.getValue(), tableCourseFindCourse);
@@ -533,7 +549,7 @@ public class DashboardController implements Initializable {
                         + this.schoolYearSCL.getValue() + ": ");
             } else {
                 this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
-                this.errorSearchStudent.setText(message);
+                this.errorSearchStudent.setText("Error Code: " + message);
             }
             this.clear();
         }
@@ -543,28 +559,24 @@ public class DashboardController implements Initializable {
     // Find Students by GPA
     @FXML
     public Label sliderLabel;
-
     @FXML
     private Label errorFindStudentGpa;
-
     @FXML
     private Slider findStudentGpaSlider = new Slider(0, 4, 0);
-
     @FXML
     private ChoiceBox<String> findStudentGpaChoiceBox = new ChoiceBox<>();
-
     @FXML
     private TableView<Table> findStudentGpaTable = new TableView<>();
     @FXML
-    private TableColumn<Table, String> fsgtColumn1 = new TableColumn<>("Student ID");
+    private final TableColumn<Table, String> fsgtColumn1 = new TableColumn<>("Student ID");
     @FXML
-    private TableColumn<Table, String> fsgtColumn2 = new TableColumn<>("Fist Name");
+    private final TableColumn<Table, String> fsgtColumn2 = new TableColumn<>("Fist Name");
     @FXML
-    private TableColumn<Table, String> fsgtColumn3 = new TableColumn<>("Last Name");
+    private final TableColumn<Table, String> fsgtColumn3 = new TableColumn<>("Last Name");
     @FXML
-    private TableColumn<Table, String> fsgtColumn4 = new TableColumn<>("Major");
+    private final TableColumn<Table, String> fsgtColumn4 = new TableColumn<>("Major");
     @FXML
-    private TableColumn<Table, String> fsgtColumn5 = new TableColumn<>("GPA");
+    private final TableColumn<Table, String> fsgtColumn5 = new TableColumn<>("GPA");
 
     @FXML
     private void onSubmitFindStudentGpa(ActionEvent actionEvent) {
@@ -572,42 +584,40 @@ public class DashboardController implements Initializable {
                 this.findStudentGpaSlider.getValue(),
                 this.findStudentGpaChoiceBox.getValue(),
                 this.findStudentGpaTable);
+
         if (message == null) {
             this.errorFindStudentGpa.setTextFill(Color.color(0, 0, 1));
             this.errorFindStudentGpa
                     .setText("Searching student with GPA higher than: " + this.findStudentGpaSlider.getValue());
         } else {
             this.errorFindStudentGpa.setTextFill(Color.color(1, 0, 0));
-            this.errorFindStudentGpa.setText(message);
+            this.errorFindStudentGpa.setText("Error Code: " + message);
         }
         this.clear();
+
     }
 
     // Find Professors by Class GPA
     @FXML
     public Label sliderLabel2;
-
     @FXML
     private Label errorFindProfessorGpa;
-
     @FXML
     private Slider findProfessorGpaSlider = new Slider(0, 4, 0);
-
     @FXML
     private ChoiceBox<String> findProfessorGpaChoiceBox = new ChoiceBox<>();
-
     @FXML
     private TableView<Table> findProfessorGpaTable = new TableView<>();
     @FXML
-    private TableColumn<Table, String> fpbgColumn1 = new TableColumn<>("Professor ID");
+    private final TableColumn<Table, String> fpbgColumn1 = new TableColumn<>("Professor ID");
     @FXML
-    private TableColumn<Table, String> fpbgColumn2 = new TableColumn<>("Fist Name");
+    private final TableColumn<Table, String> fpbgColumn2 = new TableColumn<>("Fist Name");
     @FXML
-    private TableColumn<Table, String> fpbgColumn3 = new TableColumn<>("Last Name");
+    private final TableColumn<Table, String> fpbgColumn3 = new TableColumn<>("Last Name");
     @FXML
-    private TableColumn<Table, String> fpbgColumn4 = new TableColumn<>("Department");
+    private final TableColumn<Table, String> fpbgColumn4 = new TableColumn<>("Department");
     @FXML
-    private TableColumn<Table, String> fpbgColumn5 = new TableColumn<>("GPA");
+    private final TableColumn<Table, String> fpbgColumn5 = new TableColumn<>("Avg Class GPA");
 
     @FXML
     private void onSubmitFindProfessorGpa(ActionEvent actionEvent) {
@@ -615,6 +625,7 @@ public class DashboardController implements Initializable {
                 this.findProfessorGpaSlider.getValue(),
                 this.findProfessorGpaChoiceBox.getValue(),
                 this.findProfessorGpaTable);
+
         if (message == null) {
             this.errorFindProfessorGpa.setTextFill(Color.color(0, 0, 1));
             this.errorFindProfessorGpa
@@ -622,7 +633,7 @@ public class DashboardController implements Initializable {
                             + this.findProfessorGpaSlider.getValue());
         } else {
             this.errorFindProfessorGpa.setTextFill(Color.color(1, 0, 0));
-            this.errorFindProfessorGpa.setText(message);
+            this.errorFindProfessorGpa.setText("Error Code: " + message);
         }
         this.clear();
     }
@@ -632,25 +643,41 @@ public class DashboardController implements Initializable {
     private Label errorRemoveStudent;
     @FXML
     private TextField studentIdRS;
+    @FXML
+    private TableView<Table> tableRemoveStudent = new TableView<>();
+    @FXML
+    private final TableColumn<Table, String> rsColumn1 = new TableColumn<>("Student ID");
+    @FXML
+    private final TableColumn<Table, String> rsColumn2 = new TableColumn<>("First Name");
+    @FXML
+    private final TableColumn<Table, String> rsColumn3 = new TableColumn<>("Last Name");
+    @FXML
+    private final TableColumn<Table, String> rsColumn4 = new TableColumn<>("Email");
+    @FXML
+    private final TableColumn<Table, String> rsColumn5 = new TableColumn<>("Day of Birth");
+    @FXML
+    private final TableColumn<Table, String> rsColumn6 = new TableColumn<>("Major");
 
     @FXML
     private void onSubmitRemoveStudent(ActionEvent actionEvent) {
         this.errorRemoveStudent.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.studentIdRS.getText(), this.errorRemoveStudent, "Student ID must contain numbers only.")) {
-            String rs = jbdcRemove.removeByStudentID(this.studentIdRS.getText());
-            if (rs.equals("1")) {
+            String message = jbdcRemove.removeByStudentID(this.studentIdRS.getText());
+
+            if (message.equals("1")) {
                 this.errorRemoveStudent.setTextFill(Color.color(0, 0, 1));
                 this.errorRemoveStudent.setText("Successfully remove student!");
-            } else if (rs.equals("0")){
+            } else if (message.equals("0")) {
                 this.errorRemoveStudent.setTextFill(Color.color(0, 0, 1));
                 this.errorRemoveStudent.setText("Student Id is not in database.");
             } else {
-                this.errorRemoveStudent.setTextFill(Color.color(0, 0, 1));
-                this.errorRemoveStudent.setText(rs);
+                this.errorRemoveStudent.setTextFill(Color.color(1, 0, 0));
+                this.errorRemoveStudent.setText("Error Code: " + message);
             }
 
             this.clear();
         }
+        this.jdbcQuery.queryToTableRemoveStudent(this.tableRemoveStudent);
 
     }
 
@@ -659,21 +686,41 @@ public class DashboardController implements Initializable {
     private Label errorRemoveProfessor;
     @FXML
     private TextField professorIdRP;
+    @FXML
+    private TableView<Table> tableRemoveProfessor;
+    @FXML
+    private final TableColumn<Table, String> rpColumn1 = new TableColumn<>("Professor ID");
+    @FXML
+    private final TableColumn<Table, String> rpColumn2 = new TableColumn<>("First Name");
+    @FXML
+    private final TableColumn<Table, String> rpColumn3 = new TableColumn<>("Last Name");
+    @FXML
+    private final TableColumn<Table, String> rpColumn4 = new TableColumn<>("Email");
+    @FXML
+    private final TableColumn<Table, String> rpColumn5 = new TableColumn<>("Day of Birth");
+    @FXML
+    private final TableColumn<Table, String> rpColumn6 = new TableColumn<>("Department");
 
     @FXML
     private void onSubmitRemoveProfessor(ActionEvent actionEvent) {
         this.errorRemoveProfessor.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.professorIdRP.getText(), this.errorRemoveProfessor,
                 "Professor ID must contain numbers only.")) {
-            if (jbdcRemove.removeByProfessorID(this.professorIdRP.getText()) == null) {
+
+            String message = jbdcRemove.removeByProfessorID(this.professorIdRP.getText());
+            if (message.equals("1")) {
                 this.errorRemoveProfessor.setTextFill(Color.color(0, 0, 1));
                 this.errorRemoveProfessor.setText("Successfully remove professor!");
+            } else if (message.equals("0")) {
+                this.errorRemoveProfessor.setTextFill(Color.color(0, 0, 1));
+                this.errorRemoveProfessor.setText("Professor ID is not in database.");
             } else {
                 this.errorRemoveProfessor.setTextFill(Color.color(1, 0, 0));
-                this.errorRemoveProfessor.setText("can't remove professor, check your value!");
+                this.errorRemoveProfessor.setText("Error Code: " + message);
             }
             this.clear();
         }
+        this.jdbcQuery.queryToTableRemoveProfessor(this.tableRemoveProfessor);
 
     }
 
@@ -682,20 +729,41 @@ public class DashboardController implements Initializable {
     private Label errorRemoveCourse;
     @FXML
     private TextField courseIdRC;
+    @FXML
+    private TableView<Table> tableRemoveCourse;
+    @FXML
+    private final TableColumn<Table, String> rcColumn1 = new TableColumn<>("Course ID");
+    @FXML
+    private final TableColumn<Table, String> rcColumn2 = new TableColumn<>("Course Title");
+    @FXML
+    private final TableColumn<Table, String> rcColumn3 = new TableColumn<>("Course Name");
+    @FXML
+    private final TableColumn<Table, String> rcColumn4 = new TableColumn<>("Professor ID");
+    @FXML
+    private final TableColumn<Table, String> rcColumn5 = new TableColumn<>("Quarter");
+    @FXML
+    private final TableColumn<Table, String> rcColumn6 = new TableColumn<>("School Year");
 
     @FXML
     public void onSubmitRemoveCourse(ActionEvent actionEvent) {
         this.errorRemoveCourse.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.courseIdRC.getText(), this.errorRemoveCourse, "Course ID must contain numbers only.")) {
-            if (jbdcRemove.removeByCourseID(this.courseIdRC.getText()) == null) {
+            String message = jbdcRemove.removeByCourseID(this.courseIdRC.getText());
+
+            if (message.equals("1")) {
                 this.errorRemoveCourse.setTextFill(Color.color(0, 0, 1));
                 this.errorRemoveCourse.setText("Successfully delete course!");
+            } else if (message.equals("0")) {
+                this.errorRemoveCourse.setTextFill(Color.color(0, 0, 1));
+                this.errorRemoveCourse.setText("Course ID is not in database");
             } else {
                 this.errorRemoveCourse.setTextFill(Color.color(1, 0, 0));
-                this.errorRemoveCourse.setText("Can't remove course, check your value!");
+                this.errorRemoveCourse.setText("Error Code: " + message);
             }
             this.clear();
         }
+        this.jdbcQuery.queryToTableRemoveCourse(this.tableRemoveCourse);
+
     }
 
     // clear event buttons

@@ -2,7 +2,6 @@ package com.finalproject.finalproject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static com.finalproject.finalproject.JdbcConnection.printSQLException;
@@ -36,9 +35,9 @@ public class JdbcRemove {
             PreparedStatement preStatement = this.connection.getPreparedStatement();
             preStatement = connect.prepareStatement(query);
             preStatement.setString(1, professorID);
-            preStatement.executeUpdate();
+            int rs = preStatement.executeUpdate();
             connect.close();
-            return null;
+            return String.valueOf(rs);
         } catch (SQLException e) {
             printSQLException(e);
             return e.getMessage();
@@ -53,9 +52,9 @@ public class JdbcRemove {
             PreparedStatement preStatement = this.connection.getPreparedStatement();
             preStatement = connect.prepareStatement(query);
             preStatement.setString(1, courseID);
-            preStatement.executeUpdate();
+            int rs = preStatement.executeUpdate();
             connect.close();
-            return null;
+            return String.valueOf(rs);
         } catch (SQLException e) {
             printSQLException(e);
             return e.getMessage();
