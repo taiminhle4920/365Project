@@ -28,40 +28,35 @@ public class LoginController {
 
     @FXML
     private void actionLogin(ActionEvent actionEvent) throws IOException {
-        // Window owner = txtUsername.getScene().getWindow();
-        // System.out.println(txtUsername.getText());
-        // System.out.println(txtPassword.getText());
+        Window owner = txtUsername.getScene().getWindow();
+//
+//        if (txtUsername.getText().isEmpty()) {
+//            showAlert(Alert.AlertType.ERROR, owner, "Username can not be empty", "Form error!");
+//            return;
+//        }
+//        if (txtPassword.getText().isEmpty()) {
+//            showAlert(Alert.AlertType.ERROR, owner, "Password can not be empty", "Form error!");
+//            return;
+//        }
+//
+//        String username = txtUsername.getText();
+//        String password = txtPassword.getText();
+//
+//        if (username.equals("admin") && password.equals("admin")) {
+//            infoBox("Login successful!", null, "Success");
+//
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard-view.fxml"));
+//            Parent root = fxmlLoader.load();
+//            Stage stage = new Stage();
+//            stage.setTitle("POS | Dashboard");
+//            stage.setScene(new Scene(root));
+//            stage.show();
+//            ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+//        } else {
+//            infoBox("Authentication failed", null, "Failed");
+//        }
 
-        // if (txtUsername.getText().isEmpty()) {
-        //     showAlert(Alert.AlertType.ERROR, owner, "Username can not be empty", "Form error!");
-        //     return;
-        // }
-        // if (txtPassword.getText().isEmpty()) {
-        //     showAlert(Alert.AlertType.ERROR, owner, "Password can not be empty", "Form error!");
-        //     return;
-        // }
-
-        // String username = txtUsername.getText();
-        // String password = txtPassword.getText();
-
-        // // TODO: connects to db here
-
-        // if (username.equals("admin") && password.equals("admin")) {
-        //     infoBox("Login successful!", null, "Success");
-
-        //     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard-view.fxml"));
-        //     Parent root = fxmlLoader.load();
-        //     Stage stage = new Stage();
-        //     stage.setTitle("POS | Dashboard");
-        //     stage.setScene(new Scene(root));
-        //     stage.show();
-        //     ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
-        // } else {
-        //     infoBox("Authentication failed", null, "Failed");
-        // }
-
-        FXMLLoader fxmlLoader = new
-        FXMLLoader(getClass().getResource("dashboard-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard-view.fxml"));
         Parent root = fxmlLoader.load();
         Stage stage = new Stage();
         stage.setTitle("POS | Dashboard");

@@ -3,7 +3,10 @@ package com.finalproject.finalproject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
+import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
@@ -15,15 +18,43 @@ import javafx.scene.control.TableColumn;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import org.controlsfx.validation.Severity;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 public class DashboardController implements Initializable {
 
-    private JdbcInsert jbdcInsert = new JdbcInsert();
-    private JdbcRemove jbdcRemove = new JdbcRemove();
-    private JdbcQuery jdbcSearchStudent = new JdbcQuery();
+    private final JdbcInsert jbdcInsert = new JdbcInsert();
+    private final JdbcRemove jbdcRemove = new JdbcRemove();
+    private final JdbcQuery jdbcQuery = new JdbcQuery();
+
+    @FXML
+    private TabPane tabPane = new TabPane();
+    void setTabPaneLeftTabsHorizontal(TabPane tabPane){
+
+        tabPane.setSide(Side.LEFT);
+        tabPane.setRotateGraphic(true);
+
+        Label l = null;
+        StackPane stp = null;
+        for(Tab t : tabPane.getTabs()){
+            l = new Label(t.getText());
+            l.setRotate(90);
+            stp = new StackPane(new Group(l));
+            stp.setRotate(90);
+            t.setGraphic(stp);
+            t.setText("");
+        }
+
+        tabPane.setTabMinHeight(160);
+        tabPane.setTabMaxHeight(160);
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.setTabPaneLeftTabsHorizontal(this.tabPane);
+
         this.majorAS.getItems().addAll(
                 "Computer Science",
                 "Software Engineer",
@@ -62,7 +93,7 @@ public class DashboardController implements Initializable {
                 "Information Systems Security",
                 "Computer Engineering");
 
-        this.jdbcSearchStudent.createNewTable(this.searchStudentTable,
+        this.jdbcQuery.createNewTable(this.searchStudentTable,
                 this.sstColumn1,
                 this.sstColumn2,
                 this.sstColumn3,
@@ -70,7 +101,7 @@ public class DashboardController implements Initializable {
                 this.sstColumn5,
                 this.sstColumn6, "sid", "firstName", "lastName", "email", "dob", "major");
 
-        this.jdbcSearchStudent.createNewTable(
+        this.jdbcQuery.createNewTable(
                 this.searchStudentCourseTable,
                 this.sstcColumn1,
                 this.sstcColumn2,
@@ -79,7 +110,7 @@ public class DashboardController implements Initializable {
                 this.sstcColumn5,
                 this.sstcColumn6, "pid", "courseLabel", "courseName", "quarter", "schoolYear", "grade");
 
-        this.jdbcSearchStudent.createNewTable(this.searchProfessorTable,
+        this.jdbcQuery.createNewTable(this.searchProfessorTable,
                 this.sptColumn1,
                 this.sptColumn2,
                 this.sptColumn3,
@@ -87,7 +118,7 @@ public class DashboardController implements Initializable {
                 this.sptColumn5,
                 this.sptColumn6, "pid", "firstName", "lastName", "email", "dob", "major");
 
-        this.jdbcSearchStudent.createNewTable(
+        this.jdbcQuery.createNewTable(
                 this.searchProfessorCourseTable,
                 this.spctColumn1,
                 this.spctColumn2,
@@ -96,7 +127,7 @@ public class DashboardController implements Initializable {
                 this.spctColumn5,
                 null, "cid", "courseLabel", "courseName", "quarter", "schoolYear", null);
 
-        this.jdbcSearchStudent.createNewTable(
+        this.jdbcQuery.createNewTable(
                 tableCourse,
                 colStudentIDSearchCourse,
                 colFNSearchCourse,
@@ -105,7 +136,7 @@ public class DashboardController implements Initializable {
                 null,
                 null, "sid", "firstName", "lastName", "grade", null, null);
 
-        this.jdbcSearchStudent.createNewTable(
+        this.jdbcQuery.createNewTable(
                 tableCourseFindCourse,
                 colCourseIDFindCourse,
                 colCourseLabelFindCourse,
@@ -114,7 +145,7 @@ public class DashboardController implements Initializable {
                 colQuarterFindCourse,
                 colYearFindCourse, "cid", "courseLabel", "courseName", "pid", "quarter", "schoolYear");
 
-        this.jdbcSearchStudent.createNewTable(
+        this.jdbcQuery.createNewTable(
                 this.findStudentGpaTable,
                 this.fsgtColumn1,
                 this.fsgtColumn2,
@@ -123,19 +154,19 @@ public class DashboardController implements Initializable {
                 this.fsgtColumn5,
                 null, "sid", "firstName", "lastName", "major", "gpa", null);
 
-        this.jdbcSearchStudent.createNewTable(
+        this.jdbcQuery.createNewTable(
                 this.findProfessorGpaTable,
                 this.fpbgColumn1,
                 this.fpbgColumn2,
                 this.fpbgColumn3,
                 this.fpbgColumn4,
-                this.fpbgColumn5, 
+                this.fpbgColumn5,
                 null, "pid", "firstName", "lastName", "major", "gpa", null);
 
         this.findStudentGpaSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, //
-                    Number oldValue, Number newValue) {
+                                Number oldValue, Number newValue) {
                 sliderLabel.setText(String.format("%.2f", newValue));
             }
         });
@@ -143,7 +174,7 @@ public class DashboardController implements Initializable {
         this.findProfessorGpaSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, //
-                    Number oldValue, Number newValue) {
+                                Number oldValue, Number newValue) {
                 sliderLabel2.setText(String.format("%.2f", newValue));
             }
         });
@@ -165,6 +196,9 @@ public class DashboardController implements Initializable {
     private ChoiceBox<String> majorAS;
 
     @FXML
+    Button submit = new Button();
+
+    @FXML
     private void onSubmitAddStudent(ActionEvent actionEvent) {
         this.errorAddStudent.setTextFill(Color.color(1, 0, 0));
         if (nameValidator(this.firstNameAS.getText(), this.errorAddStudent,
@@ -184,7 +218,7 @@ public class DashboardController implements Initializable {
                     this.dobAS.getValue().toString(),
                     this.majorAS.getValue());
             if (message == null) {
-                this.errorAddStudent.setTextFill(Color.color(0, 1, 0));
+                this.errorAddStudent.setTextFill(Color.color(0, 0, 1));
                 this.errorAddStudent.setText("A new student is added.");
             } else {
                 this.errorAddStudent.setTextFill(Color.color(1, 0, 0));
@@ -226,7 +260,7 @@ public class DashboardController implements Initializable {
                     this.emailAP.getText(),
                     this.dobAP.getValue().toString());
             if (message == null) {
-                this.errorAddProfessor.setTextFill(Color.color(0, 1, 0));
+                this.errorAddProfessor.setTextFill(Color.color(0, 0, 1));
                 this.errorAddProfessor.setText("A new professor is added.");
             } else {
                 this.errorAddProfessor.setTextFill(Color.color(1, 0, 0));
@@ -273,7 +307,7 @@ public class DashboardController implements Initializable {
                     this.quarterAC.getValue().toString(),
                     this.schoolyearAC.getValue().toString());
             if (message == null) {
-                this.errorAddCourse.setTextFill(Color.color(0, 1, 0));
+                this.errorAddCourse.setTextFill(Color.color(0, 0, 1));
                 this.errorAddCourse.setText("A new course is added.");
             } else {
                 this.errorAddCourse.setTextFill(Color.color(1, 0, 0));
@@ -304,7 +338,7 @@ public class DashboardController implements Initializable {
             String message = this.jbdcInsert.insertGrade(this.courseIDAG.getText(), this.studentIDAG.getText(),
                     this.gradeAG.getValue());
             if (message == null) {
-                this.errorAddGrade.setTextFill(Color.color(0, 1, 0));
+                this.errorAddGrade.setTextFill(Color.color(0, 0, 1));
                 this.errorAddGrade.setText("A new grade is added.");
             } else {
                 this.errorAddGrade.setTextFill(Color.color(1, 0, 0));
@@ -353,13 +387,14 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void onSubmitSearchStudent(ActionEvent actionEvent) {
+
         this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.studentIdSS.getText(), this.errorSearchStudent, "Student ID must contain numbers only.")) {
-            String message = this.jdbcSearchStudent.queryDataToSearchStudentTable(this.studentIdSS.getText(),
+            String message = this.jdbcQuery.queryDataToSearchStudentTable(this.studentIdSS.getText(),
                     this.searchStudentTable,
                     this.searchStudentCourseTable);
             if (message == null) {
-                this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
+                this.errorSearchStudent.setTextFill(Color.color(0, 0, 1));
                 this.errorSearchStudent.setText("Searching student with ID: " + this.studentIdSS.getText());
             } else {
                 this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
@@ -411,11 +446,11 @@ public class DashboardController implements Initializable {
         if (idValidator(this.professorIdSP.getText(), this.errorSearchProfessor,
                 "Professor ID must contain numbers only.")) {
 
-            String message = this.jdbcSearchStudent.queryDataToSearchProfessorTable(this.professorIdSP.getText(),
+            String message = this.jdbcQuery.queryDataToSearchProfessorTable(this.professorIdSP.getText(),
                     this.searchProfessorTable,
                     this.searchProfessorCourseTable);
             if (message == null) {
-                this.errorSearchProfessor.setTextFill(Color.color(0, 1, 0));
+                this.errorSearchProfessor.setTextFill(Color.color(0, 0, 1));
                 this.errorSearchProfessor.setText("Searching professor with ID: " + this.professorIdSP.getText());
             } else {
                 this.errorSearchProfessor.setTextFill(Color.color(1, 0, 0));
@@ -447,10 +482,10 @@ public class DashboardController implements Initializable {
         this.errorSearchStudentsInClass.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.courseIDSSC.getText(), this.errorSearchStudentsInClass,
                 "Course ID must contain numbers only.")) {
-            String message = this.jdbcSearchStudent.queryDataToSearchStudentsInClass(this.courseIDSSC.getText(),
+            String message = this.jdbcQuery.queryDataToSearchStudentsInClass(this.courseIDSSC.getText(),
                     tableCourse);
             if (message == null) {
-                this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
+                this.errorSearchStudent.setTextFill(Color.color(0, 0, 1));
                 this.errorSearchStudent.setText("Searching student with Course ID: " + this.courseIDSSC.getText());
             } else {
                 this.errorSearchStudent.setTextFill(Color.color(1, 0, 0));
@@ -489,11 +524,11 @@ public class DashboardController implements Initializable {
         if (choiceBoxPicker(this.quarterSCL.getValue(), this.errorSearchCourseList, "Quarter field is required.") &&
                 choiceBoxPicker(this.schoolYearSCL.getValue(), this.errorSearchCourseList,
                         "School year field is required.")) {
-            String message = this.jdbcSearchStudent.queryDataToSearchCourseByQuarterAndSchoolYear(
+            String message = this.jdbcQuery.queryDataToSearchCourseByQuarterAndSchoolYear(
                     this.schoolYearSCL.getValue(),
                     this.quarterSCL.getValue(), tableCourseFindCourse);
             if (message == null) {
-                this.errorSearchStudent.setTextFill(Color.color(0, 1, 0));
+                this.errorSearchStudent.setTextFill(Color.color(0, 0, 1));
                 this.errorSearchStudent.setText("Searching course list in " + this.quarterSCL.getValue() + ' '
                         + this.schoolYearSCL.getValue() + ": ");
             } else {
@@ -533,12 +568,12 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void onSubmitFindStudentGpa(ActionEvent actionEvent) {
-        String message = this.jdbcSearchStudent.queryDataToFindStudentsByGpaAndMajor(
+        String message = this.jdbcQuery.queryDataToFindStudentsByGpaAndMajor(
                 this.findStudentGpaSlider.getValue(),
                 this.findStudentGpaChoiceBox.getValue(),
                 this.findStudentGpaTable);
         if (message == null) {
-            this.errorFindStudentGpa.setTextFill(Color.color(0, 1, 0));
+            this.errorFindStudentGpa.setTextFill(Color.color(0, 0, 1));
             this.errorFindStudentGpa
                     .setText("Searching student with GPA higher than: " + this.findStudentGpaSlider.getValue());
         } else {
@@ -576,12 +611,12 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void onSubmitFindProfessorGpa(ActionEvent actionEvent) {
-        String message = this.jdbcSearchStudent.queryToFindProfessorsByClassGpaAndDepartment(
+        String message = this.jdbcQuery.queryToFindProfessorsByClassGpaAndDepartment(
                 this.findProfessorGpaSlider.getValue(),
                 this.findProfessorGpaChoiceBox.getValue(),
                 this.findProfessorGpaTable);
         if (message == null) {
-            this.errorFindProfessorGpa.setTextFill(Color.color(0, 1, 0));
+            this.errorFindProfessorGpa.setTextFill(Color.color(0, 0, 1));
             this.errorFindProfessorGpa
                     .setText("Searching professor with class GPA higher than: "
                             + this.findProfessorGpaSlider.getValue());
@@ -602,13 +637,18 @@ public class DashboardController implements Initializable {
     private void onSubmitRemoveStudent(ActionEvent actionEvent) {
         this.errorRemoveStudent.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.studentIdRS.getText(), this.errorRemoveStudent, "Student ID must contain numbers only.")) {
-            if (jbdcRemove.removeByStudentID(this.studentIdRS.getText()) == null) {
-                this.errorRemoveStudent.setTextFill(Color.color(0, 1, 0));
+            String rs = jbdcRemove.removeByStudentID(this.studentIdRS.getText());
+            if (rs.equals("1")) {
+                this.errorRemoveStudent.setTextFill(Color.color(0, 0, 1));
                 this.errorRemoveStudent.setText("Successfully remove student!");
+            } else if (rs.equals("0")){
+                this.errorRemoveStudent.setTextFill(Color.color(0, 0, 1));
+                this.errorRemoveStudent.setText("Student Id is not in database.");
             } else {
-                this.errorRemoveStudent.setTextFill(Color.color(0, 1, 0));
-                this.errorRemoveStudent.setText("Can't remove student, check your value!    ");
+                this.errorRemoveStudent.setTextFill(Color.color(0, 0, 1));
+                this.errorRemoveStudent.setText(rs);
             }
+
             this.clear();
         }
 
@@ -626,7 +666,7 @@ public class DashboardController implements Initializable {
         if (idValidator(this.professorIdRP.getText(), this.errorRemoveProfessor,
                 "Professor ID must contain numbers only.")) {
             if (jbdcRemove.removeByProfessorID(this.professorIdRP.getText()) == null) {
-                this.errorRemoveProfessor.setTextFill(Color.color(0, 1, 0));
+                this.errorRemoveProfessor.setTextFill(Color.color(0, 0, 1));
                 this.errorRemoveProfessor.setText("Successfully remove professor!");
             } else {
                 this.errorRemoveProfessor.setTextFill(Color.color(1, 0, 0));
@@ -648,7 +688,7 @@ public class DashboardController implements Initializable {
         this.errorRemoveCourse.setTextFill(Color.color(1, 0, 0));
         if (idValidator(this.courseIdRC.getText(), this.errorRemoveCourse, "Course ID must contain numbers only.")) {
             if (jbdcRemove.removeByCourseID(this.courseIdRC.getText()) == null) {
-                this.errorRemoveCourse.setTextFill(Color.color(0, 1, 0));
+                this.errorRemoveCourse.setTextFill(Color.color(0, 0, 1));
                 this.errorRemoveCourse.setText("Successfully delete course!");
             } else {
                 this.errorRemoveCourse.setTextFill(Color.color(1, 0, 0));
@@ -808,6 +848,7 @@ public class DashboardController implements Initializable {
     }
 
     public static boolean nameValidator(String name, Label warning, String message) {
+
         if (!(name.length() >= 3)) {
             warning.setText(message);
             return false;
