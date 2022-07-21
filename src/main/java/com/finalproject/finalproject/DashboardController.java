@@ -291,7 +291,8 @@ public class DashboardController implements Initializable {
             String message = this.jbdcInsert.insertProfessor(this.firstNameAP.getText(),
                     this.lastNameAP.getText(),
                     this.emailAP.getText(),
-                    this.dobAP.getValue().toString());
+                    this.dobAP.getValue().toString(),
+                    this.majorAP.getValue());
             if (message == null) {
                 this.errorAddProfessor.setTextFill(Color.color(0, 0, 1));
                 this.errorAddProfessor.setText("A new professor is added.");

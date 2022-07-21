@@ -34,12 +34,12 @@ public class JdbcInsert {
         }
     }
 
-    public String insertProfessor(String firstName, String lastName, String email, String dob) {
+    public String insertProfessor(String firstName, String lastName, String email, String dob, String major) {
         try {
             String sql = "INSERT INTO " +
-                    "professor (firstName, lastName, email, dob) " +
+                    "professor (firstName, lastName, email, dob, major) " +
                     "VALUES " +
-                    "( ?, ?, ?, ?);";
+                    "( ?, ?, ?, ?, ?);";
 
             this.jdbcConnection.makeConnection();
             Connection connect = this.jdbcConnection.getConnection();
@@ -49,6 +49,7 @@ public class JdbcInsert {
             preStatement.setString(2, lastName);
             preStatement.setString(3, email);
             preStatement.setString(4, dob);
+            preStatement.setString(5, major);
             preStatement.executeUpdate();
             connect.close();
             return null;
